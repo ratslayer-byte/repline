@@ -7,145 +7,226 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rep Line">
-<meta name="theme-color" content="#0b1416">
+<meta name="theme-color" content="#05090b">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEP0lEQVR4nO3dTXITOxiG0UAxYwqsgD1k/8PsgR2wCQauSlG2X7t/JLW+9jnDW5DcQo/VkiwnX77/+PUG93w9+n+AeYmDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETfOn3dj7+/b//j+88/nb4dPXxp+4Px7zZxSyUltHysLCxj1Z/kQG1mjs2DbQqZWYOZY880YAqZ2d449o+uPqbVa7fydvPIEEE5u9YcabwfrCQ2/BWOsj2OPScZTkFKcEJK1DKO5S99k0QJG+Posbq0Yp1Ns5lj7WRg8pifNQeROIjEQSQOomZxrN1r2JvMb2McPfYa9i+zcdmHyJqDyLuyRHuvCT54QCy/z6GMOXW87GNhUd3eNcf+F71pY1oNFqR7RlcZM2v5oaZVzxFZzM9lH6LGH4f85JboCfSKgxNwQkokDiJxEImDSBxE4iASB1HHd2Xp4ep0seu5okOwMsZfiBFHAUf9jEZrjtkdeG1bHEQeK1O7nQye3sxt+HCxW9ll5N7h7td///mn311dM8dGPfYOj4d5+Qc+WjVq5ljt6Sv18geejtD8t/PFsc6qvcP/fcyfwi1xdFQxiP+JY4UNe4fSnHNsd3fv0O/bpfL67ZjEscjH398Lx2BwH13nqlM9Vhq+hqZ9QGze7m5wkjju/pMt3FI++ApHmWSbUz6OzacO89TwON/lZ6DNn2i141h76jBDEBuG8PJX3OdY59jBvjskvd9tcRNskRlOHUa+RzreeeJY8joerHQZb3XPOQ45dag+2GvVXpAOcBXEgXuH8erF0ftJ8XRQj9o7jFcmjn5NbBvLu4mcJouLAnE0z6LhEJ6shivz7lbWNnHIqcO5TTdzbJ4nrm5e7flSXHSfOZa/dg9faXJl9I+3vn0bzOt7Wl1mjgnH27SxQfuZY1gZn+M98v7LS5luQfrUqsFWxh6N4+j6TqmRHqzvzNHks52aOErLOJa/U7qkD00cbsY1hywmMVEc25p4hXdHjzJFHEZxTlVvgjFAx9/UNP6znbTVd+YY/NlO2mq85rjdpjrbrsuag6h9HH5H5Gl02cq+zv3sc5voJtj+L97vG72m7odgBqkuC1IicRCJg6hwHA5be5v3E28PvM7n3I9Vb+Y48DcXvZp6cTBMscfKsb+56NXUnjkG//TxV1Mpjm0/B8zKY7NKcTCYOIjEQSQOokpxuN0+WKU4brnd3lWxQ7C3lcNv2tij9sxBV/XicLt9mHqPlU9uF/dWOI4Le5N+ysdBP/XWHAwjDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE/wDvEIQwps5/XwAAAABJRU5ErkJggg==">
 <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEP0lEQVR4nO3dTXITOxiG0UAxYwqsgD1k/8PsgR2wCQauSlG2X7t/JLW+9jnDW5DcQo/VkiwnX77/+PUG93w9+n+AeYmDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETfOn3dj7+/b//j+88/nb4dPXxp+4Px7zZxSyUltHysLCxj1Z/kQG1mjs2DbQqZWYOZY880YAqZ2d449o+uPqbVa7fydvPIEEE5u9YcabwfrCQ2/BWOsj2OPScZTkFKcEJK1DKO5S99k0QJG+Posbq0Yp1Ns5lj7WRg8pifNQeROIjEQSQOomZxrN1r2JvMb2McPfYa9i+zcdmHyJqDyLuyRHuvCT54QCy/z6GMOXW87GNhUd3eNcf+F71pY1oNFqR7RlcZM2v5oaZVzxFZzM9lH6LGH4f85JboCfSKgxNwQkokDiJxEImDSBxE4iASB1HHd2Xp4ep0seu5okOwMsZfiBFHAUf9jEZrjtkdeG1bHEQeK1O7nQye3sxt+HCxW9ll5N7h7td///mn311dM8dGPfYOj4d5+Qc+WjVq5ljt6Sv18geejtD8t/PFsc6qvcP/fcyfwi1xdFQxiP+JY4UNe4fSnHNsd3fv0O/bpfL67ZjEscjH398Lx2BwH13nqlM9Vhq+hqZ9QGze7m5wkjju/pMt3FI++ApHmWSbUz6OzacO89TwON/lZ6DNn2i141h76jBDEBuG8PJX3OdY59jBvjskvd9tcRNskRlOHUa+RzreeeJY8joerHQZb3XPOQ45dag+2GvVXpAOcBXEgXuH8erF0ftJ8XRQj9o7jFcmjn5NbBvLu4mcJouLAnE0z6LhEJ6shivz7lbWNnHIqcO5TTdzbJ4nrm5e7flSXHSfOZa/dg9faXJl9I+3vn0bzOt7Wl1mjgnH27SxQfuZY1gZn+M98v7LS5luQfrUqsFWxh6N4+j6TqmRHqzvzNHks52aOErLOJa/U7qkD00cbsY1hywmMVEc25p4hXdHjzJFHEZxTlVvgjFAx9/UNP6znbTVd+YY/NlO2mq85rjdpjrbrsuag6h9HH5H5Gl02cq+zv3sc5voJtj+L97vG72m7odgBqkuC1IicRCJg6hwHA5be5v3E28PvM7n3I9Vb+Y48DcXvZp6cTBMscfKsb+56NXUnjkG//TxV1Mpjm0/B8zKY7NKcTCYOIjEQSQOokpxuN0+WKU4brnd3lWxQ7C3lcNv2tij9sxBV/XicLt9mHqPlU9uF/dWOI4Le5N+ysdBP/XWHAwjDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE/wDvEIQwps5/XwAAAABJRU5ErkJggg==">
 <title>Rep Line</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
 <style>
-/* Layout: full-bleed camera, counter top-left, live tag on the body, depth wave + 3 stats along the bottom */
+/* Layout: full-bleed camera under floating liquid-glass panels; home is an iOS inset-grouped list over soft colour fields */
 :root{
-  --ink:#0b1416;          /* deep teal-black ground */
-  --ink-2:#13221f;
-  --glass:rgba(10,20,20,.55);
-  --line:rgba(255,255,255,.14);
-  --fg:#f4f7f2;
-  --muted:rgba(244,247,242,.62);
-  --lime:#d4ff3a;         /* good form */
-  --cyan:#5fe3ff;         /* motion trail */
-  --red:#ff4d5e;          /* fault */
-  --amber:#ffc23d;        /* soft fault */
-  --display:"Barlow Condensed","DIN Condensed","Arial Narrow",system-ui,sans-serif;
-  --ui:"Barlow",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --bg:#05090b;
+  --fg:#f5f7f8;
+  --muted:rgba(235,240,245,.6);
+  --faint:rgba(235,240,245,.35);
+  --hair:rgba(255,255,255,.16);
+  --good:#b8f53d;           /* clean rep / exercise green */
+  --move:#ff2d6f;           /* reps ring */
+  --form:#a6ff2e;           /* form ring */
+  --mins:#22d8ff;           /* minutes ring */
+  --bad:#ff4f5e;
+  --warn:#ffc642;
+  --glass-fill:linear-gradient(150deg,rgba(255,255,255,.20),rgba(255,255,255,.07) 45%,rgba(255,255,255,.10));
+  --glass-edge:rgba(255,255,255,.28);
+  --sys:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --round:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;margin:0;background:var(--ink);color:var(--fg);font-family:var(--ui);overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-button:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:var(--sys);overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+button:focus-visible{outline:2px solid var(--good);outline-offset:3px}
 [hidden]{display:none!important}
+.num{font-family:var(--round);font-variant-numeric:tabular-nums}
 
-#stage{position:fixed;inset:0;background:radial-gradient(120% 80% at 50% 30%,#1c3a3a 0%,var(--ink) 70%)}
+/* ---------- liquid glass ---------- */
+.glass{position:relative;background:var(--glass-fill);border:1px solid var(--glass-edge);
+  backdrop-filter:blur(26px) saturate(185%);-webkit-backdrop-filter:blur(26px) saturate(185%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 1px rgba(255,255,255,.06),0 12px 34px rgba(0,0,0,.28);isolation:isolate}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(120% 60% at 15% -10%,rgba(255,255,255,.28),transparent 55%),radial-gradient(80% 50% at 110% 120%,rgba(255,255,255,.10),transparent 60%)}
+.press{transition:transform .18s cubic-bezier(.3,.7,.4,1.4)}
+.press:active{transform:scale(.96)}
+
+/* ---------- camera stage ---------- */
+#stage{position:fixed;inset:0;background:radial-gradient(110% 70% at 50% 25%,#18302f 0%,var(--bg) 70%)}
 #cam,#overlay{position:absolute;inset:0;width:100%;height:100%}
 #cam{object-fit:cover}
 #cam.mirror{transform:scaleX(-1)}
 .shade-top,.shade-bot{position:absolute;left:0;right:0;pointer-events:none}
-.shade-top{top:0;height:34%;background:linear-gradient(rgba(6,14,14,.72),rgba(6,14,14,0))}
-.shade-bot{bottom:0;height:42%;background:linear-gradient(rgba(6,14,14,0),rgba(6,14,14,.86))}
+.shade-top{top:0;height:30%;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0))}
+.shade-bot{bottom:0;height:40%;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.55))}
 
-.eyebrow{font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--fg)}
-.lbl{font:600 10px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.num{font-family:var(--display);font-variant-numeric:tabular-nums}
-
-/* top HUD */
 #hud{position:absolute;inset:0;pointer-events:none}
-.top{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 18px) 22px 0;display:flex;justify-content:space-between;align-items:flex-start}
-.countWrap{display:flex;flex-direction:column;gap:6px}
+.top{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.countWrap{display:flex;flex-direction:column;gap:2px;padding-left:4px}
+.eyebrow{font:600 12px/1.2 var(--sys);color:var(--muted);letter-spacing:.01em}
 .countRow{display:flex;align-items:flex-start;gap:6px}
-#count{font:700 clamp(84px,24vw,128px)/.82 var(--display);letter-spacing:-.01em}
-#plus{font:700 22px/1 var(--display);color:var(--lime);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;margin-top:6px}
+#count{font:700 clamp(86px,25vw,132px)/.9 var(--round);letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+#count.bump{animation:bump .42s cubic-bezier(.3,.7,.4,1.5)}
+@keyframes bump{40%{transform:scale(1.08);color:var(--good)}}
+#plus{font:700 22px/1 var(--round);color:var(--good);opacity:0;transform:translateY(10px) scale(.8);transition:all .3s cubic-bezier(.3,.7,.4,1.5);margin-top:10px}
 #plus.show{opacity:1;transform:none}
-#count.bump{animation:bump .35s ease}
-@keyframes bump{40%{transform:scale(1.08);color:var(--lime)}}
-#missed{color:var(--muted)}
-#missed b{color:var(--red);font-weight:600}
+.sub{font:500 13px/1.3 var(--sys);color:var(--muted)}
+.sub b{color:var(--bad);font-weight:600}
 .rightCol{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:99px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:600 10px/1 var(--ui);letter-spacing:.12em;text-transform:uppercase}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime)}
-#streak{transition:transform .2s}
-#streak b{font:700 15px/1 var(--display);color:var(--lime);letter-spacing:0}
-#streak.hot{border-color:rgba(212,255,58,.6);box-shadow:0 0 18px rgba(212,255,58,.35)}
+.capsule{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;font:600 13px/1 var(--sys);white-space:nowrap}
+.capsule .dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 10px var(--good)}
+#streakCap b{font:700 15px/1 var(--round);color:var(--good)}
+#streakCap.hot{box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 0 1px rgba(184,245,61,.55),0 0 26px rgba(184,245,61,.35)}
+#micCap .dot{background:var(--bad);box-shadow:0 0 10px var(--bad);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.35}}
 
-#cue{position:absolute;left:50%;top:32%;transform:translate(-50%,-50%) scale(.9);padding:10px 18px;border-radius:12px;font:700 30px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;background:var(--red);color:#fff;opacity:0;transition:opacity .18s,transform .18s;white-space:nowrap}
+#cue{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%) scale(.85);padding:13px 22px;border-radius:99px;font:700 24px/1 var(--round);opacity:0;transition:all .28s cubic-bezier(.3,.7,.4,1.4);white-space:nowrap;color:#fff}
 #cue.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#cue.good{background:var(--lime);color:var(--ink)}
+#cue.bad{background:linear-gradient(150deg,rgba(255,79,94,.85),rgba(220,40,60,.7))}
+#cue.good{background:linear-gradient(150deg,rgba(190,250,80,.92),rgba(150,220,40,.8));color:#10200a}
 
-#tag{position:absolute;left:0;top:0;padding:6px 9px;border-radius:7px;background:rgba(10,20,20,.78);border:1px solid var(--line);font:600 11px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .25s;will-change:transform}
+#tag{position:absolute;left:0;top:0;padding:8px 12px;border-radius:14px;font:600 13px/1 var(--sys);white-space:nowrap;opacity:0;transition:opacity .25s;will-change:transform}
 #tag.show{opacity:1}
-#tag.ok{border-color:rgba(212,255,58,.55)}
-#tag.ok b{color:var(--lime)}
-#tag.bad{border-color:rgba(255,77,94,.7)}
-#tag.bad b{color:var(--red)}
-#tag i{font-style:normal;color:var(--muted)}
+#tag .k{font:700 14px/1 var(--round)}
+#tag.ok .k{color:var(--good)}
+#tag.bad .k{color:var(--bad)}
+#tag .m{color:var(--muted);margin-left:6px}
 
-/* bottom HUD */
-.bottom{position:absolute;left:0;right:0;bottom:0;padding:0 22px calc(env(safe-area-inset-bottom,0px) + 16px)}
-.waveHead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px}
-.waveHead .sub{font:400 10px/1.2 var(--ui);color:var(--muted);margin-top:4px;letter-spacing:.02em}
-#dir{font:600 11px/1 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--lime);text-align:right}
-#wave{width:100%;height:64px;display:block}
-.stats{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;margin-top:12px;align-items:end}
-.stat{display:flex;flex-direction:column;gap:5px}
+.dock{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:30px;padding:16px 18px 14px;pointer-events:auto}
+.dockHead{display:flex;justify-content:space-between;align-items:baseline}
+.dockHead .t{font:600 13px/1 var(--sys)}
+#dir{font:600 13px/1 var(--sys);color:var(--good)}
+#wave{width:100%;height:66px;display:block;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.stat{display:flex;flex-direction:column;gap:3px}
 .stat:nth-child(2){align-items:center}
 .stat:nth-child(3){align-items:flex-end}
-.stat .v{font:600 26px/1 var(--display)}
-.stat .v small{font:500 11px var(--ui);color:var(--muted);margin-left:3px}
-.endRow{display:flex;justify-content:center;margin-top:12px;pointer-events:auto}
-#endBtn{padding:9px 22px;border-radius:99px;background:var(--glass);border:1px solid var(--line);font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.stat .k{font:500 12px/1 var(--sys);color:var(--muted)}
+.stat .v{font:600 26px/1 var(--round)}
+.stat .v small{font:500 12px var(--sys);color:var(--muted);margin-left:2px}
+.dockBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.pillBtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:99px;font:600 16px/1 var(--sys)}
+.pillBtn svg{width:16px;height:16px}
+.pillBtn.red{color:#ffd6db;background:linear-gradient(150deg,rgba(255,79,94,.42),rgba(255,79,94,.2));border-color:rgba(255,120,130,.45)}
 
 /* centre messages */
-#center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:min(86vw,360px);pointer-events:none}
-#center .big{font:700 clamp(64px,22vw,140px)/1 var(--display);color:var(--lime);text-shadow:0 0 30px rgba(212,255,58,.45)}
-.checks{display:grid;gap:10px;padding:18px;border-radius:16px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-align:left}
-.checks h3{margin:0 0 4px;font:700 26px/1 var(--display);letter-spacing:.02em;text-transform:uppercase}
-.chk{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted)}
-.chk i{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex:none;display:grid;place-items:center}
+#center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(88vw,360px);text-align:center}
+.card{border-radius:30px;padding:22px 20px;text-align:left}
+.card h3{margin:0 0 4px;font:700 26px/1.1 var(--round)}
+.card p{margin:0;color:var(--muted);font-size:15px;line-height:1.4}
+.checks{display:grid;gap:12px;margin-top:16px}
+.chk{display:flex;align-items:center;gap:12px;font-size:16px;color:var(--muted);transition:color .2s}
+.chk i{width:24px;height:24px;border-radius:50%;border:2px solid var(--faint);flex:none;display:grid;place-items:center;transition:all .25s cubic-bezier(.3,.7,.4,1.5)}
 .chk.on{color:var(--fg)}
-.chk.on i{border-color:var(--lime);background:var(--lime)}
-.chk.on i::after{content:"";width:5px;height:9px;border:solid var(--ink);border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
-#loadMsg{font:500 15px/1.4 var(--ui);color:var(--muted)}
+.chk.on i{border-color:var(--good);background:var(--good);transform:scale(1.08)}
+.chk.on i::after{content:"";width:6px;height:11px;border:solid #10200a;border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.hint{margin-top:14px;padding-top:12px;border-top:1px solid var(--hair);font-size:13px;color:var(--muted)}
+#countdown{font:800 clamp(120px,36vw,200px)/1 var(--round);color:var(--good);text-shadow:0 0 50px rgba(184,245,61,.5)}
+#countdown.tick{animation:pop .5s cubic-bezier(.3,.7,.4,1.5)}
+@keyframes pop{from{transform:scale(1.6);opacity:0}}
+#loadCard{display:flex;align-items:center;gap:14px;justify-content:center;font-size:16px}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:var(--good);animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pauseIcon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin-bottom:14px;background:rgba(255,255,255,.12)}
+.cardBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 
-/* panels: start + summary */
-.panel{position:fixed;inset:0;overflow-y:auto;background:linear-gradient(180deg,rgba(11,20,22,.92),var(--ink) 55%);padding:calc(env(safe-area-inset-top,0px) + 28px) 22px calc(env(safe-area-inset-bottom,0px) + 28px);display:flex;flex-direction:column;gap:22px;-webkit-user-select:none}
-.panel-in{width:100%;max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
-.brand{display:flex;flex-direction:column;gap:10px}
-.brand h1{margin:0;font:700 clamp(64px,20vw,96px)/.84 var(--display);letter-spacing:-.01em;text-transform:uppercase}
-.brand h1 span{color:var(--lime)}
-.brand p{margin:0;font-size:16px;line-height:1.45;color:var(--muted);max-width:32ch}
-.best{display:flex;gap:18px}
-.best div{display:flex;flex-direction:column;gap:5px}
-.best .v{font:600 30px/1 var(--display)}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
-.steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:15px;line-height:1.4;counter-increment:s}
-.steps li::before{content:counter(s);font:700 18px/1.2 var(--display);color:var(--lime)}
-.opts{display:grid;gap:12px}
-.opt{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.opt .name{font-size:15px}
-.opt .hint{display:block;font-size:12px;color:var(--muted);margin-top:2px}
-.seg{display:inline-flex;padding:3px;border-radius:10px;background:var(--ink-2);border:1px solid var(--line);flex:none}
-.seg button{padding:8px 12px;border-radius:7px;font:600 12px/1 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.seg button[aria-pressed="true"]{background:var(--fg);color:var(--ink)}
-.primary{width:100%;padding:18px;border-radius:14px;background:var(--lime);color:var(--ink);font:700 24px/1 var(--display);letter-spacing:.08em;text-transform:uppercase}
-.primary:active{transform:scale(.98)}
-.ghost{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);font:600 13px/1 var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.err{padding:12px 14px;border-radius:12px;background:rgba(255,77,94,.12);border:1px solid rgba(255,77,94,.4);font-size:14px;line-height:1.4}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:16px;height:3px;border-radius:2px}
+/* ---------- panels ---------- */
+.panel{position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.panel::before{content:"";position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:radial-gradient(40% 30% at 15% 12%,rgba(255,45,111,.35),transparent 70%),radial-gradient(45% 35% at 90% 30%,rgba(34,216,255,.28),transparent 70%),radial-gradient(50% 35% at 30% 85%,rgba(166,255,46,.22),transparent 70%);filter:blur(30px)}
+.wrap{position:relative;z-index:1;width:100%;max-width:460px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 18px) 16px calc(env(safe-area-inset-bottom,0px) + 34px);display:flex;flex-direction:column;gap:22px}
+.nav{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.nav .date{font:600 13px/1 var(--sys);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.nav h1{margin:6px 0 0;font:800 36px/1 var(--round);letter-spacing:-.01em}
+.iconBtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none}
+.iconBtn svg{width:20px;height:20px}
+.secT{font:600 20px/1 var(--round);margin:0 4px -8px}
+.group{border-radius:26px;padding:4px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;min-height:52px}
+.row+.row{border-top:1px solid var(--hair)}
+.row .name{font-size:16px}
+.row .name small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
 
-#cardImg{width:100%;max-width:360px;align-self:center;border-radius:20px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.5);aspect-ratio:9/16;object-fit:cover;-webkit-touch-callout:default}
-.saveHint{text-align:center;font-size:12px;color:var(--muted);margin-top:-10px}
+.today{border-radius:28px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.todayTop{display:flex;align-items:center;gap:18px}
+.todayTop svg{flex:none}
+.metrics{display:grid;gap:8px;min-width:0}
+.metric .k{font:600 13px/1 var(--sys)}
+.metric .v{font:600 24px/1.1 var(--round)}
+.metric .v small{font-size:14px;color:var(--muted);font-weight:500}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding-top:14px;border-top:1px solid var(--hair)}
+.wd{display:flex;flex-direction:column;align-items:center;gap:6px;font:600 11px/1 var(--sys);color:var(--muted);border-radius:12px;padding:4px 0}
+.wd.now{color:var(--fg)}
+
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mode{border-radius:22px;padding:14px 12px 12px;display:flex;flex-direction:column;gap:10px;text-align:left;transition:box-shadow .25s,transform .18s}
+.mode .mn{font:700 16px/1 var(--round)}
+.mode .md{font:500 12px/1.2 var(--sys);color:var(--muted)}
+.mode .bar{height:46px;width:12px;border-radius:6px;background:rgba(255,255,255,.12);position:relative;overflow:hidden;align-self:flex-start}
+.mode .bar i{position:absolute;left:0;right:0;top:0;border-radius:6px;background:linear-gradient(var(--good),#7fd31c)}
+.mode .figure{display:flex;align-items:flex-end;gap:10px}
+.mode .pct{font:700 22px/1 var(--round)}
+.mode[aria-pressed="true"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 0 2px var(--good),0 10px 30px rgba(184,245,61,.18)}
+.modeDesc{font-size:14px;line-height:1.4;color:var(--muted);margin:-8px 4px 0;min-height:2.8em}
+
+.seg{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:3px;border-radius:12px;background:rgba(255,255,255,.1);flex:none}
+.seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;border-radius:9px;background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .3s cubic-bezier(.3,.7,.4,1.2)}
+.seg button{position:relative;z-index:1;padding:7px 14px;font:600 13px/1 var(--sys);color:var(--muted);transition:color .2s}
+.seg button[aria-pressed="true"]{color:#111}
+.switch{width:51px;height:31px;border-radius:99px;background:rgba(255,255,255,.18);position:relative;flex:none;transition:background .25s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.3);transition:transform .28s cubic-bezier(.3,.7,.4,1.3)}
+.switch[aria-checked="true"]{background:#34c759}
+.switch[aria-checked="true"]::after{transform:translateX(20px)}
+.switch:disabled{opacity:.4}
+.stepper{display:flex;align-items:center;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.1)}
+.stepper button{width:34px;height:30px;border-radius:9px;font:500 20px/1 var(--sys)}
+.stepper button:active{background:rgba(255,255,255,.15)}
+.stepper span{min-width:34px;text-align:center;font:600 16px/1 var(--round)}
+
+.startBtn{height:62px;border-radius:99px;font:700 21px/1 var(--round);color:#0d1a04;
+  background:linear-gradient(160deg,#d6ff7a,#a9f02c 55%,#86d414);border:1px solid rgba(255,255,255,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -6px 14px rgba(60,120,0,.25),0 14px 36px rgba(160,240,40,.32)}
+.textBtn{font:600 16px/1 var(--sys);color:var(--good);padding:10px;align-self:center}
+.err{padding:14px 16px;border-radius:18px;background:rgba(255,79,94,.16);border:1px solid rgba(255,79,94,.45);font-size:14px;line-height:1.4}
+.tip{font-size:14px;color:var(--muted);line-height:1.45;padding:0 4px;margin-top:-8px}
+
+/* history */
+.monthNav{display:flex;align-items:center;justify-content:space-between}
+.monthNav h2{margin:0;font:700 22px/1 var(--round)}
+.cal{border-radius:28px;padding:16px 12px 14px}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dow span{text-align:center;font:600 11px/1 var(--sys);color:var(--muted);padding-bottom:10px}
+.day{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border-radius:14px;font:600 12px/1 var(--sys);color:var(--muted)}
+.day.today span{color:var(--bad)}
+.day.sel{background:rgba(255,255,255,.14)}
+.day.has span{color:var(--fg)}
+.day.off{visibility:hidden}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mstat{border-radius:22px;padding:14px}
+.mstat .k{font:600 12px/1 var(--sys);color:var(--muted)}
+.mstat .v{font:700 26px/1.1 var(--round);margin-top:6px}
+.dayHead{display:flex;align-items:center;gap:14px}
+.dayHead h3{margin:0;font:700 20px/1.1 var(--round)}
+.dayHead p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.sess{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.sess .tm{font:600 15px/1 var(--round)}
+.sess .ch{display:inline-block;padding:4px 8px;border-radius:99px;font:600 11px/1 var(--sys);background:rgba(255,255,255,.12);margin-top:6px}
+.sess .r{font:700 22px/1 var(--round);text-align:right}
+.sess .r small{display:block;font:500 12px var(--sys);color:var(--muted);margin-top:4px}
+.empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:15px}
+
+/* summary */
+.savedRow{display:flex;align-items:center;gap:12px;border-radius:20px;padding:12px 16px}
+.savedRow .ok{width:28px;height:28px;border-radius:50%;background:#34c759;display:grid;place-items:center;flex:none}
+.savedRow .ok::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.savedRow b{display:block;font-size:15px}
+.savedRow span{font-size:13px;color:var(--muted)}
+#cardImg{width:100%;max-width:340px;align-self:center;border-radius:30px;border:1px solid var(--hair);box-shadow:0 30px 70px rgba(0,0,0,.55);aspect-ratio:9/16;-webkit-touch-callout:default;-webkit-user-select:auto}
+.saveHint{text-align:center;font-size:13px;color:var(--muted);margin-top:-10px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 @media (orientation:landscape) and (max-height:520px){
   #count{font-size:72px}
-  .top{padding-top:calc(env(safe-area-inset-top,0px) + 12px)}
-  .bottom{padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+  .dock{left:auto;width:min(420px,46vw);right:max(12px,env(safe-area-inset-right,0px));padding:12px 14px}
   #wave{height:44px}
-  .stats{margin-top:6px}
-  .endRow{position:absolute;right:max(22px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 100px);margin:0}
+  .dockBtns{margin-top:10px}
+  .pillBtn{height:38px}
   #cue{top:40%}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -161,160 +242,209 @@ button:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
   <div id="hud" hidden>
     <div class="top">
       <div class="countWrap">
-        <span class="eyebrow">Push-ups / Live</span>
-        <div class="countRow"><span id="count" class="num">00</span><span id="plus">+1</span></div>
-        <span class="lbl">Clean reps <span id="missed">· <b>0</b> no-rep</span></span>
+        <span class="eyebrow" id="modeLbl">Push-ups · Strict</span>
+        <div class="countRow"><span id="count" class="num">0</span><span id="plus">+1</span></div>
+        <span class="sub" id="missed">Clean reps · <b>0</b> no-rep</span>
       </div>
       <div class="rightCol">
-        <span class="pill"><span class="dot"></span><span id="sessionLbl">Session 01</span></span>
-        <span class="pill" id="streak">Streak <b>0</b></span>
+        <span class="capsule glass" id="timeCap"><span class="dot"></span><span id="time" class="num">0:00</span></span>
+        <span class="capsule glass" id="streakCap">Streak <b>0</b></span>
+        <span class="capsule glass" id="micCap" hidden><span class="dot"></span>Listening</span>
       </div>
     </div>
     <div id="cue"></div>
-    <div id="tag"></div>
-    <div class="bottom">
-      <div class="waveHead">
-        <div><div class="lbl" style="color:var(--fg)">Depth</div><div class="sub">Elbow angle · dashed line = target</div></div>
-        <div><div id="dir">Ready</div><div class="sub" id="angleNow" style="text-align:right">—</div></div>
-      </div>
+    <div id="tag" class="glass"></div>
+    <div class="dock glass">
+      <div class="dockHead"><span class="t">Depth <span class="sub" id="depthNow">—</span></span><span id="dir">Ready</span></div>
       <canvas id="wave"></canvas>
       <div class="stats">
-        <div class="stat"><span class="lbl">Tempo</span><span class="v num" id="tempo">--<small>/min</small></span></div>
-        <div class="stat"><span class="lbl">Form</span><span class="v num" id="form">--<small>%</small></span></div>
-        <div class="stat"><span class="lbl">Time</span><span class="v num" id="time">00:00</span></div>
+        <div class="stat"><span class="k">Tempo</span><span class="v" id="tempo">–<small>/min</small></span></div>
+        <div class="stat"><span class="k">Form</span><span class="v" id="form">–<small>%</small></span></div>
+        <div class="stat"><span class="k">Best depth</span><span class="v" id="bestDepth">–<small>%</small></span></div>
       </div>
-      <div class="endRow"><button id="endBtn">End set</button></div>
+      <div class="dockBtns">
+        <button class="pillBtn glass press" id="pauseBtn"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="3.4" height="12" rx="1.2"/><rect x="9.6" y="2" width="3.4" height="12" rx="1.2"/></svg>Pause</button>
+        <button class="pillBtn glass red press" id="endBtn"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/></svg>End</button>
+      </div>
     </div>
   </div>
 
   <div id="center" hidden>
-    <div id="calib" class="checks" hidden>
-      <h3>Get into plank</h3>
-      <div class="chk" id="c1"><i></i>Whole body in frame</div>
-      <div class="chk" id="c2"><i></i>Side-on to the phone</div>
-      <div class="chk" id="c3"><i></i>Arms straight, body level</div>
+    <div id="loadCard" class="card glass" hidden><span class="spin"></span><span id="loadMsg">Opening camera…</span></div>
+    <div id="calib" class="card glass" hidden>
+      <h3>Get into position</h3>
+      <p id="calibSub">Side-on to the phone, arms straight.</p>
+      <div class="checks">
+        <div class="chk" id="c1"><i></i>Whole body in frame</div>
+        <div class="chk" id="c2"><i></i>Body level, side-on</div>
+        <div class="chk" id="c3"><i></i>Arms locked out</div>
+      </div>
+      <div class="hint" id="calibHint">Hold the plank for a second to start.</div>
     </div>
-    <div id="countdown" class="big" hidden>3</div>
-    <div id="loadMsg" hidden>Loading body tracking…</div>
+    <div id="countdown" hidden>3</div>
+    <div id="paused" class="card glass" hidden>
+      <div class="pauseIcon"><svg width="20" height="20" viewBox="0 0 16 16" fill="#fff"><rect x="3" y="2" width="3.4" height="12" rx="1.2"/><rect x="9.6" y="2" width="3.4" height="12" rx="1.2"/></svg></div>
+      <h3>Paused</h3>
+      <p id="pausedSub">Get back into plank to keep going.</p>
+      <div class="cardBtns">
+        <button class="pillBtn glass press" id="resumeBtn">Resume</button>
+        <button class="pillBtn glass red press" id="endBtn2">End</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- START -->
-<section class="panel" id="startPanel">
-  <div class="panel-in">
-    <div class="brand">
-      <span class="eyebrow" style="color:var(--lime)">Push-up form coach</span>
-      <h1>Rep<br><span>Line</span></h1>
-      <p>Counts only clean push-ups. Lines on your body turn red where your form breaks.</p>
+<!-- HOME -->
+<section class="panel" id="homePanel">
+  <div class="wrap">
+    <div class="nav">
+      <div><div class="date" id="todayDate"></div><h1>Rep Line</h1></div>
+      <button class="iconBtn glass press" id="histBtn" aria-label="History"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="14" height="13" rx="3"/><path d="M3 8.5h14M7 2.5v3M13 2.5v3"/></svg></button>
     </div>
-    <div class="best" id="bestRow">
-      <div><span class="lbl">Personal best</span><span class="v num" id="pbVal">—</span></div>
-      <div><span class="lbl">Sessions</span><span class="v num" id="sessVal">0</span></div>
-      <div><span class="lbl">All-time clean</span><span class="v num" id="totVal">0</span></div>
+
+    <button class="today glass press" id="todayCard" style="text-align:left">
+      <div class="todayTop">
+        <span id="todayRings"></span>
+        <div class="metrics">
+          <div class="metric"><div class="k" style="color:var(--move)">Clean reps</div><div class="v" id="tReps">0<small>/30</small></div></div>
+          <div class="metric"><div class="k" style="color:var(--form)">Form</div><div class="v" id="tForm">–<small>%</small></div></div>
+          <div class="metric"><div class="k" style="color:var(--mins)">Active</div><div class="v" id="tMins">0<small>/5 min</small></div></div>
+        </div>
+      </div>
+      <div class="week" id="week"></div>
+    </button>
+
+    <div class="secT">Mode</div>
+    <div class="modes" id="modes"></div>
+    <div class="modeDesc" id="modeDesc"></div>
+
+    <div class="group glass">
+      <div class="row"><span class="name">Camera</span>
+        <span class="seg" data-key="facing"><span class="thumb"></span><button data-v="user">Front</button><button data-v="environment">Back</button></span></div>
+      <div class="row"><span class="name">Voice coach<small>Spoken form cues</small></span><button class="switch" role="switch" data-key="voice" aria-label="Voice coach"></button></div>
+      <div class="row"><span class="name">Count reps aloud</span><button class="switch" role="switch" data-key="countAloud" aria-label="Count reps aloud"></button></div>
+      <div class="row"><span class="name">Voice control<small id="vcHint">Say “start”, “pause”, “continue”, “stop”</small></span><button class="switch" role="switch" data-key="voiceCtl" aria-label="Voice control" id="vcSwitch"></button></div>
+      <div class="row"><span class="name">Daily goal<small>Clean reps</small></span><span class="stepper"><button id="goalDn" aria-label="Lower goal">−</button><span id="goalV" class="num">30</span><button id="goalUp" aria-label="Raise goal">+</button></span></div>
     </div>
-    <ol class="steps">
-      <li>Lean your phone upright on the floor, 2–3 m away.</li>
-      <li>Turn side-on so it sees you from head to feet.</li>
-      <li>Tap Start, then hold a plank to begin.</li>
-    </ol>
-    <div class="opts">
-      <div class="opt"><span class="name">Camera</span>
-        <span class="seg" data-key="facing"><button data-v="user">Front</button><button data-v="environment">Back</button></span></div>
-      <div class="opt"><span class="name">Standard<span class="hint" id="levelHint"></span></span>
-        <span class="seg" data-key="level"><button data-v="std">Normal</button><button data-v="strict">Strict</button></span></div>
-      <div class="opt"><span class="name">Voice coach<span class="hint">Form cues while you move</span></span>
-        <span class="seg" data-key="voice"><button data-v="on">On</button><button data-v="off">Off</button></span></div>
-      <div class="opt"><span class="name">Count reps aloud</span>
-        <span class="seg" data-key="countAloud"><button data-v="on">On</button><button data-v="off">Off</button></span></div>
-    </div>
-    <div class="legend">
-      <span><i style="background:var(--lime)"></i>Good</span>
-      <span><i style="background:var(--red)"></i>Fault</span>
-      <span><i style="background:var(--amber)"></i>Head drop</span>
-    </div>
+    <p class="tip">Lean the phone upright on the floor 2–3 m away, side-on to you, so it sees head to feet.</p>
+
     <div class="err" id="startErr" hidden></div>
-    <button class="primary" id="startBtn">Start</button>
-    <button class="ghost" id="demoBtn">Watch a demo set</button>
+    <button class="startBtn press" id="startBtn">Start</button>
+    <button class="textBtn" id="demoBtn">Watch a demo set</button>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section class="panel" id="histPanel" hidden>
+  <div class="wrap">
+    <div class="nav">
+      <button class="iconBtn glass press" id="histBack" aria-label="Back"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4l-6 6 6 6"/></svg></button>
+      <div style="flex:1"><h1 style="margin:0">History</h1></div>
+    </div>
+    <div class="mstats">
+      <div class="mstat glass"><div class="k">This month</div><div class="v num" id="mReps">0</div></div>
+      <div class="mstat glass"><div class="k">Sessions</div><div class="v num" id="mSess">0</div></div>
+      <div class="mstat glass"><div class="k">Day streak</div><div class="v num" id="mStreak">0</div></div>
+    </div>
+    <div class="cal glass">
+      <div class="monthNav" style="padding:0 6px 16px">
+        <button class="iconBtn press" id="mPrev" aria-label="Previous month"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4l-6 6 6 6"/></svg></button>
+        <h2 id="mTitle">October 2026</h2>
+        <button class="iconBtn press" id="mNext" aria-label="Next month"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4l6 6-6 6"/></svg></button>
+      </div>
+      <div class="dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+      <div class="days" id="days"></div>
+    </div>
+    <div class="dayHead"><span id="dayRings"></span><div><h3 id="dayTitle">Today</h3><p id="daySub"></p></div></div>
+    <div class="group glass" id="dayList"></div>
   </div>
 </section>
 
 <!-- SUMMARY -->
 <section class="panel" id="sumPanel" hidden>
-  <div class="panel-in">
-    <span class="eyebrow" style="color:var(--lime)" id="sumEyebrow">Set complete</span>
+  <div class="wrap">
+    <div class="nav"><div><div class="date" id="sumEyebrow">Set complete</div><h1 id="sumTitle">Nice work</h1></div></div>
+    <div class="savedRow glass" id="savedRow"><span class="ok"></span><div><b>Saved to History</b><span id="savedWhen"></span></div></div>
     <img id="cardImg" alt="Session summary card">
     <div class="saveHint">Press and hold the card to save it to Photos</div>
     <div class="row2">
-      <button class="ghost" id="shareBtn">Share card</button>
-      <button class="ghost" id="homeBtn">Home</button>
+      <button class="pillBtn glass press" id="shareBtn">Share</button>
+      <button class="pillBtn glass press" id="sumHist">History</button>
     </div>
-    <button class="primary" id="againBtn">Go again</button>
+    <button class="startBtn press" id="againBtn">Go again</button>
+    <button class="textBtn" id="homeBtn">Done</button>
   </div>
 </section>
 
 <script>
 /* ============================================================
-   Rep engine — pure logic, no DOM. Feed it one frame of
-   measurements at a time; it emits reps and live cues.
+   Modes
+   depth = how far the shoulders travel from lockout to the floor
+   (0% = arms straight, 100% = chest on the floor)
    ============================================================ */
-const LEVELS = {
-  std:    { depth: 100, lock: 150, body: 16, label: "Elbows to 100°, body within 16° of straight" },
-  strict: { depth: 90,  lock: 160, body: 11, label: "Elbows to 90°, body within 11° of straight" }
+const MODES = {
+  casual:   { name:"Casual",   depth:70, lock:100, top:30, sag:22, pike:28, head:null, shift:null,
+              desc:"Down to 70%. Small wobbles in form still count." },
+  strict:   { name:"Strict",   depth:90, lock:152, top:14, sag:13, pike:16, head:null, shift:null,
+              desc:"Down to 90%, arms straight at the top, body in one line." },
+  hardcore: { name:"Hardcore", depth:95, lock:160, top:10, sag:7,  pike:7,  head:15,  shift:9,
+              desc:"Chest to the floor. Any hip lift, sag, head drop or shift is a no-rep." }
 };
+const FLOOR = 0.24;   // shoulder height with chest on the floor, as a share of lockout height
 
+/* ============================================================
+   Rep engine (pure). Feed one frame at a time.
+   f = { t, depth, elbow, dev (+sag/-pike deg), head (deg), plank }
+   ============================================================ */
 function createEngine(cfg, on){
-  const START = cfg.lock - 12;
-  let phase = "idle", rep = null, sagSince = 0, pikeSince = 0;
-  function newRep(f){ return { t0:f.t, min:f.elbow, maxSag:0, maxPike:0, maxHead:0, maxAfter:0, cuedDepth:false }; }
-  function finish(f, forcedLockout){
+  const TOP = cfg.top, START = cfg.top + 8;
+  let phase = "idle", rep = null, hist = [], ema = 0, sagT = 0, pikeT = 0, headT = 0;
+  const newRep = f => ({ t0:f.t, max:f.depth, maxSag:0, maxPike:0, dMin:ema, dMax:ema, maxHead:0, minAfter:100, cued:false });
+  function finish(f, forced){
     const r = rep; rep = null;
-    if (f.t - r.t0 < 380) return;               // too fast to be a real rep: tracking noise
+    if (f.t - r.t0 < 380) return;
     const faults = [];
-    if (r.min > cfg.depth) faults.push("depth");
-    if (r.maxSag > cfg.body) faults.push("sag");
-    if (r.maxPike > cfg.body + 6) faults.push("pike");
-    if (forcedLockout) faults.push("lockout");
-    let score = 100;
-    score -= Math.max(0, r.maxSag - 5) * 2.2 + Math.max(0, r.maxPike - 8) * 1.6;
-    score -= Math.max(0, r.min - (cfg.depth - 15)) * 0.8;
-    if (r.maxHead > 28) score -= 10;
-    if (forcedLockout) score -= 25;
+    if (r.max < cfg.depth) faults.push("depth");
+    if (r.maxSag > cfg.sag) faults.push("sag");
+    if (r.maxPike > cfg.pike) faults.push("pike");
+    if (cfg.head && r.maxHead > cfg.head) faults.push("head");
+    if (cfg.shift && !faults.includes("sag") && !faults.includes("pike") && r.dMax - r.dMin > cfg.shift) faults.push("shift");
+    if (forced) faults.push("lockout");
+    let score = 100 - Math.max(0, r.maxSag - 3)*2.4 - Math.max(0, r.maxPike - 3)*2 - Math.max(0, cfg.depth + 6 - r.max)*1.2 - (forced ? 25 : 0);
     score = Math.max(0, Math.min(100, Math.round(score)));
     const grade = faults.length ? "–" : score >= 85 ? "A" : score >= 70 ? "B" : "C";
-    on.rep({ ok: faults.length === 0, faults, score, grade, min: Math.round(r.min), t: f.t, dur: f.t - r.t0, head: r.maxHead > 28 });
+    on.rep({ ok:!faults.length, faults, score, grade, depth:Math.round(r.max), dur:f.t - r.t0 });
   }
   return {
     get phase(){ return phase; },
     get inRep(){ return !!rep; },
-    reset(){ phase = "idle"; rep = null; },
+    reset(){ phase = "idle"; rep = null; hist = []; },
     update(f){
-      // f: { t, elbow, dev (+sag / -pike, degrees), head (degrees off line), plank (bool) }
       if (!f.plank){ rep = null; phase = "idle"; return; }
-      if (phase === "idle"){ if (f.elbow > cfg.lock) phase = "top"; return; }
-      if (phase === "top"){
-        if (f.elbow < START){ rep = newRep(f); phase = "down"; }
-        else return;
-      }
+      hist.push(f.dev); if (hist.length > 3) hist.shift();
+      ema = ema*.6 + f.dev*.4;
+      // a fault only counts once it holds for 3 frames (filters tracking jitter)
+      const held = hist.length < 3 ? 0 : hist.every(d => d > 0) ? Math.min(...hist) : hist.every(d => d < 0) ? Math.max(...hist) : 0;
+      const atTop = f.depth < TOP && f.elbow > cfg.lock;
+      if (phase === "idle"){ if (atTop) phase = "top"; return; }
+      if (phase === "top"){ if (f.depth > START){ rep = newRep(f); phase = "down"; } else return; }
       if (!rep) return;
-      rep.min = Math.min(rep.min, f.elbow);
-      if (f.dev > 0) rep.maxSag = Math.max(rep.maxSag, f.dev); else rep.maxPike = Math.max(rep.maxPike, -f.dev);
+      rep.max = Math.max(rep.max, f.depth);
+      if (held > 0) rep.maxSag = Math.max(rep.maxSag, held); else if (held < 0) rep.maxPike = Math.max(rep.maxPike, -held);
+      rep.dMin = Math.min(rep.dMin, ema); rep.dMax = Math.max(rep.dMax, ema);
       rep.maxHead = Math.max(rep.maxHead, f.head);
-
-      // live body-line cues, only once the fault has held for a moment
-      if (f.dev > cfg.body){ sagSince = sagSince || f.t; if (f.t - sagSince > 250) on.cue("sag"); } else sagSince = 0;
-      if (-f.dev > cfg.body + 6){ pikeSince = pikeSince || f.t; if (f.t - pikeSince > 250) on.cue("pike"); } else pikeSince = 0;
-
+      if (held > cfg.sag){ sagT = sagT || f.t; if (f.t - sagT > 200) on.cue("sag"); } else sagT = 0;
+      if (-held > cfg.pike){ pikeT = pikeT || f.t; if (f.t - pikeT > 200) on.cue("pike"); } else pikeT = 0;
+      if (cfg.head && f.head > cfg.head){ headT = headT || f.t; if (f.t - headT > 250) on.cue("head"); } else headT = 0;
       if (phase === "down"){
-        if (f.elbow > rep.min + 12){
-          phase = "up"; rep.maxAfter = f.elbow;
-          if (rep.min > cfg.depth && !rep.cuedDepth){ rep.cuedDepth = true; on.cue("depth"); }
+        if (f.depth < rep.max - 8){
+          phase = "up"; rep.minAfter = f.depth;
+          if (rep.max < cfg.depth && !rep.cued){ rep.cued = true; on.cue("depth"); }
         }
       } else if (phase === "up"){
-        rep.maxAfter = Math.max(rep.maxAfter, f.elbow);
-        if (f.elbow > cfg.lock){ finish(f, false); phase = "top"; }
-        else if (f.elbow < rep.maxAfter - 18){         // went back down without locking out
-          finish(f, true); rep = newRep(f); phase = "down";
-        }
+        rep.minAfter = Math.min(rep.minAfter, f.depth);
+        if (atTop){ finish(f, false); phase = "top"; }
+        else if (f.depth > rep.minAfter + 12){ finish(f, true); rep = newRep(f); phase = "down"; }
       }
     }
   };
@@ -323,162 +453,311 @@ function createEngine(cfg, on){
 /* ============================================================
    Geometry
    ============================================================ */
-const P = { nose:0, earL:7, earR:8, shL:11, shR:12, elL:13, elR:14, wrL:15, wrR:16, hipL:23, hipR:24, knL:25, knR:26, anL:27, anR:28 };
+const P = { earL:7, earR:8, shL:11, shR:12, elL:13, elR:14, wrL:15, wrR:16, hipL:23, hipR:24, knL:25, knR:26, anL:27, anR:28 };
 function angleAt(a, b, c){
   const v1x=a.x-b.x, v1y=a.y-b.y, v2x=c.x-b.x, v2y=c.y-b.y;
   const d = Math.hypot(v1x,v1y)*Math.hypot(v2x,v2y) || 1;
   return Math.acos(Math.max(-1, Math.min(1, (v1x*v2x+v1y*v2y)/d))) * 180/Math.PI;
 }
-// Measure one side of the body. pts are in pixel space (x right, y down).
 function measure(s){
-  const elbow = angleAt(s.sh, s.el, s.wr);
   const foot = s.an || s.kn;
+  const elbow = angleAt(s.sh, s.el, s.wr);
   const straight = angleAt(s.sh, s.hip, foot);
-  // is the hip below (sag) or above (pike) the shoulder→foot line?
   const dx = foot.x - s.sh.x, dy = foot.y - s.sh.y;
   const cross = dx*(s.hip.y - s.sh.y) - dy*(s.hip.x - s.sh.x);
   const below = dx >= 0 ? cross > 0 : cross < 0;
   const dev = (180 - straight) * (below ? 1 : -1);
   const head = s.ear ? Math.max(0, 180 - angleAt(s.ear, s.sh, s.hip)) : 0;
+  const len = Math.hypot(dx, dy) || 1;
   const tilt = Math.abs(Math.atan2(dy, Math.abs(dx)) * 180/Math.PI);
-  return { elbow, dev, head, tilt };
+  // shoulder height above the floor line (wrist → foot), relative to body length: distance-proof
+  const fx = foot.x - s.wr.x, fy = foot.y - s.wr.y, fl = Math.hypot(fx, fy) || 1;
+  const h = Math.abs(fx*(s.sh.y - s.wr.y) - fy*(s.sh.x - s.wr.x)) / fl / len;
+  return { elbow, dev, head, tilt, h };
 }
 
 /* ============================================================
-   App
+   Storage, settings, log
    ============================================================ */
 const $ = id => document.getElementById(id);
 const store = {
   get(k, d){ try{ const v = localStorage.getItem("repline:"+k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem("repline:"+k, JSON.stringify(v)); }catch(e){} }
 };
-const settings = Object.assign({ facing:"user", level:"std", voice:"on", countAloud:"on" }, store.get("settings", {}));
-
-const video = $("cam"), overlay = $("overlay"), octx = overlay.getContext("2d");
-const waveCv = $("wave"), wctx = waveCv.getContext("2d");
-let DPR = Math.min(window.devicePixelRatio || 1, 2);
-
-let mode = "home";            // home | loading | calib | countdown | live | summary
-let demo = false, stream = null, landmarker = null, rafId = 0, wakeLock = null;
-let engine, S;                // session state
-let smooth = null, lastFrameT = 0, lastVideoTime = -1, plankSince = 0, lostSince = 0;
-let audioCtx = null;
-
-/* ---------- start screen ---------- */
-function paintSegs(){
-  document.querySelectorAll(".seg").forEach(seg => {
-    const k = seg.dataset.key;
-    seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(settings[k] === b.dataset.v)));
-  });
-  $("levelHint").textContent = LEVELS[settings.level].label;
+const settings = Object.assign({ facing:"user", mode:"strict", voice:true, countAloud:true, voiceCtl:false, goal:30 }, store.get("settings2", {}));
+const saveSettings = () => store.set("settings2", settings);
+const getLog = () => store.get("log", []);
+const dayKey = d => { const x = new Date(d); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); };
+function dayAgg(key, log){
+  const ss = log.filter(s => dayKey(s.ts) === key);
+  const clean = ss.reduce((a,s) => a + s.clean, 0), att = ss.reduce((a,s) => a + s.clean + s.missed, 0);
+  const secs = ss.reduce((a,s) => a + s.active, 0);
+  return { ss, clean, att, form: att ? Math.round(clean/att*100) : null, mins: secs/60 };
 }
-document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
-  settings[b.parentElement.dataset.key] = b.dataset.v; store.set("settings", settings); paintSegs();
-}));
+const ringVals = a => [a.clean / settings.goal, a.form == null ? 0 : a.form / 100, a.mins / 5];
+
+/* ---------- rings (SVG) ---------- */
+const RING_COL = ["#ff2d6f", "#a6ff2e", "#22d8ff"];
+function ringsSVG(vals, size, w){
+  const gap = Math.max(1.5, w*.18), c = size/2;
+  let out = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">`;
+  vals.forEach((v, i) => {
+    const r = c - w/2 - i*(w + gap), C = 2*Math.PI*r, p = Math.max(0, Math.min(1, v || 0));
+    out += `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${RING_COL[i]}" stroke-opacity=".22" stroke-width="${w}"/>`;
+    if (p > 0) out += `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${RING_COL[i]}" stroke-width="${w}" stroke-linecap="round" stroke-dasharray="${(C*p).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 ${c} ${c})"/>`;
+  });
+  return out + "</svg>";
+}
+
+/* ============================================================
+   Home
+   ============================================================ */
+function paintSeg(seg){
+  const btns = [...seg.querySelectorAll("button")], k = seg.dataset.key, i = Math.max(0, btns.findIndex(b => b.dataset.v === settings[k]));
+  btns.forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+  const th = seg.querySelector(".thumb"); th.style.width = `calc((100% - 6px)/${btns.length})`; th.style.transform = `translateX(${i*100}%)`;
+}
+document.querySelectorAll(".seg").forEach(seg => {
+  seg.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { settings[seg.dataset.key] = b.dataset.v; saveSettings(); paintSeg(seg); }));
+});
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR){ $("vcSwitch").disabled = true; $("vcHint").textContent = "Not supported in this browser"; settings.voiceCtl = false; }
+document.querySelectorAll(".switch").forEach(sw => {
+  sw.addEventListener("click", () => { if (sw.disabled) return; settings[sw.dataset.key] = !settings[sw.dataset.key]; saveSettings(); paintSwitches(); });
+});
+function paintSwitches(){ document.querySelectorAll(".switch").forEach(sw => sw.setAttribute("aria-checked", String(!!settings[sw.dataset.key]))); }
+$("goalDn").addEventListener("click", () => { settings.goal = Math.max(5, settings.goal - 5); saveSettings(); paintHome(); });
+$("goalUp").addEventListener("click", () => { settings.goal = Math.min(500, settings.goal + 5); saveSettings(); paintHome(); });
+
+function paintModes(){
+  const box = $("modes"); box.innerHTML = "";
+  Object.entries(MODES).forEach(([k, m]) => {
+    const b = document.createElement("button");
+    b.className = "mode glass press"; b.setAttribute("aria-pressed", String(settings.mode === k));
+    b.innerHTML = `<span class="mn">${m.name}</span><span class="figure"><span class="bar"><i style="height:${m.depth}%"></i></span><span><span class="pct num">${m.depth === 95 ? "100" : m.depth}%</span><br><span class="md">${m.depth === 95 ? "chest down" : "depth"}</span></span></span>`;
+    b.addEventListener("click", () => { settings.mode = k; saveSettings(); paintModes(); });
+    box.appendChild(b);
+  });
+  $("modeDesc").textContent = MODES[settings.mode].desc;
+}
 function paintHome(){
-  const h = store.get("history", { best:0, sessions:0, total:0 });
-  $("pbVal").textContent = h.best || "—"; $("sessVal").textContent = h.sessions; $("totVal").textContent = h.total;
-  paintSegs();
+  const now = new Date(), log = getLog();
+  $("todayDate").textContent = now.toLocaleDateString(undefined, { weekday:"long", day:"numeric", month:"long" });
+  const a = dayAgg(dayKey(now), log);
+  $("todayRings").innerHTML = ringsSVG(ringVals(a), 112, 13);
+  $("tReps").innerHTML = `${a.clean}<small>/${settings.goal}</small>`;
+  $("tForm").innerHTML = `${a.form == null ? "–" : a.form}<small>%</small>`;
+  $("tMins").innerHTML = `${a.mins < 10 ? a.mins.toFixed(1).replace(".0","") : Math.round(a.mins)}<small>/5 min</small>`;
+  const wk = $("week"); wk.innerHTML = "";
+  const mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay()+6) % 7));
+  for (let i = 0; i < 7; i++){
+    const d = new Date(mon); d.setDate(mon.getDate() + i);
+    const ag = dayAgg(dayKey(d), log);
+    const el = document.createElement("div"); el.className = "wd" + (dayKey(d) === dayKey(now) ? " now" : "");
+    el.innerHTML = `${"MTWTFSS"[i]}${ringsSVG(ringVals(ag), 30, 3.6)}`;
+    wk.appendChild(el);
+  }
+  $("goalV").textContent = settings.goal;
+  document.querySelectorAll(".seg").forEach(paintSeg); paintSwitches(); paintModes();
 }
 paintHome();
 
-/* ---------- sound + voice ---------- */
+/* ============================================================
+   History
+   ============================================================ */
+let calMonth = new Date(); calMonth.setDate(1); let selDay = dayKey(new Date());
+function openHistory(){ show("homePanel", false); show("sumPanel", false); show("histPanel", true); calMonth = new Date(); calMonth.setDate(1); selDay = dayKey(new Date()); paintHistory(); $("histPanel").scrollTop = 0; }
+function paintHistory(){
+  const log = getLog(), y = calMonth.getFullYear(), m = calMonth.getMonth();
+  $("mTitle").textContent = calMonth.toLocaleDateString(undefined, { month:"long", year:"numeric" });
+  const inMonth = log.filter(s => { const d = new Date(s.ts); return d.getFullYear() === y && d.getMonth() === m; });
+  $("mReps").textContent = inMonth.reduce((a,s) => a + s.clean, 0);
+  $("mSess").textContent = inMonth.length;
+  // consecutive days with at least one clean rep, counting back from today (today optional)
+  let streak = 0; const d = new Date(); const has = k => log.some(s => dayKey(s.ts) === k && s.clean > 0);
+  if (!has(dayKey(d))) d.setDate(d.getDate() - 1);
+  while (has(dayKey(d))){ streak++; d.setDate(d.getDate() - 1); }
+  $("mStreak").textContent = streak;
+  const days = $("days"); days.innerHTML = "";
+  const first = (new Date(y, m, 1).getDay() + 6) % 7, n = new Date(y, m+1, 0).getDate(), todayK = dayKey(new Date());
+  for (let i = 0; i < first; i++){ const e = document.createElement("div"); e.className = "day off"; days.appendChild(e); }
+  for (let i = 1; i <= n; i++){
+    const k = dayKey(new Date(y, m, i)), ag = dayAgg(k, log);
+    const b = document.createElement("button");
+    b.className = "day" + (k === todayK ? " today" : "") + (k === selDay ? " sel" : "") + (ag.ss.length ? " has" : "");
+    const future = new Date(y, m, i) > new Date();
+    b.innerHTML = `<span>${i}</span>` + (future ? `<svg width="36" height="36" aria-hidden="true"></svg>` : ringsSVG(ringVals(ag), 36, 4.2));
+    b.addEventListener("click", () => { selDay = k; paintHistory(); });
+    days.appendChild(b);
+  }
+  const ag = dayAgg(selDay, log), sd = new Date(selDay + "T12:00:00");
+  $("dayRings").innerHTML = ringsSVG(ringVals(ag), 58, 7);
+  $("dayTitle").textContent = selDay === todayK ? "Today" : sd.toLocaleDateString(undefined, { weekday:"long", day:"numeric", month:"long" });
+  $("daySub").textContent = ag.ss.length ? `${ag.clean} clean of ${settings.goal} · ${ag.form}% form · ${Math.round(ag.mins*10)/10} min` : "No sets logged";
+  const list = $("dayList");
+  list.innerHTML = ag.ss.length ? "" : `<div class="empty">Sets you finish show up here with their time and score.</div>`;
+  ag.ss.sort((a,b) => b.ts - a.ts).forEach(s => {
+    const r = document.createElement("div"); r.className = "row sess";
+    const t = new Date(s.ts).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+    const mm = Math.floor(s.active/60) + ":" + String(Math.round(s.active%60)).padStart(2,"0");
+    r.innerHTML = `${ringsSVG(ringVals({clean:s.clean, form:(s.clean+s.missed)?Math.round(s.clean/(s.clean+s.missed)*100):0, mins:s.active/60}), 34, 4)}
+      <div><div class="tm">${t}</div><span class="ch">${MODES[s.mode]?.name || s.mode}</span> <span class="sub">· ${mm} · best streak ${s.bestStreak}</span></div>
+      <div class="r">${s.clean}<small>${s.missed} no-rep</small></div>`;
+    list.appendChild(r);
+  });
+}
+$("mPrev").addEventListener("click", () => { calMonth.setMonth(calMonth.getMonth() - 1); paintHistory(); });
+$("mNext").addEventListener("click", () => { calMonth.setMonth(calMonth.getMonth() + 1); paintHistory(); });
+$("histBtn").addEventListener("click", openHistory);
+$("todayCard").addEventListener("click", openHistory);
+$("histBack").addEventListener("click", () => { show("histPanel", false); show("homePanel", true); paintHome(); });
+
+/* ============================================================
+   Sound, voice out, voice in
+   ============================================================ */
+let audioCtx = null, speakingUntil = 0, lastSpeak = 0;
 function unlockAudio(){
   try{ audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume(); }catch(e){}
   try{ const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); }catch(e){}
 }
-function tone(freqs, dur = .12, type = "sine", vol = .18){
+function tone(freqs, dur = .12, type = "sine", vol = .16){
   if (!audioCtx) return;
   const t0 = audioCtx.currentTime;
   freqs.forEach((f, i) => {
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain(), st = t0 + i*dur*.75;
     o.type = type; o.frequency.value = f;
-    const st = t0 + i*dur*0.8;
     g.gain.setValueAtTime(0, st); g.gain.linearRampToValueAtTime(vol, st+.01); g.gain.exponentialRampToValueAtTime(.0001, st+dur);
     o.connect(g).connect(audioCtx.destination); o.start(st); o.stop(st+dur+.02);
   });
 }
-let lastSpeak = 0;
 function say(text, force){
-  if (settings.voice !== "on" && !force) return;
+  if (!settings.voice && !force) return;
+  if (!settings.voice && force === "cue") return;
   try{
     const now = performance.now();
-    if (!force && now - lastSpeak < 1400) return;
-    lastSpeak = now;
+    if (!force && now - lastSpeak < 1300) return;
+    lastSpeak = now; speakingUntil = now + 4000;
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.rate = 1.12; u.pitch = 1;
+    const u = new SpeechSynthesisUtterance(text); u.rate = 1.1;
+    u.onend = () => speakingUntil = performance.now() + 500;
     speechSynthesis.speak(u);
   }catch(e){}
 }
+let rec = null, recWanted = false, lastCmd = { k:"", t:0 };
+function startListening(){
+  if (!SR || !settings.voiceCtl || recWanted) return;
+  recWanted = true;
+  const boot = () => {
+    try{
+      rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = navigator.language || "en-US";
+      rec.onresult = e => {
+        if (performance.now() < speakingUntil) return;
+        for (let i = e.resultIndex; i < e.results.length; i++) handleCommand(e.results[i][0].transcript.toLowerCase());
+      };
+      rec.onerror = e => { if (e.error === "not-allowed" || e.error === "service-not-allowed"){ recWanted = false; $("micCap").hidden = true; flashCue("Mic blocked", false); } };
+      rec.onend = () => { if (recWanted) setTimeout(boot, 250); };
+      rec.start(); $("micCap").hidden = false;
+    }catch(e){ recWanted = false; }
+  };
+  boot();
+}
+function stopListening(){ recWanted = false; try{ rec && rec.abort(); }catch(e){} rec = null; $("micCap").hidden = true; }
+function handleCommand(txt){
+  const words = txt.split(/\s+/).slice(-3).join(" ");
+  let k = "";
+  if (/\b(stop|finish|done|end set|that's it)\b/.test(words)) k = "stop";
+  else if (/\b(pause|wait|hold on|break)\b/.test(words)) k = "pause";
+  else if (/\b(start|continue|resume|go|let's go)\b/.test(words)) k = "go";
+  if (!k) return;
+  const now = performance.now();
+  if (lastCmd.k === k && now - lastCmd.t < 2500) return;
+  lastCmd = { k, t: now };
+  if (k === "stop" && ["calib","countdown","live","paused"].includes(mode)) endSet();
+  else if (k === "pause" && mode === "live") pause(true);
+  else if (k === "go"){ if (mode === "calib") startCountdown(); else if (mode === "paused") resume(true); }
+}
 
-/* ---------- session ---------- */
+/* ============================================================
+   Session
+   ============================================================ */
 const FAULT = {
-  depth:   { tag:"Go lower",     cue:"Lower",     voice:"Go lower" },
-  sag:     { tag:"Hips sagged",  cue:"Hips up",   voice:"Hips up" },
-  pike:    { tag:"Hips too high",cue:"Hips down", voice:"Hips down" },
-  lockout: { tag:"Lock out",     cue:"Lock out",  voice:"Lock out" }
+  depth:   { tag:"Go lower",       cue:"Lower",          voice:"Lower" },
+  sag:     { tag:"Hips sagged",    cue:"Hips up",        voice:"Hips up" },
+  pike:    { tag:"Hips too high",  cue:"Hips down",      voice:"Hips down" },
+  head:    { tag:"Head dropped",   cue:"Head up",        voice:"Head up" },
+  shift:   { tag:"Body shifted",   cue:"Stay rigid",     voice:"Stay rigid" },
+  lockout: { tag:"Lock out",       cue:"Lock out",       voice:"Lock out" }
 };
+const video = $("cam"), overlay = $("overlay"), octx = overlay.getContext("2d");
+const waveCv = $("wave"), wctx = waveCv.getContext("2d");
+let DPR = Math.min(window.devicePixelRatio || 1, 2);
+let mode = "home", demo = false, stream = null, landmarker = null, rafId = 0, wakeLock = null;
+let engine, S, cfg, smooth = null, lastFrameT = 0, lastVideoTime = -1, readySince = 0, lastTick = 0;
+
 function newSession(){
-  const h = store.get("history", { best:0, sessions:0, total:0 });
-  S = { clean:0, missed:0, streak:0, bestStreak:0, reps:[], wave:[], allWave:[], t0:0, faults:{}, sessionNo:h.sessions+1, liveFault:{sag:0,pike:0,depth:0}, phaseDir:"" };
-  const cfg = LEVELS[settings.level];
+  cfg = MODES[settings.mode];
+  S = { clean:0, missed:0, streak:0, bestStreak:0, reps:[], wave:[], active:0, faults:{}, H0:null, devBase:0, headBase:0,
+        bestDepth:0, liveFault:{}, phaseDir:"", trail:[], offSince:0, grace:0, manualPause:false, leftPlank:false, pauses:0 };
   engine = createEngine(cfg, { rep:onRep, cue:onCue });
-  smooth = null; plankSince = 0; lostSince = 0;
-  $("sessionLbl").textContent = "Session " + String(S.sessionNo).padStart(2,"0");
+  smooth = null; readySince = 0;
+  $("modeLbl").textContent = "Push-ups · " + cfg.name;
+  $("calibSub").textContent = cfg.name + " mode · " + (cfg.depth === 95 ? "chest to the floor" : cfg.depth + "% depth");
+  $("calibHint").textContent = settings.voiceCtl && SR ? "Hold the plank, or say “start”." : "Hold the plank for a second to start.";
+  $("pausedSub").textContent = "Get back into plank to keep going" + (settings.voiceCtl && SR ? ", or say “continue”." : ".");
   paintCount(); paintStats();
 }
-let lastCueAt = {};
+let cueAt = {};
 function onCue(kind){
-  const now = performance.now();
-  S.liveFault[kind] = now;
-  if (lastCueAt[kind] && now - lastCueAt[kind] < 2600) return;
-  lastCueAt[kind] = now;
-  flashCue(FAULT[kind].cue, false);
-  say(FAULT[kind].voice);
+  const now = performance.now(); S.liveFault[kind] = now;
+  if (cueAt[kind] && now - cueAt[kind] < 2500) return;
+  cueAt[kind] = now;
+  flashCue(kind === "depth" && cfg.depth === 95 ? "Chest down" : FAULT[kind].cue, false);
+  say(kind === "depth" && cfg.depth === 95 ? "Chest down" : FAULT[kind].voice);
 }
 function onRep(r){
-  S.reps.push(r);
+  r.ta = S.active; S.reps.push(r);
+  S.bestDepth = Math.max(S.bestDepth, r.depth);
   if (r.ok){
     S.clean++; S.streak++; S.bestStreak = Math.max(S.bestStreak, S.streak);
-    tone(S.streak % 5 === 0 ? [880,1175,1568] : [988,1319], .13, "triangle", .16);
-    if (settings.countAloud === "on") say(String(S.clean), true);
+    tone(S.streak % 5 === 0 ? [880,1175,1568] : [1047,1319], .14, "sine", .16);
+    if (settings.countAloud) say(String(S.clean), true);
     else if (S.streak % 5 === 0) say(S.streak + " in a row");
-    showTag(`<b>${String(S.clean).padStart(2,"0")} · Clean</b> <i>${r.grade}</i>`, true);
+    showTag(`<span class="k">${S.clean} · Clean</span><span class="m">${r.depth}% · ${r.grade}</span>`, true);
     $("plus").classList.add("show"); setTimeout(() => $("plus").classList.remove("show"), 700);
     const c = $("count"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump");
-    if (S.streak >= 3 && S.streak % 5 === 0) flashCue(S.streak + " streak", true);
+    if (S.streak >= 5 && S.streak % 5 === 0) flashCue(S.streak + " in a row", true);
   } else {
     S.missed++; S.streak = 0;
-    const f = r.faults[0];
     r.faults.forEach(k => S.faults[k] = (S.faults[k] || 0) + 1);
-    tone([196,147], .16, "sawtooth", .08);
-    showTag(`<b>No rep · ${FAULT[f].tag}</b>`, false);
-    say(FAULT[f].voice, true);
+    const f = r.faults[0];
+    tone([220,165], .16, "triangle", .12);
+    showTag(`<span class="k">No rep</span><span class="m">${f === "depth" ? r.depth + "% · " : ""}${FAULT[f].tag}</span>`, false);
+    if (settings.voice) say(f === "depth" && cfg.depth === 95 ? "Chest to the floor" : FAULT[f].voice, true);
   }
   paintCount(); paintStats();
 }
 function paintCount(){
-  $("count").textContent = String(S.clean).padStart(2,"0");
-  $("missed").innerHTML = `· <b>${S.missed}</b> no-rep`;
-  const st = $("streak"); st.querySelector("b").textContent = S.streak; st.classList.toggle("hot", S.streak >= 5);
+  $("count").textContent = S.clean;
+  $("missed").innerHTML = `Clean reps · <b>${S.missed}</b> no-rep`;
+  const st = $("streakCap"); st.querySelector("b").textContent = S.streak; st.classList.toggle("hot", S.streak >= 5);
 }
 function paintStats(){
   const ok = S.reps.filter(r => r.ok);
   if (ok.length >= 2){
-    const recent = ok.slice(-6), span = recent[recent.length-1].t - recent[0].t;
-    $("tempo").innerHTML = (span > 0 ? Math.round((recent.length-1) / span * 60000) : "--") + "<small>/min</small>";
-  } else $("tempo").innerHTML = "--<small>/min</small>";
-  $("form").innerHTML = (S.reps.length ? Math.round(S.clean / S.reps.length * 100) : "--") + "<small>%</small>";
+    const rc = ok.slice(-6), span = rc[rc.length-1].ta - rc[0].ta;
+    $("tempo").innerHTML = (span > 0 ? Math.round((rc.length-1)/span*60) : "–") + "<small>/min</small>";
+  } else $("tempo").innerHTML = "–<small>/min</small>";
+  $("form").innerHTML = (S.reps.length ? Math.round(S.clean/S.reps.length*100) : "–") + "<small>%</small>";
+  $("bestDepth").innerHTML = (S.bestDepth || "–") + "<small>%</small>";
 }
-let cueTimer = 0;
+let cueTimer = 0, tagTimer = 0;
 function flashCue(text, good){
-  const el = $("cue"); el.textContent = text; el.classList.toggle("good", !!good); el.classList.add("show");
+  const el = $("cue"); el.textContent = text; el.className = "show " + (good ? "good" : "bad");
   clearTimeout(cueTimer); cueTimer = setTimeout(() => el.classList.remove("show"), 1100);
 }
-let tagTimer = 0;
 function showTag(html, ok){
-  const el = $("tag"); el.innerHTML = html; el.className = "show " + (ok ? "ok" : "bad");
-  clearTimeout(tagTimer); tagTimer = setTimeout(() => el.classList.remove("show"), 1600);
+  const el = $("tag"); el.innerHTML = html; el.className = "glass show " + (ok ? "ok" : "bad");
+  clearTimeout(tagTimer); tagTimer = setTimeout(() => el.classList.remove("show"), 1700);
 }
 
 /* ---------- camera + model ---------- */
@@ -498,389 +777,429 @@ async function loadModel(){
   catch(e){ landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU")); }
   return landmarker;
 }
-
-/* ---------- mapping video coords → screen ---------- */
 function frameSize(){ return demo ? { w: overlay.clientWidth, h: overlay.clientHeight } : { w: video.videoWidth || 1, h: video.videoHeight || 1 }; }
 function mapper(){
   const cw = overlay.clientWidth, ch = overlay.clientHeight, { w, h } = frameSize();
-  const sc = Math.max(cw / w, ch / h), ox = (cw - w*sc)/2, oy = (ch - h*sc)/2;
-  const mirror = !demo && settings.facing === "user";
-  return p => { let x = p.x*w*sc + ox; if (mirror) x = cw - x; return { x, y: p.y*h*sc + oy, v: p.v }; };
+  const sc = Math.max(cw/w, ch/h), ox = (cw - w*sc)/2, oy = (ch - h*sc)/2, mirror = !demo && settings.facing === "user";
+  return p => { let x = p.x*w*sc + ox; if (mirror) x = cw - x; return { x, y: p.y*h*sc + oy }; };
 }
 function resize(){
   DPR = Math.min(window.devicePixelRatio || 1, 2);
-  overlay.width = overlay.clientWidth * DPR; overlay.height = overlay.clientHeight * DPR;
-  waveCv.width = waveCv.clientWidth * DPR; waveCv.height = waveCv.clientHeight * DPR;
+  overlay.width = overlay.clientWidth*DPR; overlay.height = overlay.clientHeight*DPR;
+  waveCv.width = waveCv.clientWidth*DPR; waveCv.height = waveCv.clientHeight*DPR;
 }
 addEventListener("resize", resize);
 addEventListener("orientationchange", () => setTimeout(resize, 300));
 
-/* ---------- per-frame ---------- */
+/* ---------- per frame ---------- */
 function pickSide(lm){
-  const vis = i => lm[i]?.visibility ?? 0;
-  const L = vis(P.shL)+vis(P.elL)+vis(P.wrL)+vis(P.hipL)+vis(P.anL)+vis(P.knL);
-  const R = vis(P.shR)+vis(P.elR)+vis(P.wrR)+vis(P.hipR)+vis(P.anR)+vis(P.knR);
+  const v = i => lm[i]?.visibility ?? 0;
+  const L = v(P.shL)+v(P.elL)+v(P.wrL)+v(P.hipL)+v(P.anL)+v(P.knL), R = v(P.shR)+v(P.elR)+v(P.wrR)+v(P.hipR)+v(P.anR)+v(P.knR);
   const l = L >= R;
   return { sh:l?P.shL:P.shR, el:l?P.elL:P.elR, wr:l?P.wrL:P.wrR, hip:l?P.hipL:P.hipR, kn:l?P.knL:P.knR, an:l?P.anL:P.anR, ear:l?P.earL:P.earR };
 }
 function smoothLm(lm){
-  if (!smooth || smooth.length !== lm.length) { smooth = lm.map(p => ({ x:p.x, y:p.y, visibility:p.visibility ?? 1 })); return smooth; }
-  const a = .55;
-  for (let i=0;i<lm.length;i++){ const s = smooth[i], p = lm[i]; s.x += (p.x - s.x)*a; s.y += (p.y - s.y)*a; s.visibility = p.visibility ?? 1; }
-  return smooth;
+  if (!smooth || smooth.length !== lm.length){ smooth = lm.map(p => ({ x:p.x, y:p.y, visibility:p.visibility ?? 1 })); return; }
+  for (let i = 0; i < lm.length; i++){ const s = smooth[i], p = lm[i]; s.x += (p.x - s.x)*.55; s.y += (p.y - s.y)*.55; s.visibility = p.visibility ?? 1; }
 }
-function processLandmarks(lm, t){
-  const { w, h } = frameSize();
-  const idx = pickSide(lm);
+function analyse(lm){
+  const { w, h } = frameSize(), idx = pickSide(lm);
   const g = i => lm[i] ? { x: lm[i].x*w, y: lm[i].y*h, v: lm[i].visibility ?? 1 } : null;
-  const side = { sh:g(idx.sh), el:g(idx.el), wr:g(idx.wr), hip:g(idx.hip), kn:g(idx.kn), an:g(idx.an), ear:g(idx.ear) };
-  const footOk = side.an && side.an.v > .35;
-  if (!footOk) side.an = null;
-  const core = [side.sh, side.el, side.wr, side.hip].every(p => p && p.v > .45) && (footOk || (side.kn && side.kn.v > .45));
-  if (side.ear && side.ear.v < .3) side.ear = null;
-  const m = core ? measure(side) : null;
-  const plank = !!m && m.tilt < 40;
-  return { idx, side, m, core, plank, footOk };
+  const s = { sh:g(idx.sh), el:g(idx.el), wr:g(idx.wr), hip:g(idx.hip), kn:g(idx.kn), an:g(idx.an), ear:g(idx.ear) };
+  const footOk = s.an && s.an.v > .35; if (!footOk) s.an = null;
+  if (s.ear && s.ear.v < .3) s.ear = null;
+  const core = [s.sh, s.el, s.wr, s.hip].every(p => p && p.v > .45) && (footOk || (s.kn && s.kn.v > .45));
+  const m = core ? measure(s) : null;
+  return { idx, s, m, core, footOk, plank: !!m && m.tilt < 40 };
+}
+function depthOf(m){
+  if (S.H0 == null){ S.H0 = m.h; return 0; }
+  if (m.h > S.H0) S.H0 += (m.h - S.H0)*.25;   // track the highest lockout
+  return Math.max(0, Math.min(100, (S.H0 - m.h) / (S.H0*(1 - FLOOR)) * 100));
 }
 
 function tick(){
   rafId = requestAnimationFrame(tick);
-  const now = performance.now();
+  const now = performance.now(), dt = lastTick ? Math.min(.1, (now - lastTick)/1000) : 0; lastTick = now;
   let lm = null;
   if (demo) lm = demoFrame(now);
   else if (landmarker && video.readyState >= 2 && video.currentTime !== lastVideoTime){
     lastVideoTime = video.currentTime;
-    try{ const res = landmarker.detectForVideo(video, now); lm = res.landmarks?.[0] || null; }catch(e){ lm = null; }
-    if (!lm){ smooth = null; }
-  } else if (smooth) lm = null;
-  if (lm) { smoothLm(lm); lastFrameT = now; }
-  const cur = (lm || (smooth && now - lastFrameT < 300)) ? smooth : null;
-  const st = cur ? processLandmarks(cur, now) : null;
+    try{ lm = landmarker.detectForVideo(video, now).landmarks?.[0] || null; }catch(e){ lm = null; }
+  }
+  if (lm){ smoothLm(lm); lastFrameT = now; }
+  const st = smooth && now - lastFrameT < 400 ? analyse(smooth) : null;
+  const ready = !!(st?.plank && st.m.elbow > Math.max(cfg.lock, 148) - 8);
 
   if (mode === "calib"){
     $("c1").classList.toggle("on", !!st?.core);
-    $("c2").classList.toggle("on", !!st?.m && st.m.tilt < 40);
-    const ready = st?.plank && st.m.elbow > LEVELS[settings.level].lock - 10;
-    $("c3").classList.toggle("on", !!ready);
-    if (ready){ plankSince = plankSince || now; if (now - plankSince > 700) startCountdown(); } else plankSince = 0;
+    $("c2").classList.toggle("on", !!st?.plank);
+    $("c3").classList.toggle("on", ready);
+    if (ready){ readySince = readySince || now; if (now - readySince > 700) startCountdown(st.m); } else readySince = 0;
   }
-  if (mode === "live" && st){
-    if (st.m){
-      engine.update({ t: now, elbow: st.m.elbow, dev: st.m.dev, head: st.m.head, plank: st.plank });
-      S.wave.push({ t: now, v: st.m.elbow }); S.allWave.push({ t: now, v: st.m.elbow });
-      $("angleNow").textContent = Math.round(st.m.elbow) + "° elbow";
-      const ph = engine.phase;
-      const dir = !st.plank ? "Get in plank" : ph === "down" ? "Lowering ↓" : ph === "up" ? "Pushing ↑" : "Top";
-      if (dir !== S.phaseDir){ S.phaseDir = dir; $("dir").textContent = dir; $("dir").style.color = st.plank ? "var(--lime)" : "var(--amber)"; }
-    }
-  }
+  if (mode === "countdown" && ready) calibrate(st.m);
+
+  let depth = null;
   if (mode === "live"){
-    const el = Math.floor((now - S.t0)/1000);
-    $("time").textContent = String(Math.floor(el/60)).padStart(2,"0") + ":" + String(el%60).padStart(2,"0");
-    while (S.wave.length && now - S.wave[0].t > 9000) S.wave.shift();
-    drawWave(now);
+    if (st?.m && st.plank){
+      S.offSince = 0;
+      depth = depthOf(st.m);
+      S.active += dt;
+      engine.update({ t: now, depth, elbow: st.m.elbow, dev: st.m.dev - S.devBase, head: Math.max(0, st.m.head - S.headBase), plank: true });
+      S.wave.push({ t: S.active, v: depth });
+      $("depthNow").textContent = Math.round(depth) + "%";
+      const ph = engine.phase, dir = ph === "down" ? "Lowering ↓" : ph === "up" ? "Pushing ↑" : "Top";
+      if (dir !== S.phaseDir){ S.phaseDir = dir; $("dir").textContent = dir; }
+    } else {
+      engine.update({ t: now, plank: false });
+      S.offSince = S.offSince || now;
+      if (now - S.offSince > 1300 && now > S.grace) pause(false);
+    }
+    $("time").textContent = fmt(S.active);
+    while (S.wave.length && S.active - S.wave[0].t > 10) S.wave.shift();
+    drawWave();
   }
-  drawOverlay(st, now);
+  if (mode === "paused"){
+    if (!st?.plank) S.leftPlank = true;
+    if (ready && (!S.manualPause || S.leftPlank)){ readySince = readySince || now; if (now - readySince > 700) resume(false, st.m); } else readySince = 0;
+  }
+  drawOverlay(st, now, depth);
+}
+const fmt = s => Math.floor(s/60) + ":" + String(Math.floor(s%60)).padStart(2,"0");
+function calibrate(m){
+  S.H0 = m.h;
+  S.devBase = Math.max(-5, Math.min(5, m.dev));
+  S.headBase = Math.min(25, m.head);
 }
 
 /* ---------- drawing ---------- */
-function drawOverlay(st, now){
+const COL = { good:"#b8f53d", bad:"#ff4f5e", warn:"#ffc642", trail:"#22d8ff" };
+function drawOverlay(st, now, depth){
   const W = overlay.width, H = overlay.height;
   octx.setTransform(1,0,0,1,0,0); octx.clearRect(0,0,W,H);
   if (demo) drawDemoScene();
-  if (!st || !smooth) return;
+  if (!st || !smooth || mode === "home" || mode === "summary") return;
   octx.setTransform(DPR,0,0,DPR,0,0);
   const map = mapper(), lm = smooth, idx = st.idx;
-  const pt = i => lm[i] ? map({ x: lm[i].x, y: lm[i].y, v: lm[i].visibility ?? 1 }) : null;
-  const cfg = LEVELS[settings.level];
-  const sh = pt(idx.sh), el = pt(idx.el), wr = pt(idx.wr), hip = pt(idx.hip), kn = pt(idx.kn), an = st.footOk ? pt(idx.an) : null, ear = st.side.ear ? pt(idx.ear) : null;
-  const m = st.m;
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const LIME = css("--lime"), RED = css("--red"), AMB = css("--amber"), CY = css("--cyan");
-  const live = mode === "live";
-  const recent = k => live && S && now - (S.liveFault[k] || 0) < 600;
-  const sag = m && (m.dev > cfg.body || recent("sag"));
-  const pike = m && (-m.dev > cfg.body + 6 || recent("pike"));
-  const bodyCol = (sag || pike) ? RED : LIME;
-  const headCol = m && m.head > 28 ? AMB : LIME;
-  const deep = m && m.elbow <= cfg.depth;
-
-  // the ideal line: shoulder → foot, dashed
+  const pt = i => lm[i] ? map(lm[i]) : null;
+  const sh = pt(idx.sh), el = pt(idx.el), wr = pt(idx.wr), hip = pt(idx.hip), kn = pt(idx.kn), an = st.footOk ? pt(idx.an) : null, ear = st.s.ear ? pt(idx.ear) : null;
+  const m = st.m, live = mode === "live";
+  const recent = k => live && now - (S.liveFault[k] || 0) < 600;
+  const dev = m ? m.dev - S.devBase : 0;
+  const sag = m && live && (dev > cfg.sag || recent("sag")), pike = m && live && (-dev > cfg.pike || recent("pike"));
+  const shift = live && recent("shift");
+  const bodyCol = (sag || pike || shift) ? COL.bad : COL.good;
+  const headOff = m && cfg.head && live && m.head - S.headBase > cfg.head;
+  const headCol = headOff ? COL.bad : m && live && m.head - S.headBase > 22 ? COL.warn : COL.good;
+  const armCol = recent("depth") ? COL.bad : COL.good;
   const foot = an || kn;
+  // floor line + ideal body line
+  if (wr && foot){
+    octx.save(); octx.strokeStyle = "rgba(255,255,255,.22)"; octx.lineWidth = 1;
+    const ex = foot.x - wr.x, ey = foot.y - wr.y;
+    octx.beginPath(); octx.moveTo(wr.x - ex*.08, wr.y - ey*.08); octx.lineTo(foot.x + ex*.08, foot.y + ey*.08); octx.stroke(); octx.restore();
+  }
   if (sh && foot){
-    octx.save(); octx.setLineDash([6,8]); octx.lineWidth = 1.5; octx.strokeStyle = "rgba(255,255,255,.55)";
+    octx.save(); octx.setLineDash([5,7]); octx.lineWidth = 1.5; octx.strokeStyle = "rgba(255,255,255,.55)";
     octx.beginPath(); octx.moveTo(sh.x, sh.y); octx.lineTo(foot.x, foot.y); octx.stroke(); octx.restore();
   }
-  const seg = (a, b, col, wdt = 5) => {
+  const seg = (a, b, col, w = 5) => {
     if (!a || !b) return;
-    octx.save(); octx.lineCap = "round"; octx.strokeStyle = col; octx.lineWidth = wdt; octx.shadowColor = col; octx.shadowBlur = 14;
+    octx.save(); octx.lineCap = "round"; octx.strokeStyle = col; octx.lineWidth = w; octx.shadowColor = col; octx.shadowBlur = 14;
     octx.beginPath(); octx.moveTo(a.x, a.y); octx.lineTo(b.x, b.y); octx.stroke(); octx.restore();
   };
-  seg(ear, sh, headCol, 4);
-  seg(sh, hip, bodyCol); seg(hip, kn, bodyCol); seg(kn, an, bodyCol);
-  const armCol = live && engine?.inRep && engine.phase === "up" && S.liveFault.depth && now - S.liveFault.depth < 900 ? RED : LIME;
+  seg(ear, sh, headCol, 4); seg(sh, hip, bodyCol); seg(hip, kn, bodyCol); seg(kn, an, bodyCol);
   seg(sh, el, armCol); seg(el, wr, armCol);
-
-  // elbow arc + angle
-  if (el && sh && wr && m){
-    const a1 = Math.atan2(sh.y-el.y, sh.x-el.x), a2 = Math.atan2(wr.y-el.y, wr.x-el.x);
-    let d = a2 - a1; while (d > Math.PI) d -= 2*Math.PI; while (d < -Math.PI) d += 2*Math.PI;
-    octx.save(); octx.strokeStyle = deep ? LIME : "rgba(255,255,255,.85)"; octx.lineWidth = 3;
-    octx.beginPath(); octx.arc(el.x, el.y, 26, a1, a1 + d, d < 0); octx.stroke();
-    const mid = a1 + d/2;
-    octx.font = "600 15px 'Barlow Condensed', sans-serif"; octx.fillStyle = deep ? LIME : "#fff"; octx.textAlign = "center"; octx.textBaseline = "middle";
-    octx.shadowColor = "rgba(0,0,0,.6)"; octx.shadowBlur = 6;
-    octx.fillText(Math.round(m.elbow) + "°", el.x - Math.cos(mid)*44, el.y - Math.sin(mid)*44);
+  // depth gauge: a vertical bar from shoulder to floor with the target mark
+  if (live && sh && wr && foot && depth != null){
+    const fx = foot.x - wr.x, fy = foot.y - wr.y, fl = Math.hypot(fx, fy) || 1;
+    const t = ((sh.x - wr.x)*fx + (sh.y - wr.y)*fy) / (fl*fl), px = wr.x + fx*t, py = wr.y + fy*t;   // shoulder dropped onto the floor line
+    const gx = sh.x - 30, hit = depth >= cfg.depth;
+    octx.save();
+    const H0px = Math.abs(py - sh.y) / Math.max(.05, 1 - depth/100*(1-FLOOR)) * 1;
+    const yTop = py - H0px, yTarget = py - H0px*(1 - cfg.depth/100*(1-FLOOR)), yFloor = py - H0px*FLOOR;
+    octx.lineCap = "round"; octx.strokeStyle = "rgba(255,255,255,.22)"; octx.lineWidth = 6;
+    octx.beginPath(); octx.moveTo(gx, yTop); octx.lineTo(gx, yFloor); octx.stroke();
+    octx.strokeStyle = hit ? COL.good : "#fff"; octx.shadowColor = octx.strokeStyle; octx.shadowBlur = 10;
+    octx.beginPath(); octx.moveTo(gx, yTop); octx.lineTo(gx, yTop + (yFloor - yTop)*depth/100); octx.stroke();
+    octx.shadowBlur = 0; octx.strokeStyle = COL.good; octx.lineWidth = 2;
+    octx.beginPath(); octx.moveTo(gx - 8, yTarget); octx.lineTo(gx + 8, yTarget); octx.stroke();
+    octx.font = "600 13px ui-rounded,-apple-system,sans-serif"; octx.fillStyle = hit ? COL.good : "#fff"; octx.textAlign = "right"; octx.textBaseline = "middle";
+    octx.fillText(Math.round(depth) + "%", gx - 12, yTop + (yFloor - yTop)*depth/100);
     octx.restore();
   }
-  // joints
   [ear, sh, el, wr, hip, kn, an].forEach((p, i) => {
     if (!p) return;
-    const col = i === 0 ? headCol : (i === 4 && (sag || pike)) ? RED : LIME;
-    octx.save(); octx.fillStyle = "rgba(10,20,20,.85)"; octx.strokeStyle = col; octx.lineWidth = 2.5; octx.shadowColor = col; octx.shadowBlur = 10;
+    const col = i === 0 ? headCol : (i === 4 && (sag || pike || shift)) ? COL.bad : COL.good;
+    octx.save(); octx.fillStyle = "rgba(8,14,16,.85)"; octx.strokeStyle = col; octx.lineWidth = 2.5; octx.shadowColor = col; octx.shadowBlur = 10;
     octx.beginPath(); octx.arc(p.x, p.y, i === 4 ? 8 : 6, 0, Math.PI*2); octx.fill(); octx.stroke(); octx.restore();
   });
-  // hip ring pulse on fault
-  if (hip && (sag || pike)){
-    const r = 16 + 6*Math.sin(now/90);
-    octx.save(); octx.strokeStyle = RED; octx.lineWidth = 2; octx.globalAlpha = .8; octx.beginPath(); octx.arc(hip.x, hip.y, r, 0, Math.PI*2); octx.stroke(); octx.restore();
+  if (hip && (sag || pike || shift)){
+    octx.save(); octx.strokeStyle = COL.bad; octx.lineWidth = 2; octx.globalAlpha = .8;
+    octx.beginPath(); octx.arc(hip.x, hip.y, 16 + 5*Math.sin(now/90), 0, Math.PI*2); octx.stroke(); octx.restore();
   }
-  // shoulder motion trail
   if (sh && live){
-    S.trail = (S.trail || []); S.trail.push({ x: sh.x, y: sh.y, t: now });
-    while (S.trail.length && now - S.trail[0].t > 700) S.trail.shift();
-    if (S.trail.length > 2){
-      octx.save(); octx.lineCap = "round";
-      for (let i=1;i<S.trail.length;i++){
-        const a = S.trail[i-1], b = S.trail[i], k = i / S.trail.length;
-        octx.strokeStyle = CY; octx.globalAlpha = k*.8; octx.lineWidth = 1 + k*4; octx.shadowColor = CY; octx.shadowBlur = 12;
-        octx.beginPath(); octx.moveTo(a.x, a.y); octx.lineTo(b.x, b.y); octx.stroke();
-      }
-      octx.restore();
+    S.trail.push({ x: sh.x, y: sh.y, t: now });
+    while (S.trail.length && now - S.trail[0].t > 650) S.trail.shift();
+    octx.save(); octx.lineCap = "round";
+    for (let i = 1; i < S.trail.length; i++){
+      const a = S.trail[i-1], b = S.trail[i], k = i/S.trail.length;
+      octx.strokeStyle = COL.trail; octx.globalAlpha = k*.8; octx.lineWidth = 1 + k*4; octx.shadowColor = COL.trail; octx.shadowBlur = 12;
+      octx.beginPath(); octx.moveTo(a.x, a.y); octx.lineTo(b.x, b.y); octx.stroke();
     }
+    octx.restore();
   }
-  // tag follows the chest
   if (sh && hip){
-    const tag = $("tag"), tw = tag.offsetWidth || 120;
-    let x = (sh.x*.7 + hip.x*.3) + 18, y = Math.min(sh.y, hip.y) - 58;
-    x = Math.max(12, Math.min(overlay.clientWidth - tw - 12, x)); y = Math.max(120, y);
+    const tag = $("tag"), tw = tag.offsetWidth || 140;
+    let x = sh.x*.6 + hip.x*.4 - tw/2, y = Math.min(sh.y, hip.y) - 96;
+    x = Math.max(12, Math.min(overlay.clientWidth - tw - 12, x)); y = Math.max(150, y);
     tag.style.transform = `translate(${x}px,${y}px)`;
   }
 }
-
-function drawWave(now){
+function drawWave(){
   const W = waveCv.width, H = waveCv.height, d = DPR;
   wctx.setTransform(1,0,0,1,0,0); wctx.clearRect(0,0,W,H);
-  const cfg = LEVELS[settings.level];
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const LIME = css("--lime"), RED = css("--red");
-  const span = 9000, lo = 55, hi = 180, pad = 4*d;
-  const X = t => W - (now - t)/span * W, Y = v => pad + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (H - 2*pad);
-  // grid baseline + target
-  wctx.strokeStyle = "rgba(255,255,255,.12)"; wctx.lineWidth = 1*d;
-  wctx.beginPath(); wctx.moveTo(0, H - .5*d); wctx.lineTo(W, H - .5*d); wctx.stroke();
-  wctx.save(); wctx.setLineDash([4*d,5*d]); wctx.strokeStyle = "rgba(255,255,255,.45)";
+  const span = 10, pad = 4*d, now = S.active;
+  const X = t => W - (now - t)/span*W, Y = v => pad + v/100*(H - 2*pad);
+  wctx.strokeStyle = "rgba(255,255,255,.14)"; wctx.lineWidth = d;
+  [0, 100].forEach(v => { wctx.beginPath(); wctx.moveTo(0, Y(v)); wctx.lineTo(W, Y(v)); wctx.stroke(); });
+  wctx.save(); wctx.setLineDash([4*d, 5*d]); wctx.strokeStyle = "rgba(184,245,61,.7)";
   wctx.beginPath(); wctx.moveTo(0, Y(cfg.depth)); wctx.lineTo(W, Y(cfg.depth)); wctx.stroke(); wctx.restore();
-  wctx.font = `600 ${10*d}px Barlow, sans-serif`; wctx.fillStyle = "rgba(255,255,255,.55)"; wctx.textBaseline = "bottom";
-  wctx.fillText(cfg.depth + "°", 2*d, Y(cfg.depth) - 2*d);
-  const pts = S.wave; if (pts.length < 2) return;
-  // area
-  const grad = wctx.createLinearGradient(0,0,0,H); grad.addColorStop(0, "rgba(212,255,58,.22)"); grad.addColorStop(1, "rgba(212,255,58,0)");
-  wctx.beginPath(); wctx.moveTo(X(pts[0].t), H);
-  pts.forEach(p => wctx.lineTo(X(p.t), Y(p.v))); wctx.lineTo(X(pts[pts.length-1].t), H); wctx.closePath();
+  wctx.font = `600 ${10*d}px -apple-system,sans-serif`; wctx.fillStyle = "rgba(184,245,61,.85)"; wctx.textBaseline = "bottom";
+  wctx.fillText(cfg.depth === 95 ? "floor" : cfg.depth + "%", 2*d, Y(cfg.depth) - 2*d);
+  const pts = S.wave;
+  if (pts.length < 2){
+    wctx.fillStyle = "rgba(255,255,255,.5)"; wctx.textAlign = "center"; wctx.textBaseline = "middle"; wctx.font = `500 ${12*d}px -apple-system,sans-serif`;
+    wctx.fillText("Starts when you're in position", W/2, H/2); wctx.textAlign = "left"; return;
+  }
+  const grad = wctx.createLinearGradient(0, 0, 0, H); grad.addColorStop(0, "rgba(184,245,61,0)"); grad.addColorStop(1, "rgba(184,245,61,.28)");
+  wctx.beginPath(); wctx.moveTo(X(pts[0].t), Y(0)); pts.forEach(p => wctx.lineTo(X(p.t), Y(p.v))); wctx.lineTo(X(pts[pts.length-1].t), Y(0)); wctx.closePath();
   wctx.fillStyle = grad; wctx.fill();
-  wctx.save(); wctx.strokeStyle = LIME; wctx.lineWidth = 2*d; wctx.lineJoin = "round"; wctx.shadowColor = LIME; wctx.shadowBlur = 8*d;
-  wctx.beginPath(); pts.forEach((p,i) => i ? wctx.lineTo(X(p.t), Y(p.v)) : wctx.moveTo(X(p.t), Y(p.v))); wctx.stroke(); wctx.restore();
-  // rep markers at the bottom of each rep
+  wctx.save(); wctx.strokeStyle = COL.good; wctx.lineWidth = 2*d; wctx.lineJoin = "round"; wctx.shadowColor = COL.good; wctx.shadowBlur = 8*d;
+  wctx.beginPath(); pts.forEach((p, i) => i ? wctx.lineTo(X(p.t), Y(p.v)) : wctx.moveTo(X(p.t), Y(p.v))); wctx.stroke(); wctx.restore();
   S.reps.forEach(r => {
-    const t = r.t - r.dur/2; if (now - t > span) return;
-    wctx.fillStyle = r.ok ? LIME : RED; wctx.beginPath(); wctx.arc(X(t), Y(r.min), 3.5*d, 0, Math.PI*2); wctx.fill();
+    const t = r.ta - r.dur/2000; if (now - t > span) return;
+    wctx.fillStyle = r.ok ? COL.good : COL.bad; wctx.beginPath(); wctx.arc(X(t), Y(r.depth), 3.6*d, 0, Math.PI*2); wctx.fill();
   });
-  const last = pts[pts.length-1];
-  wctx.fillStyle = "#fff"; wctx.beginPath(); wctx.arc(X(last.t), Y(last.v), 3.5*d, 0, Math.PI*2); wctx.fill();
+  const l = pts[pts.length-1]; wctx.fillStyle = "#fff"; wctx.beginPath(); wctx.arc(X(l.t), Y(l.v), 3.6*d, 0, Math.PI*2); wctx.fill();
 }
 
-/* ---------- flow ---------- */
+/* ============================================================
+   Flow
+   ============================================================ */
 function show(id, on){ $(id).hidden = !on; }
+function centre(which){ ["loadCard","calib","countdown","paused"].forEach(id => show(id, id === which)); show("center", !!which); }
 async function begin(isDemo){
-  unlockAudio();
-  demo = isDemo; $("startErr").hidden = true;
+  unlockAudio(); demo = isDemo; $("startErr").hidden = true;
   newSession();
-  show("startPanel", false); show("sumPanel", false); show("center", true);
+  ["homePanel","sumPanel","histPanel"].forEach(id => show(id, false));
   try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){}
-  resize(); cancelAnimationFrame(rafId);
+  resize(); cancelAnimationFrame(rafId); lastTick = 0;
   if (!demo){
-    mode = "loading"; show("loadMsg", true); show("calib", false); show("countdown", false);
+    mode = "loading"; centre("loadCard");
     try{
-      $("loadMsg").textContent = "Opening camera…";
-      await startCamera();
-      $("loadMsg").textContent = "Loading body tracking…";
-      await loadModel();
+      $("loadMsg").textContent = "Opening camera…"; await startCamera();
+      $("loadMsg").textContent = "Loading body tracking…"; await loadModel();
     }catch(e){
-      stopCamera(); show("center", false); show("startPanel", true);
-      const msg = e && e.name === "NotAllowedError" ? "Camera access was blocked. In Settings › Safari › Camera, choose Allow, then reload." : (e && e.message) || "Couldn't start the camera.";
-      $("startErr").textContent = msg; $("startErr").hidden = false; mode = "home"; return;
+      stopCamera(); centre(null); show("homePanel", true); mode = "home";
+      $("startErr").textContent = e && e.name === "NotAllowedError" ? "Camera access is blocked. Go to Settings › Safari › Camera, choose Allow, then reload." : (e && e.message) || "Couldn't start the camera.";
+      $("startErr").hidden = false; return;
     }
-    show("loadMsg", false);
   } else { demoT0 = performance.now(); video.srcObject = null; }
-  resize();
-  mode = "calib"; show("calib", true); show("hud", false);
-  say("Get into plank, side on to the phone", true);
+  resize(); mode = "calib"; centre("calib"); show("hud", false);
+  ["c1","c2","c3"].forEach(id => $(id).classList.remove("on"));
+  if (!demo) startListening();
+  say("Get into plank, side on to the phone", "cue");
   tick();
 }
-function startCountdown(){
-  mode = "countdown"; show("calib", false); show("countdown", true);
+function startCountdown(m){
+  if (mode !== "calib") return;
+  if (m) calibrate(m);
+  mode = "countdown"; centre("countdown");
   let n = 3; const cd = $("countdown");
   const step = () => {
-    if (n === 0){ cd.textContent = "GO"; tone([1319,1760], .14, "triangle", .2); say("Go", true);
-      setTimeout(() => { show("countdown", false); show("center", false); goLive(); }, 450); return; }
-    cd.textContent = n; tone([660], .1, "triangle", .16); n--; setTimeout(step, 750);
+    if (mode !== "countdown") return;
+    cd.classList.remove("tick"); void cd.offsetWidth; cd.classList.add("tick");
+    if (n === 0){ cd.textContent = "Go"; tone([1319,1760], .14, "sine", .2); say("Go", "cue"); setTimeout(() => { if (mode === "countdown") goLive(); }, 450); return; }
+    cd.textContent = n; tone([784], .1, "sine", .14); n--; setTimeout(step, 750);
   };
   step();
 }
-function goLive(){
-  mode = "live"; S.t0 = performance.now(); engine.reset(); show("hud", true); resize();
-  $("dir").textContent = "Top"; S.phaseDir = "Top";
+function goLive(){ mode = "live"; centre(null); engine.reset(); show("hud", true); resize(); $("dir").textContent = "Top"; S.phaseDir = "Top"; S.grace = performance.now() + 1500; }
+function pause(manual){
+  if (mode !== "live") return;
+  mode = "paused"; engine.reset(); S.manualPause = manual; S.leftPlank = false; S.pauses++; readySince = 0;
+  centre("paused"); $("dir").textContent = "Paused"; S.phaseDir = "Paused";
+  tone([660,440], .14, "sine", .12);
+  say(manual ? "Paused" : "Paused. Get back in plank when you're ready", "cue");
+}
+function resume(byCommand, m){
+  if (mode !== "paused") return;
+  if (m) calibrate(m);
+  mode = "live"; centre(null); engine.reset(); S.grace = performance.now() + (byCommand ? 5000 : 1500); S.offSince = 0;
+  S.wave.push({ t: S.active, v: 0 });
+  flashCue("Back at it", true); tone([1047,1319], .12, "sine", .16); say("Go", "cue");
 }
 function stopCamera(){ if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; } video.srcObject = null; }
 function endSet(){
-  cancelAnimationFrame(rafId); stopCamera();
+  const wasActive = ["live","paused","countdown","calib"].includes(mode);
+  cancelAnimationFrame(rafId); stopCamera(); stopListening();
   try{ wakeLock?.release(); }catch(e){} wakeLock = null;
-  const wasLive = mode === "live" || mode === "countdown"; mode = "summary";
-  show("hud", false); show("center", false);
+  mode = "summary"; show("hud", false); centre(null);
   octx.setTransform(1,0,0,1,0,0); octx.clearRect(0,0,overlay.width,overlay.height);
-  const dur = wasLive ? (performance.now() - S.t0) : 0;
-  const h = store.get("history", { best:0, sessions:0, total:0 });
-  const isPB = !demo && S.clean > 0 && S.clean > h.best;
-  if (!demo && S.reps.length){ h.sessions++; h.total += S.clean; h.best = Math.max(h.best, S.clean); store.set("history", h); }
-  $("sumEyebrow").textContent = isPB ? "New personal best" : demo ? "Demo set" : "Set complete";
-  buildCard(dur, isPB, h);
-  show("sumPanel", true);
+  const ts = Date.now(), log = getLog();
+  const prevBest = log.reduce((a,s) => Math.max(a, s.clean), 0);
+  const entry = { ts, mode: settings.mode, clean: S.clean, missed: S.missed, active: Math.round(S.active), bestStreak: S.bestStreak, bestDepth: S.bestDepth, faults: S.faults };
+  const saved = !demo && wasActive && S.reps.length > 0;
+  if (saved){ log.push(entry); store.set("log", log); }
+  const isPB = saved && S.clean > prevBest && prevBest > 0;
+  show("savedRow", saved);
+  $("savedWhen").textContent = new Date(ts).toLocaleString(undefined, { weekday:"short", day:"numeric", month:"short", hour:"numeric", minute:"2-digit" });
+  $("sumEyebrow").textContent = demo ? "Demo set · not saved" : isPB ? "New personal best" : "Set complete";
+  $("sumTitle").textContent = S.clean === 0 ? "Set ended" : S.missed === 0 ? "Flawless" : "Nice work";
+  buildCard(entry, isPB, saved ? getLog() : log);
+  show("sumPanel", true); $("sumPanel").scrollTop = 0;
 }
 $("startBtn").addEventListener("click", () => begin(false));
 $("demoBtn").addEventListener("click", () => begin(true));
 $("endBtn").addEventListener("click", endSet);
+$("endBtn2").addEventListener("click", endSet);
+$("pauseBtn").addEventListener("click", () => pause(true));
+$("resumeBtn").addEventListener("click", () => resume(true));
 $("againBtn").addEventListener("click", () => begin(demo));
-$("homeBtn").addEventListener("click", () => { show("sumPanel", false); show("startPanel", true); mode = "home"; paintHome(); });
+$("homeBtn").addEventListener("click", () => { show("sumPanel", false); show("homePanel", true); mode = "home"; paintHome(); });
+$("sumHist").addEventListener("click", () => { mode = "home"; openHistory(); });
 document.addEventListener("visibilitychange", async () => {
-  if (document.visibilityState === "visible" && (mode === "live" || mode === "calib")) { try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){} }
-});
-
-/* ---------- summary card (9:16) ---------- */
-let cardBlob = null;
-function buildCard(dur, isPB, h){
-  const c = document.createElement("canvas"); c.width = 1080; c.height = 1920; const x = c.getContext("2d");
-  const LIME = "#d4ff3a", RED = "#ff4d5e", FG = "#f4f7f2", MUT = "rgba(244,247,242,.6)";
-  const g = x.createRadialGradient(540, 520, 50, 540, 700, 1500); g.addColorStop(0, "#1d3d3b"); g.addColorStop(1, "#0b1416");
-  x.fillStyle = g; x.fillRect(0,0,1080,1920);
-  const D = "'Barlow Condensed', 'Arial Narrow', sans-serif", U = "Barlow, Helvetica, Arial, sans-serif";
-  const lbl = (t, px, py, col = MUT, align = "left") => { x.font = `600 30px ${U}`; x.fillStyle = col; x.textAlign = align; x.letterSpacing = "4px"; x.fillText(t.toUpperCase(), px, py); x.letterSpacing = "0px"; };
-  lbl("Push-ups / Session " + String(S.sessionNo).padStart(2,"0"), 90, 170, FG);
-  const date = new Date().toLocaleDateString(undefined, { day:"numeric", month:"short", year:"numeric" });
-  lbl(date, 990, 170, MUT, "right");
-  x.font = `700 560px ${D}`; x.fillStyle = FG; x.textAlign = "left"; x.fillText(String(S.clean).padStart(2,"0"), 70, 700);
-  lbl("Clean reps", 90, 780, LIME);
-  if (isPB){ x.fillStyle = LIME; roundRect(x, 640, 740, 350, 60, 30); x.fill(); x.font = `700 34px ${U}`; x.fillStyle = "#0b1416"; x.textAlign = "center"; x.fillText("NEW BEST", 815, 782); }
-  // waveform of whole set
-  const w = S.allWave; const top = 880, hgt = 220;
-  x.strokeStyle = "rgba(255,255,255,.12)"; x.lineWidth = 2; x.beginPath(); x.moveTo(90, top+hgt); x.lineTo(990, top+hgt); x.stroke();
-  if (w.length > 2){
-    const t0 = w[0].t, t1 = w[w.length-1].t || t0+1, X = t => 90 + (t - t0)/(t1 - t0 || 1) * 900, Y = v => top + (180 - Math.max(55, Math.min(180, v)))/125 * hgt;
-    x.save(); x.strokeStyle = LIME; x.lineWidth = 5; x.lineJoin = "round"; x.shadowColor = LIME; x.shadowBlur = 16; x.beginPath();
-    const stepN = Math.max(1, Math.floor(w.length / 600));
-    for (let i=0;i<w.length;i+=stepN){ const p = w[i]; i ? x.lineTo(X(p.t), Y(p.v)) : x.moveTo(X(p.t), Y(p.v)); }
-    x.stroke(); x.restore();
-    S.reps.forEach(r => { const t = r.t - r.dur/2; x.fillStyle = r.ok ? LIME : RED; x.beginPath(); x.arc(X(t), Y(r.min), 11, 0, Math.PI*2); x.fill(); });
-  }
-  lbl("Depth wave · each dot is a rep", 90, top+hgt+60);
-  // stats grid
-  const secs = Math.round(dur/1000), tm = String(Math.floor(secs/60)).padStart(2,"0") + ":" + String(secs%60).padStart(2,"0");
-  const formPct = S.reps.length ? Math.round(S.clean / S.reps.length * 100) + "%" : "—";
-  const grades = S.reps.filter(r => r.ok).map(r => r.grade);
-  const aShare = grades.length ? Math.round(grades.filter(gr => gr === "A").length / grades.length * 100) + "%" : "—";
-  const cells = [["No-reps", String(S.missed)], ["Form", formPct], ["Best streak", String(S.bestStreak)], ["Time", tm], ["A-grade reps", aShare], ["All-time clean", String(demo ? (h.total || 0) : h.total)]];
-  cells.forEach(([k, v], i) => {
-    const cx = 90 + (i % 3) * 310, cy = 1310 + Math.floor(i / 3) * 190;
-    lbl(k, cx, cy); x.font = `600 104px ${D}`; x.fillStyle = FG; x.textAlign = "left"; x.fillText(v, cx, cy + 105);
-  });
-  // top fault
-  const tf = Object.entries(S.faults).sort((a,b) => b[1]-a[1])[0];
-  x.fillStyle = "rgba(255,255,255,.06)"; roundRect(x, 90, 1700, 900, 110, 24); x.fill();
-  x.font = `500 38px ${U}`; x.textAlign = "left";
-  if (tf){ x.fillStyle = RED; x.fillText("Fix next time:", 130, 1768); x.fillStyle = FG; x.fillText(`${FAULT[tf[0]].tag} (${tf[1]}×)`, 380, 1768); }
-  else { x.fillStyle = LIME; x.fillText(S.reps.length ? "Every rep clean. Nice." : "No reps recorded.", 130, 1768); }
-  x.font = `700 40px ${D}`; x.fillStyle = MUT; x.textAlign = "right"; x.fillText("REP LINE", 990, 1860);
-  const url = c.toDataURL("image/png"); $("cardImg").src = url;
-  c.toBlob(b => cardBlob = b, "image/png");
-}
-function roundRect(x, a, b, w, h, r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
-$("shareBtn").addEventListener("click", async () => {
-  try{
-    const f = new File([cardBlob], "rep-line-session.png", { type:"image/png" });
-    if (navigator.canShare?.({ files:[f] })) await navigator.share({ files:[f], title:"Rep Line" });
-    else { $("shareBtn").textContent = "Hold the card to save"; }
-  }catch(e){}
+  if (document.visibilityState === "visible" && ["live","calib","paused"].includes(mode)){ try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){} }
+  if (document.visibilityState === "hidden" && mode === "live") pause(true);
 });
 
 /* ============================================================
-   Demo: a synthetic athlete doing 8 reps with a few faults,
-   pushed through the exact same pipeline.
+   Summary card (9:16)
    ============================================================ */
-let demoT0 = 0;
-const DEMO_SCRIPT = [ // per rep: depth (min elbow), sag degrees, lockout
-  [80,0,true],[78,2,true],[84,24,true],[76,0,true],[118,0,true],[80,3,true],[82,0,false],[78,0,true],[79,0,true],[77,1,true]
-];
+let cardBlob = null;
+function buildCard(e, isPB, log){
+  const c = document.createElement("canvas"); c.width = 1080; c.height = 1920; const x = c.getContext("2d");
+  const R = "ui-rounded, 'SF Pro Rounded', -apple-system, 'Helvetica Neue', Arial, sans-serif", U = "-apple-system, 'Helvetica Neue', Arial, sans-serif";
+  x.fillStyle = "#05090b"; x.fillRect(0,0,1080,1920);
+  [[160,260,700,"rgba(255,45,111,.38)"],[980,640,620,"rgba(34,216,255,.30)"],[300,1560,760,"rgba(166,255,46,.22)"]].forEach(([cx,cy,r,col]) => {
+    const g = x.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)"); x.fillStyle = g; x.fillRect(0,0,1080,1920);
+  });
+  const glass = (gx, gy, gw, gh, r) => {
+    x.save(); rr(x, gx, gy, gw, gh, r); x.fillStyle = "rgba(255,255,255,.09)"; x.fill();
+    x.strokeStyle = "rgba(255,255,255,.22)"; x.lineWidth = 2; x.stroke();
+    const g = x.createLinearGradient(gx, gy, gx, gy + gh*.5); g.addColorStop(0, "rgba(255,255,255,.12)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    x.fillStyle = g; x.fill(); x.restore();
+  };
+  const when = new Date(e.ts);
+  x.fillStyle = "rgba(245,247,248,.65)"; x.font = `600 34px ${U}`; x.textAlign = "left";
+  x.fillText(when.toLocaleDateString(undefined, { weekday:"long", day:"numeric", month:"long" }).toUpperCase(), 90, 150);
+  x.fillText(when.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" }) + " · " + MODES[e.mode].name.toUpperCase(), 90, 200);
+  x.fillStyle = "#f5f7f8"; x.font = `800 520px ${R}`; x.fillText(String(e.clean), 70, 690);
+  x.fillStyle = "#b8f53d"; x.font = `700 46px ${R}`; x.fillText("clean push-ups", 92, 770);
+  if (isPB){ x.save(); rr(x, 640, 722, 350, 70, 35); x.fillStyle = "#b8f53d"; x.fill(); x.fillStyle = "#10200a"; x.font = `700 34px ${R}`; x.textAlign = "center"; x.fillText("New best", 815, 770); x.restore(); }
+  // today's rings
+  glass(70, 840, 940, 380, 56);
+  const ag = dayAgg(dayKey(e.ts), log.length ? log : [e]), vals = ringVals(ag);
+  const cx = 250, cy = 1030, w = 40, gap = 8;
+  vals.forEach((v, i) => {
+    const r = 150 - w/2 - i*(w + gap);
+    x.lineWidth = w; x.lineCap = "round";
+    x.strokeStyle = RING_COL[i] + "38"; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI*2); x.stroke();
+    if (v > 0){ x.strokeStyle = RING_COL[i]; x.beginPath(); x.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + Math.PI*2*Math.min(1, v)); x.stroke(); }
+  });
+  const lines = [["Today", `${ag.clean}/${settings.goal}`, RING_COL[0]], ["Form", `${ag.form ?? 0}%`, RING_COL[1]], ["Active", `${Math.round(ag.mins*10)/10}/5 min`, RING_COL[2]]];
+  lines.forEach(([k, v, col], i) => {
+    x.textAlign = "left"; x.fillStyle = col; x.font = `600 32px ${U}`; x.fillText(k, 470, 940 + i*110);
+    x.fillStyle = "#f5f7f8"; x.font = `700 58px ${R}`; x.fillText(v, 470, 996 + i*110);
+  });
+  // stats
+  glass(70, 1260, 940, 400, 56);
+  const form = (e.clean + e.missed) ? Math.round(e.clean/(e.clean+e.missed)*100) + "%" : "–";
+  const cells = [["No-reps", String(e.missed)], ["Form", form], ["Best streak", String(e.bestStreak)], ["Active", fmt(e.active)], ["Best depth", (e.bestDepth || 0) + "%"], ["Mode", MODES[e.mode].name]];
+  cells.forEach(([k, v], i) => {
+    const px = 130 + (i % 3)*300, py = 1350 + Math.floor(i/3)*170;
+    x.textAlign = "left"; x.fillStyle = "rgba(245,247,248,.6)"; x.font = `600 30px ${U}`; x.fillText(k, px, py);
+    x.fillStyle = "#f5f7f8"; x.font = `700 72px ${R}`; x.fillText(v, px, py + 78);
+  });
+  const tf = Object.entries(e.faults || {}).sort((a,b) => b[1]-a[1])[0];
+  x.textAlign = "left"; x.font = `600 38px ${U}`;
+  if (tf){ x.fillStyle = "#ff4f5e"; x.fillText("Work on:", 90, 1750); x.fillStyle = "#f5f7f8"; x.fillText(`${FAULT[tf[0]].tag} (${tf[1]}×)`, 270, 1750); }
+  else { x.fillStyle = "#b8f53d"; x.fillText(e.clean ? "Every rep clean." : "No reps logged.", 90, 1750); }
+  x.textAlign = "right"; x.fillStyle = "rgba(245,247,248,.5)"; x.font = `800 40px ${R}`; x.fillText("Rep Line", 990, 1840);
+  $("cardImg").src = c.toDataURL("image/png"); c.toBlob(b => cardBlob = b, "image/png");
+}
+function rr(x, a, b, w, h, r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
+$("shareBtn").addEventListener("click", async () => {
+  try{
+    const f = new File([cardBlob], "rep-line.png", { type:"image/png" });
+    if (navigator.canShare?.({ files:[f] })) await navigator.share({ files:[f], title:"Rep Line" });
+    else $("shareBtn").textContent = "Hold the card to save";
+  }catch(err){}
+});
+
+/* ============================================================
+   Demo: a simulated athlete, including a stand-up break,
+   pushed through the same pipeline as the camera.
+   ============================================================ */
+let demoT0 = 0, demoFloorY = 0;
+// [depth %, hip sag degrees (negative = pike), locks out at top]
+const DEMO_A = [[99,0,1],[98,1,1],[98,20,1],[74,0,1],[100,1,1],[99,0,1]];
+const DEMO_B = [[98,0,0],[99,0,1],[99,-14,1],[100,0,1],[99,1,1],[98,0,1],[100,0,1],[99,0,1]];
+const LEAD = 4.4, PER = 1.7, STAND_AT = LEAD + DEMO_A.length*PER, STAND_END = STAND_AT + 4.2, B_AT = STAND_END + 1.6;
+function demoPose(t){
+  if (t < LEAD) return { d:0, sag:0, stand:0 };
+  const rep = (arr, t0) => {
+    const k = Math.floor((t - t0)/PER), ph = ((t - t0) % PER)/PER, [d, sg, lock] = arr[k % arr.length];
+    const prev = k > 0 ? arr[(k-1) % arr.length] : [0,0,1];
+    const bottomUp = lock ? 0 : 24, bottomDown = prev[2] ? 0 : 24;
+    const e = .5 - .5*Math.cos(ph*2*Math.PI);
+    const dd = ph < .5 ? bottomDown + (d - bottomDown)*e : bottomUp + (d - bottomUp)*e;
+    return { d: dd, sag: sg*Math.sin(Math.PI*ph), stand:0 };
+  };
+  if (t < STAND_AT) return rep(DEMO_A, LEAD);
+  if (t < STAND_END){ const k = Math.min(1, (t - STAND_AT)/.9, (STAND_END - t)/.9); return { d:0, sag:0, stand: .5 - .5*Math.cos(Math.PI*Math.max(0,k)) }; }
+  if (t < B_AT) return { d:0, sag:0, stand:0 };
+  return rep(DEMO_B, B_AT);
+}
 function demoFrame(now){
-  const cw = overlay.clientWidth, ch = overlay.clientHeight, land = cw > ch;
-  const t = (now - demoT0) / 1000;
-  const unit = land ? ch*.55 : cw*.78;             // body length on screen
-  const floorY = ch*(land ? .78 : .62), x0 = cw*.5 - unit*.5;
-  const ankle = { x: x0 + unit, y: floorY - unit*.02 };
-  const L1 = unit*.17, L2 = unit*.17;               // upper arm, forearm
-  const wrist = { x: x0 + unit*.08, y: floorY };
-  // timeline: 2.2s plank hold (calibration), countdown ~3s, then reps
-  const lead = 5.6, period = 1.7;
-  let elbowTarget = 170, sag = 0;
-  if (t > lead){
-    const k = Math.floor((t - lead)/period), ph = ((t - lead) % period)/period;
-    const [depth, sg, lock] = DEMO_SCRIPT[k % DEMO_SCRIPT.length];
-    const top = lock ? 170 : 140;
-    const prevLock = DEMO_SCRIPT[(k+DEMO_SCRIPT.length-1) % DEMO_SCRIPT.length][2];
-    const startTop = prevLock ? 170 : 140;
-    const e = ph < .5 ? 0.5 - 0.5*Math.cos(ph*2*Math.PI) : 0.5 - 0.5*Math.cos(ph*2*Math.PI);
-    const base = ph < .5 ? startTop : top;
-    elbowTarget = base - (base - depth) * e;
-    sag = sg * Math.sin(Math.PI*ph);
+  const cw = overlay.clientWidth, ch = overlay.clientHeight, land = cw > ch, t = (now - demoT0)/1000;
+  const unit = land ? ch*.6 : cw*.74, floorY = ch*(land ? .8 : .58), x0 = cw*.5 - unit*.48;
+  const { d, sag, stand } = demoPose(t);
+  const Htop = unit*.36, L = Htop*.5025;
+  const wrist = { x: x0 + unit*.06, y: floorY }, ankle = { x: x0 + unit, y: floorY - unit*.02 };
+  const h = Htop*(1 - d/100*(1 - FLOOR));
+  const shoulder = { x: wrist.x + unit*.01, y: wrist.y - h };
+  const dist = Math.hypot(shoulder.x - wrist.x, shoulder.y - wrist.y), mx = (shoulder.x + wrist.x)/2, my = (shoulder.y + wrist.y)/2;
+  const off = Math.sqrt(Math.max(0, L*L - (dist/2)**2)), ux = (wrist.x - shoulder.x)/dist, uy = (wrist.y - shoulder.y)/dist;
+  const c1 = { x: mx - uy*off, y: my + ux*off }, c2 = { x: mx + uy*off, y: my - ux*off }, elbow = c1.x > c2.x ? c1 : c2;
+  const len = Math.hypot(ankle.x - shoulder.x, ankle.y - shoulder.y), drop = Math.tan(sag*Math.PI/360)*len/2;
+  const hip = { x: (shoulder.x + ankle.x)/2, y: (shoulder.y + ankle.y)/2 + drop };
+  const knee = { x: (hip.x + ankle.x)/2, y: (hip.y + ankle.y)/2 };
+  const bl = Math.hypot(shoulder.x - ankle.x, shoulder.y - ankle.y), bx = (shoulder.x - ankle.x)/bl, by = (shoulder.y - ankle.y)/bl;
+  const ear = { x: shoulder.x + bx*unit*.09 + by*unit*.025, y: shoulder.y + by*unit*.09 - bx*unit*.025 };
+  let pose = { ear, shoulder, elbow, wrist, hip, knee, ankle };
+  if (stand > 0){
+    const fx = ankle.x - unit*.05, S2 = {
+      ankle:{ x:fx, y:floorY }, knee:{ x:fx, y:floorY - unit*.27 }, hip:{ x:fx, y:floorY - unit*.52 },
+      shoulder:{ x:fx + unit*.01, y:floorY - unit*.82 }, elbow:{ x:fx + unit*.02, y:floorY - unit*.66 }, wrist:{ x:fx + unit*.03, y:floorY - unit*.5 },
+      ear:{ x:fx + unit*.01, y:floorY - unit*.92 } };
+    Object.keys(pose).forEach(k => pose[k] = { x: pose[k].x + (S2[k].x - pose[k].x)*stand, y: pose[k].y + (S2[k].y - pose[k].y)*stand });
   }
-  // shoulder height from elbow angle (law of cosines), shoulder above wrist
-  const rad = elbowTarget*Math.PI/180, dist = Math.sqrt(L1*L1 + L2*L2 - 2*L1*L2*Math.cos(rad));
-  const shoulder = { x: wrist.x + unit*.01, y: wrist.y - dist };
-  // elbow position: bend backward toward feet
-  const mx = (shoulder.x + wrist.x)/2, my = (shoulder.y + wrist.y)/2, hlf = dist/2, off = Math.sqrt(Math.max(0, L1*L1 - hlf*hlf));
-  const ux = (wrist.x - shoulder.x)/dist, uy = (wrist.y - shoulder.y)/dist;
-  const c1 = { x: mx - uy*off, y: my + ux*off }, c2 = { x: mx + uy*off, y: my - ux*off };
-  const elbow = c1.x > c2.x ? c1 : c2;             // elbow points back toward the feet
-  const along = .5, hipBase = { x: shoulder.x + (ankle.x - shoulder.x)*along, y: shoulder.y + (ankle.y - shoulder.y)*along };
-  const segLen = Math.hypot(ankle.x - shoulder.x, ankle.y - shoulder.y);
-  const drop = Math.tan(sag*Math.PI/360) * segLen/2;
-  const hip = { x: hipBase.x, y: hipBase.y + drop };
-  const knee = { x: hip.x + (ankle.x - hip.x)*.5, y: hip.y + (ankle.y - hip.y)*.5 };
-  const ear = { x: shoulder.x - unit*.09, y: shoulder.y - unit*.035 + Math.sin(t*2)*1 };
-  const N = (p) => ({ x: p.x/cw + (Math.random()-.5)*.0015, y: p.y/ch + (Math.random()-.5)*.0015, visibility:.98 });
+  const N = p => ({ x: p.x/cw + (Math.random() - .5)*.0012, y: p.y/ch + (Math.random() - .5)*.0012, visibility:.98 });
   const lm = Array.from({ length:33 }, () => ({ x:0, y:0, visibility:.05 }));
-  lm[P.earL] = N(ear); lm[P.shL] = N(shoulder); lm[P.elL] = N(elbow); lm[P.wrL] = N(wrist);
-  lm[P.hipL] = N(hip); lm[P.knL] = N(knee); lm[P.anL] = N(ankle);
+  lm[P.earL] = N(pose.ear); lm[P.shL] = N(pose.shoulder); lm[P.elL] = N(pose.elbow); lm[P.wrL] = N(pose.wrist);
+  lm[P.hipL] = N(pose.hip); lm[P.knL] = N(pose.knee); lm[P.anL] = N(pose.ankle);
   demoFloorY = floorY;
   return lm;
 }
-let demoFloorY = 0;
 function drawDemoScene(){
   const d = DPR, W = overlay.width, H = overlay.height;
-  const g = octx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#22403f"); g.addColorStop(1, "#0e1a1b");
+  const g = octx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#1d3a3a"); g.addColorStop(1, "#0a1213");
   octx.fillStyle = g; octx.fillRect(0, 0, W, H);
-  octx.fillStyle = "rgba(255,255,255,.05)"; octx.fillRect(0, demoFloorY*d, W, H - demoFloorY*d);
-  octx.fillStyle = "rgba(255,255,255,.35)"; octx.font = `600 ${11*d}px Barlow, sans-serif`; octx.textAlign = "center";
-  octx.fillText("DEMO · SIMULATED ATHLETE", W/2, demoFloorY*d + 30*d);
+  octx.fillStyle = "rgba(255,255,255,.04)"; octx.fillRect(0, demoFloorY*d, W, H - demoFloorY*d);
+  octx.fillStyle = "rgba(255,255,255,.3)"; octx.font = `600 ${11*d}px -apple-system,sans-serif`; octx.textAlign = "center";
+  octx.fillText("DEMO · SIMULATED ATHLETE", W/2, demoFloorY*d + 26*d);
 }
 </script>
 </body>
