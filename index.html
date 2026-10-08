@@ -582,6 +582,7 @@ addEventListener("resize", () => { if (!$("dial").hidden){ sizeDial(); drawDial(
 const video = $("cam"), ov = $("ov"), octx = ov.getContext("2d"), waveCv = $("wave"), wctx = waveCv.getContext("2d");
 let DPR = Math.min(devicePixelRatio || 1, 2);
 let mode = "home", demo = false, stream = null, landmarker = null, raf = 0, wakeLock = null;
+let lastDetect = 0, detectFails = 0;
 let engine, S, cfg, smooth = null, lastFrameT = 0, lastVT = -1, readySince = 0, lastT = 0, modelReady = false;
 
 function newSession(){
@@ -648,20 +649,38 @@ function onRep(r){
 
 /* ---------- camera + model ---------- */
 async function startCamera(){
-  if (!navigator.mediaDevices?.getUserMedia) throw new Error("This browser can’t open the camera. Open it in Safari.");
+  if (!navigator.mediaDevices?.getUserMedia) throw new Error("This browser can’t open the camera. Open the link in Safari.");
   if (stream) stream.getTracks().forEach(t => t.stop());
-  stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:settings.facing, width:{ideal:1280}, height:{ideal:720}, frameRate:{ideal:30} } });
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:settings.facing, width:{ideal:960}, height:{ideal:540} } });
+  }catch(e){
+    if (e && e.name === "NotAllowedError") throw e;
+    stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:true });   // any camera is better than none
+  }
+  video.muted = true; video.setAttribute("playsinline", ""); video.setAttribute("muted", "");
   video.srcObject = stream; video.classList.toggle("mirror", settings.facing === "user");
-  await video.play(); video.classList.add("on");
 }
+async function playCamera(){
+  if (!video.srcObject) return;
+  try{ await video.play(); }catch(e){}
+  if (video.paused){   // iOS sometimes needs a second try once the view is on screen
+    await new Promise(r => setTimeout(r, 250));
+    try{ await video.play(); }catch(e){ showIssue("Tap the screen to start the camera.", true); return; }
+  }
+  video.classList.add("on");
+}
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const withTimeout = (p, ms, msg) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(msg)), ms))]);
 async function loadModel(){
   if (landmarker) return landmarker;
   const V = "0.10.14";
   const { PoseLandmarker, FilesetResolver } = await import(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/vision_bundle.mjs`);
   const files = await FilesetResolver.forVisionTasks(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/wasm`);
-  const opts = d => ({ baseOptions:{ modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task", delegate:d }, runningMode:"VIDEO", numPoses:1, minPoseDetectionConfidence:.5, minPosePresenceConfidence:.5, minTrackingConfidence:.5 });
-  try{ landmarker = await PoseLandmarker.createFromOptions(files, opts("GPU")); }
-  catch(e){ landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU")); }
+  // iPhone Safari is far more stable with the lite model on the CPU
+  const model = IOS ? "pose_landmarker_lite/float16/1/pose_landmarker_lite.task" : "pose_landmarker_full/float16/1/pose_landmarker_full.task";
+  const opts = d => ({ baseOptions:{ modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/" + model, delegate:d }, runningMode:"VIDEO", numPoses:1, minPoseDetectionConfidence:.5, minPosePresenceConfidence:.5, minTrackingConfidence:.5 });
+  if (IOS) landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU"));
+  else { try{ landmarker = await PoseLandmarker.createFromOptions(files, opts("GPU")); } catch(e){ landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU")); } }
   return landmarker;
 }
 function frameSize(){ return demo ? { w: ov.clientWidth, h: ov.clientHeight } : { w: video.videoWidth || 1, h: video.videoHeight || 1 }; }
@@ -716,9 +735,10 @@ function loop(){
   const now = performance.now(), dt = lastT ? Math.min(.1, (now - lastT)/1000) : 0; lastT = now;
   let lm = null;
   if (demo) lm = demoFrame(now);
-  else if (landmarker && video.readyState >= 2 && video.currentTime !== lastVT){
-    lastVT = video.currentTime;
-    try{ lm = landmarker.detectForVideo(video, now).landmarks?.[0] || null; }catch(e){ lm = null; }
+  else if (landmarker && video.readyState >= 2 && video.videoWidth && video.currentTime !== lastVT && now - lastDetect >= (IOS ? 66 : 33)){
+    lastVT = video.currentTime; lastDetect = now;
+    try{ lm = landmarker.detectForVideo(video, Math.round(now)).landmarks?.[0] || null; detectFails = 0; }
+    catch(e){ lm = null; if (++detectFails > 30){ showIssue("Body tracking stopped. Tap to restart.", true); detectFails = 0; } }
   }
   if (lm){ smoothLm(lm); lastFrameT = now; }
   const st = smooth && now - lastFrameT < 400 ? analyse(smooth) : null;
@@ -858,6 +878,7 @@ async function begin(isDemo, fromEl){
     $("banner").className = ""; ["c1","c2","c3"].forEach(id => $(id).classList.remove("on"));
     resize(); stageCard(mode === "calib" ? "calib" : "loadCard");
     cancelAnimationFrame(raf); lastT = 0; loop();
+    playCamera();
   });
   if (demo){
     demoT0 = performance.now() + 560; video.srcObject = null; video.classList.remove("on");
@@ -867,12 +888,23 @@ async function begin(isDemo, fromEl){
   const camErr = await camP;
   if (begin.token !== token || mode !== "loading"){ stopAll(); return; }   // left before the camera opened
   if (camErr instanceof Error) return fail(camErr);
+  playCamera();
   $("loadMsg").textContent = "Loading body tracking";
-  try{ await loadModel(); }catch(e){ return fail(new Error("Couldn’t load body tracking. Check your connection and try again.")); }
+  try{ await withTimeout(loadModel(), 30000, "timeout"); }
+  catch(e){ return fail(new Error(e.message === "timeout" ? "Body tracking took too long to load. Check your connection and try again." : "Couldn’t load body tracking. Check your connection and try again.")); }
   if (begin.token !== token || mode !== "loading") return;
   mode = "calib"; if (!$("stage").hidden) stageCard("calib");
   say("Get into plank, side on to the phone");
 }
+function showIssue(text, tapToRestart){
+  banner(text, "info", 6000);
+  if (tapToRestart){
+    const once = async () => { $("stage").removeEventListener("click", once); try{ await playCamera(); }catch(e){} };
+    $("stage").addEventListener("click", once);
+  }
+}
+window.addEventListener("error", e => { if (mode !== "home") showIssue("Something went wrong: " + (e.message || "unknown error"), false); });
+window.addEventListener("unhandledrejection", e => { if (mode !== "home") showIssue("Something went wrong: " + ((e.reason && e.reason.message) || "unknown error"), false); });
 function fail(e){
   stopAll(); show("stage", false); show("home", true); mode = "home"; $("morph").hidden = true;
   $("startErr").textContent = e.name === "NotAllowedError" ? "Camera access is off. Go to Settings › Safari › Camera, choose Allow, then reload." : (e.message || "Couldn’t start the camera.");
@@ -953,7 +985,7 @@ $("pauseBtn").addEventListener("click", () => pause(true));
 $("resumeBtn").addEventListener("click", () => resume());
 $("doneBtn").addEventListener("click", goHome);
 $("doneBack").addEventListener("click", goHome);
-$("flipBtn").addEventListener("click", async () => { settings.facing = settings.facing === "user" ? "environment" : "user"; saveSettings(); try{ await startCamera(); }catch(e){} });
+$("flipBtn").addEventListener("click", async () => { settings.facing = settings.facing === "user" ? "environment" : "user"; saveSettings(); smooth = null; try{ await startCamera(); await playCamera(); }catch(e){ showIssue("Couldn’t switch camera.", false); } });
 document.addEventListener("visibilitychange", async () => {
   if (document.visibilityState === "hidden" && mode === "live") pause(true);
   if (document.visibilityState === "visible" && ["live","calib","paused"].includes(mode)){ try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){} }
