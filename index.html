@@ -21,6 +21,7 @@
   --lime:#d4ff5c; --lime-soft:rgba(212,255,92,.38); --red:#ff453a; --empty:rgba(255,255,255,.14);
   --font:Geist,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;
   --ease:cubic-bezier(.2,.8,.2,1);
+  --spring:cubic-bezier(.32,.72,0,1);
   color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -40,7 +41,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 .press{transition:transform .2s var(--ease),opacity .2s}
 .press:active{transform:scale(.96)}
 
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 24px calc(env(safe-area-inset-bottom,0px) + 16px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 24px calc(env(safe-area-inset-bottom,0px) + 16px);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .bar{display:flex;justify-content:space-between;align-items:center;min-height:44px}
 .icoBtn{width:44px;height:44px;border-radius:22px;display:grid;place-items:center;color:var(--fg)}
 .icoBtn svg{width:20px;height:20px}
@@ -54,15 +55,26 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 .week{margin-top:34px;display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
 .week .bars{display:contents}
 .wk{display:flex;flex-direction:column;align-items:center;gap:10px}
-.wk i{display:block;width:100%;height:40px;position:relative}
-.wk i b{position:absolute;left:0;right:0;bottom:0;border-radius:3px;transition:height .6s var(--ease)}
+.wk .stack{height:64px;width:12px;display:flex;flex-direction:column-reverse;align-items:center}
+.wk .stack b{display:block;width:12px;flex:none;transition:height .5s var(--ease)}
+.demoPill{height:32px;padding:0 14px;border-radius:16px;background:var(--fg);color:#0a0a0b;font-size:13px;font-weight:500;margin-right:6px;align-self:center}
 .chip{margin-top:22px;height:40px;padding:0 16px 0 6px;border-radius:20px;background:rgba(255,255,255,.08);display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500}
 .chip span{width:28px;height:28px;border-radius:14px;background:var(--lime);display:grid;place-items:center}
 .modeSw{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:28px;background:rgba(255,255,255,.06);height:64px;flex:none}
 .modeSw .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:24px;background:rgba(255,255,255,.12);box-shadow:inset 0 .5px 0 rgba(255,255,255,.25);transition:transform .45s var(--ease)}
 .modeSw button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;font-weight:500;color:var(--mut);transition:color .3s}
 .modeSw button[aria-checked="true"]{color:var(--fg)}
-.modeSw svg{width:24px;height:24px}
+.modeSw svg{width:24px;height:24px;overflow:visible}
+.face{transition:transform .5s var(--spring)}
+.face .bg{fill:rgba(212,255,92,0);stroke:var(--mut);stroke-width:1.5;transition:fill .35s ease,stroke .35s ease}
+.face .ink{fill:var(--mut);transition:fill .35s ease}
+.face .brow{fill:none;stroke:var(--mut);stroke-width:1.5;stroke-linecap:round;transition:stroke .35s ease}
+.face .mouth{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(.42);transition:transform .5s var(--spring),fill .35s ease}
+[aria-checked="true"] .face{transform:scale(1.1)}
+[aria-checked="true"] .face .bg{fill:var(--lime);stroke:var(--lime)}
+[aria-checked="true"] .face .ink{fill:#0a0a0b}
+[aria-checked="true"] .face .brow{stroke:#0a0a0b}
+[aria-checked="true"] .face .mouth{transform:scaleY(1)}
 #modeCap{margin:12px 4px 0;min-height:17px}
 .stepRow{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex:none}
 .stepBtn{width:48px;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,.14);display:grid;place-items:center}
@@ -72,13 +84,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 
 /* dial sheet */
 #dial{position:fixed;inset:0;z-index:40}
-#dialShade{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .35s}
-#dialSheet{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:43px;padding:10px 0 20px;display:flex;flex-direction:column;align-items:center;transform:translateY(110%);transition:transform .5s var(--ease);background:rgba(36,36,38,.78)}
-#dial.open #dialShade{opacity:1}
+#dialShade{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);transition:opacity .45s var(--spring),-webkit-backdrop-filter .45s var(--spring),backdrop-filter .45s var(--spring)}
+#dialSheet{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:43px;padding:10px 0 20px;display:flex;flex-direction:column;align-items:center;transform:translateY(110%);transition:transform .52s var(--spring);will-change:transform;background:rgba(36,36,38,.78)}
+#dial.open #dialShade{opacity:1;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 #dial.open #dialSheet{transform:none}
 .grab{width:36px;height:5px;border-radius:3px;background:rgba(255,255,255,.25)}
 #dialNum{margin-top:26px;display:flex;align-items:baseline;justify-content:center;gap:8px}
-#dialIn{width:3.2ch;text-align:right;background:transparent;outline:none;caret-color:var(--lime);-webkit-user-select:text;user-select:text}
+#dialIn{width:1.2ch;text-align:center;transition:width .2s var(--spring);background:transparent;outline:none;caret-color:var(--lime);-webkit-user-select:text;user-select:text}
 #dialIn::placeholder{color:var(--fg)}
 #dialCv{margin-top:26px;width:100%;height:92px;display:block;touch-action:none;cursor:grab;-webkit-mask-image:linear-gradient(90deg,transparent,#000 28%,#000 72%,transparent);mask-image:linear-gradient(90deg,transparent,#000 28%,#000 72%,transparent)}
 #dialSet{margin-top:22px;width:calc(100% - 40px)}
@@ -165,8 +177,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 <section class="screen" id="home">
   <div class="bar">
     <span class="t17 w5">Clean Reps</span>
-    <span style="display:flex;margin-right:-10px">
-      <button class="icoBtn press" id="demoIco" aria-label="Watch demo"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7.75"/><path d="M8.4 7.2v5.6l4.6-2.8z" fill="currentColor" stroke-linejoin="round"/></svg></button>
+    <span style="display:flex;align-items:center;margin-right:-10px">
+      <button class="demoPill press" id="demoIco" aria-label="Watch demo">Demo</button>
       <button class="icoBtn press" id="calIco" aria-label="Calendar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2.75" y="4" width="14.5" height="13.25" rx="3.5"/><path d="M2.75 8.5h14.5M6.75 2.25v3M13.25 2.25v3"/></svg></button>
     </span>
   </div>
@@ -203,9 +215,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
   <div id="dialShade"></div>
   <div id="dialSheet" class="glass">
     <span class="grab"></span>
-    <label id="dialNum"><input id="dialIn" class="t88 tn" inputmode="numeric" aria-label="Rep target" placeholder="Max"><span class="t17 mut" id="dialU">reps</span></label>
+    <label id="dialNum"><input id="dialIn" class="t88 tn" inputmode="numeric" aria-label="Rep target" placeholder="0"><span class="t17 mut" id="dialU">reps</span></label>
     <canvas id="dialCv" aria-label="Slide to set rep target"></canvas>
-    <span class="t13 mut" style="margin-top:6px">Slide to set. Far left is Max.</span>
+    <span class="t13 mut" style="margin-top:6px">Slide to set. 0 means no limit.</span>
     <button class="cta press" id="dialSet">Set</button>
   </div>
 </div>
@@ -433,14 +445,13 @@ function say(text, force){
 /* ============================================================
    Faces (selected = lime, unselected = grey line)
    ============================================================ */
-function face(kind, on){
-  const ink = "#0a0a0b", g = "#8e8e93";
-  if (kind === "casual") return on
-    ? `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#d4ff5c"/><circle cx="8.6" cy="10" r="1.3" fill="${ink}"/><circle cx="15.4" cy="10" r="1.3" fill="${ink}"/><path d="M7.8 14.2q4.2 3.8 8.4 0" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/></svg>`
-    : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.25" fill="none" stroke="${g}" stroke-width="1.5"/><circle cx="8.6" cy="10" r="1.2" fill="${g}"/><circle cx="15.4" cy="10" r="1.2" fill="${g}"/><path d="M7.8 14.2q4.2 3.8 8.4 0" fill="none" stroke="${g}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-  return on
-    ? `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#d4ff5c"/><path d="M6.6 7.6l3.6 1.6M17.4 7.6l-3.6 1.6" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.8" cy="11" r="1.25" fill="${ink}"/><circle cx="15.2" cy="11" r="1.25" fill="${ink}"/><path d="M7.6 14.4h8.8q-4.4 4.2-8.8 0z" fill="${ink}"/></svg>`
-    : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.25" fill="none" stroke="${g}" stroke-width="1.5"/><path d="M6.6 7.6l3.6 1.6M17.4 7.6l-3.6 1.6" stroke="${g}" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.8" cy="11" r="1.2" fill="${g}"/><circle cx="15.2" cy="11" r="1.2" fill="${g}"/><path d="M7.6 14.4h8.8q-4.4 4.2-8.8 0z" fill="${g}"/></svg>`;
+// One drawing per face; selecting only fills the circle, grows it slightly and opens the mouth.
+function face(kind){
+  const eyes = kind === "casual"
+    ? `<circle class="ink" cx="8.6" cy="10" r="1.3"/><circle class="ink" cx="15.4" cy="10" r="1.3"/>`
+    : `<path class="brow" d="M6.6 7.6l3.6 1.6M17.4 7.6l-3.6 1.6"/><circle class="ink" cx="8.8" cy="11" r="1.2"/><circle class="ink" cx="15.2" cy="11" r="1.2"/>`;
+  const mouth = kind === "casual" ? "M7.4 13.4q4.6 2.4 9.2 0q-.5 4.8-4.6 4.8t-4.6-4.8z" : "M7.4 13.9q4.6 2.2 9.2 0q-4.6 5.6-9.2 0z";
+  return `<svg class="face" viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.25"/>${eyes}<path class="ink mouth" d="${mouth}"/></svg>`;
 }
 
 /* ============================================================
@@ -458,10 +469,17 @@ function paintHome(){
     const now = new Date(), mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay()+6) % 7));
     for (let i = 0; i < 7; i++){
       const d = new Date(mon); d.setDate(mon.getDate() + i);
-      const k = dayKey(d), r = dayClean(k, log), p = Math.min(1, r/goal()), fut = d > now && k !== dayKey(now);
-      const col = fut ? "rgba(255,255,255,.06)" : p >= 1 ? "var(--lime)" : r ? "rgba(255,255,255,.28)" : "rgba(255,255,255,.08)";
+      const k = dayKey(d), fut = d > now && k !== dayKey(now);
+      const codes = log.filter(x => dayKey(x.ts) === k).sort((a2,b2) => a2.ts - b2.ts).flatMap(x => x.codes || []);
       const el = document.createElement("div"); el.className = "wk";
-      el.innerHTML = `<i><b style="height:${Math.max(4, Math.round(p*40))}px;background:${col}"></b></i><span class="t13" style="color:${k === dayKey(now) ? "var(--fg)" : "var(--mut)"}">${"MTWTFSS"[i]}</span>`;
+      // one dot per rep, stacked; they slim into bars as the day fills up
+      const H = 64, n = codes.length, gap = n > 32 ? 0 : n > 16 ? 1 : 2, h = n ? Math.min(12, (H - gap*(n-1)) / n) : 0;
+      let stack = "";
+      if (!n) stack = `<b style="height:12px;border-radius:6px;background:${fut ? "rgba(255,255,255,.04)" : "rgba(255,255,255,.1)"}"></b>`;
+      else codes.slice(0, Math.floor((H + gap)/(h + gap))).forEach((c, i) => {
+        stack += `<b style="height:${h}px;border-radius:${Math.min(6, h/2)}px;background:${DOT[c]};margin-bottom:${i ? gap : 0}px"></b>`;
+      });
+      el.innerHTML = `<span class="stack">${stack}</span><span class="t13" style="color:${k === dayKey(now) ? "var(--fg)" : "var(--mut)"}">${"MTWTFSS"[i]}</span>`;
       wk.appendChild(el);
     }
   }
@@ -469,8 +487,7 @@ function paintHome(){
 }
 function paintMode(){
   const m = settings.mode;
-  $("mCasual").innerHTML = face("casual", m === "casual") + "Casual";
-  $("mHard").innerHTML = face("hardcore", m === "hardcore") + "Hardcore";
+  if (!$("mCasual").firstElementChild){ $("mCasual").innerHTML = face("casual") + "Casual"; $("mHard").innerHTML = face("hardcore") + "Hardcore"; }
   $("mCasual").setAttribute("aria-checked", String(m === "casual"));
   $("mHard").setAttribute("aria-checked", String(m === "hardcore"));
   $("modeThumb").style.transform = m === "hardcore" ? "translateX(100%)" : "none";
@@ -478,7 +495,7 @@ function paintMode(){
 }
 function paintTarget(){
   const t = settings.target;
-  $("repN").textContent = t ? t : "Max";
+  $("repN").textContent = t ? t : "Set";
   $("repU").textContent = t === 1 ? "rep" : "reps";
 }
 ["mCasual","mHard"].forEach(id => $(id).addEventListener("click", () => { settings.mode = $(id).dataset.m; saveSettings(); paintMode(); tick(); }));
@@ -506,9 +523,11 @@ function closeDial(){
   setTimeout(() => $("dial").hidden = true, 450);
 }
 function sizeDial(){ const d = Math.min(devicePixelRatio || 1, 3); dialCv.width = dialCv.clientWidth*d; dialCv.height = dialCv.clientHeight*d; }
+function fitDialIn(){ const n = ($("dialIn").value || "0").length; $("dialIn").style.width = (n * 0.62 + 0.1) + "em"; }
 function syncDialNum(){
   const r = Math.round(dv);
-  if (document.activeElement !== $("dialIn")) $("dialIn").value = r ? r : "";
+  if (document.activeElement !== $("dialIn")) $("dialIn").value = String(r);
+  fitDialIn();
   $("dialU").textContent = r === 1 ? "rep" : "reps";
 }
 function drawDial(){
@@ -521,7 +540,7 @@ function drawDial(){
     dctx.fillStyle = major ? `rgba(245,245,247,${.85})` : `rgba(245,245,247,${.32 + near*.3})`;
     const h = (major ? 36 : 20) + near*6, top = major ? 8 - near*3 : 16 - near*3;
     dctx.beginPath(); dctx.roundRect ? dctx.roundRect(x-1, top, 2, h, 1) : dctx.rect(x-1, top, 2, h); dctx.fill();
-    if (n % 10 === 0){ dctx.fillStyle = "#8e8e93"; dctx.fillText(n === 0 ? "Max" : String(n), x, 78); }
+    if (n % 10 === 0){ dctx.fillStyle = "#8e8e93"; dctx.fillText(String(n), x, 78); }
   }
   dctx.shadowColor = "rgba(212,255,92,.6)"; dctx.shadowBlur = 12; dctx.fillStyle = "#d4ff5c";
   dctx.beginPath(); dctx.roundRect ? dctx.roundRect(c-1.5, 0, 3, 52, 1.5) : dctx.rect(c-1.5, 0, 3, 52); dctx.fill();
@@ -554,7 +573,7 @@ const dialRelease = () => { if (!dDrag) return; dDrag = null; dvel = Math.max(-3
 dialCv.addEventListener("pointerup", dialRelease); dialCv.addEventListener("pointercancel", dialRelease);
 $("dialIn").addEventListener("input", () => {
   const v = parseInt($("dialIn").value.replace(/\D/g, ""), 10) || 0;
-  $("dialIn").value = v ? Math.min(200, v) : "";
+  $("dialIn").value = v ? Math.min(200, v) : ""; fitDialIn();
   cancelAnimationFrame(dRaf); dvel = 0;
   const from = dv, to = Math.min(200, v), t0 = performance.now(); dTo = to;
   const anim = () => { const k = Math.min(1, (performance.now() - t0)/350), e = 1 - Math.pow(1-k, 3); dv = from + (to - from)*e; dLastInt = Math.round(dv); drawDial(); if (k < 1) dRaf = requestAnimationFrame(anim); };
@@ -860,18 +879,49 @@ function drawWave(){
    ============================================================ */
 const show = (id, on) => { $(id).hidden = !on; };
 function stageCard(which){ ["loadCard","calib","pausedCard"].forEach(id => show(id, id === which)); }
+const SPRING = "cubic-bezier(.32,.72,0,1)";
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function morphFrom(el, then){
-  const r = el.getBoundingClientRect(), m = $("morph");
-  m.style.transition = "none"; m.style.opacity = "1";
-  Object.assign(m.style, { left: r.left+"px", top: r.top+"px", width: r.width+"px", height: r.height+"px", borderRadius: (r.height/2)+"px" });
-  m.hidden = false; void m.offsetWidth;
-  m.style.transition = "left .55s var(--ease), top .55s var(--ease), width .55s var(--ease), height .55s var(--ease), border-radius .55s var(--ease)";
-  Object.assign(m.style, { left: "0px", top: "0px", width: innerWidth+"px", height: innerHeight+"px", borderRadius: "0px" });
+  const r = el.getBoundingClientRect(), m = $("morph"), W = innerWidth, H = innerHeight, rad = r.height/2;
+  Object.assign(m.style, { left:"0", top:"0", width:"100%", height:"100%", borderRadius:"0", opacity:"1", transition:"none" });
+  m.hidden = false;
+  const from = `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round ${rad}px)`, to = "inset(0px 0px 0px 0px round 0px)";
+  const d = reduced ? 1 : 560;
+  m.animate([{ clipPath: from, webkitClipPath: from }, { clipPath: to, webkitClipPath: to }], { duration: d, easing: SPRING, fill: "forwards" });
+  if (!$("home").hidden) $("home").animate([{ transform:"none", opacity:1 }, { transform:"scale(.94)", opacity:.4 }], { duration: d, easing: SPRING, fill: "forwards" });
   setTimeout(() => {
     then();
-    m.style.transition = "opacity .7s ease"; m.style.opacity = "0";
-    setTimeout(() => { m.hidden = true; }, 720);
-  }, 560);
+    $("home").getAnimations().forEach(a => a.cancel());
+    m.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduced ? 1 : 520, easing: "ease-out", fill: "forwards" })
+      .finished.then(() => { m.hidden = true; m.getAnimations().forEach(a => a.cancel()); });
+  }, d);
+}
+// Screen to screen: push (slide in from right), pop (slide back out), fade (soft scale + fade)
+let navBusy = false;
+function nav(fromId, toId, kind, after){
+  const A = $(fromId), B = $(toId);
+  if (!A || A.hidden || reduced){ if (A) A.hidden = true; B.hidden = false; after && after(); return; }
+  navBusy = true; B.hidden = false;
+  const d = kind === "fade" ? 420 : 520, o = { duration: d, easing: SPRING };
+  let a1, a2;
+  if (kind === "push"){
+    B.style.zIndex = 3; A.style.zIndex = 2;
+    a2 = B.animate([{ transform:"translateX(100%)" }, { transform:"none" }], o);
+    a1 = A.animate([{ transform:"none", opacity:1 }, { transform:"translateX(-28%)", opacity:.5 }], o);
+  } else if (kind === "pop"){
+    A.style.zIndex = 3; B.style.zIndex = 2;
+    a1 = A.animate([{ transform:"none" }, { transform:"translateX(100%)" }], o);
+    a2 = B.animate([{ transform:"translateX(-28%)", opacity:.5 }, { transform:"none", opacity:1 }], o);
+  } else {
+    B.style.zIndex = 3; A.style.zIndex = 2;
+    a2 = B.animate([{ opacity:0, transform:"scale(.97)" }, { opacity:1, transform:"none" }], o);
+    a1 = A.animate([{ opacity:1, transform:"none" }, { opacity:0, transform:"scale(1.03)" }], o);
+  }
+  B.style.pointerEvents = A.style.pointerEvents = "none";
+  a2.finished.then(() => {
+    A.hidden = true; [A, B].forEach(x => { x.style.zIndex = ""; x.style.pointerEvents = ""; });
+    navBusy = false; after && after();
+  });
 }
 async function begin(isDemo, fromEl){
   if (mode !== "home") return;                       // ignore double taps
@@ -981,9 +1031,14 @@ function endSet(){
     store.set("log", log);
     if (!settings.target && log.length === 1){ settings.target = Math.max(5, n + 1); saveSettings(); $("dNext").textContent = `Next target set to ${settings.target}.`; }
   }
-  show("stage", false); show("done", true); $("done").scrollTop = 0;
+  $("done").scrollTop = 0; nav("stage", "done", "fade");
 }
-function goHome(){ ["done","cal","stage"].forEach(id => show(id, false)); show("home", true); mode = "home"; paintHome(); }
+function goHome(kind){
+  const from = ["done","cal","stage"].find(id => !$(id).hidden);
+  mode = "home"; paintHome();
+  if (from) nav(from, "home", kind || "fade"); else show("home", true);
+  ["done","cal","stage"].forEach(id => { if (id !== from) show(id, false); });
+}
 
 $("startBtn").addEventListener("click", e => begin(false, e.currentTarget));
 $("demoChip").addEventListener("click", e => begin(true, e.currentTarget));
@@ -993,8 +1048,8 @@ $("endBtn").addEventListener("click", endSet);
 $("endBtn2").addEventListener("click", endSet);
 $("pauseBtn").addEventListener("click", () => pause(true));
 $("resumeBtn").addEventListener("click", () => resume());
-$("doneBtn").addEventListener("click", goHome);
-$("doneBack").addEventListener("click", goHome);
+$("doneBtn").addEventListener("click", () => goHome("fade"));
+$("doneBack").addEventListener("click", () => goHome("pop"));
 $("flipBtn").addEventListener("click", async () => { settings.facing = settings.facing === "user" ? "environment" : "user"; saveSettings(); smooth = null; try{ await startCamera(); await playCamera(); }catch(e){ showIssue("Couldn’t switch camera.", false); } });
 document.addEventListener("visibilitychange", async () => {
   if (document.visibilityState === "hidden" && mode === "live") pause(true);
@@ -1044,8 +1099,8 @@ function paintCal(){
     list.appendChild(row);
   });
 }
-$("calIco").addEventListener("click", () => { calM = new Date(); calM.setDate(1); selDay = dayKey(new Date()); show("home", false); show("cal", true); mode = "cal"; paintCal(); });
-$("calBack").addEventListener("click", goHome);
+$("calIco").addEventListener("click", () => { if (navBusy) return; calM = new Date(); calM.setDate(1); selDay = dayKey(new Date()); paintCal(); mode = "cal"; nav("home", "cal", "push"); });
+$("calBack").addEventListener("click", () => goHome("pop"));
 $("mPrev").addEventListener("click", () => { calM.setMonth(calM.getMonth() - 1); paintCal(); });
 $("mNext").addEventListener("click", () => { calM.setMonth(calM.getMonth() + 1); paintCal(); });
 
