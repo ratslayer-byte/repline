@@ -296,7 +296,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 const MODES = {
   casual:   { name:"Casual",   depth:70, solid:86, lock:130, sag:22, pike:28, head:null, shift:null,
               cap:"Down to 70%. Small wobbles still count." },
-  hardcore: { name:"Hardcore", depth:90, solid:96, lock:152, sag:10, pike:10, head:20,  shift:12,
+  hardcore: { name:"Hardcore", depth:85, solid:95, lock:140, sag:15, pike:18, head:null, shift:null,
               cap:"Chest to the floor, arms locked, body rigid." }
 };
 const FLOOR = 0.24;
@@ -795,6 +795,11 @@ function drawOverlay(st, now){
   const headBad = live && m && cfg.head && (m.head - S.headBase > cfg.head);
   const armBad = recent("depth");
   const foot = an || kn;
+  // the floor: one dot where your palms rest
+  if (wr){
+    octx.save(); octx.fillStyle = C_LIME; octx.shadowColor = "rgba(212,255,92,.8)"; octx.shadowBlur = 12;
+    octx.beginPath(); octx.arc(wr.x, wr.y, 6, 0, Math.PI*2); octx.fill(); octx.restore();
+  }
   if (sh && foot){
     octx.save(); octx.setLineDash([3,6]); octx.lineWidth = 1; octx.strokeStyle = "rgba(255,255,255,.35)";
     octx.beginPath(); octx.moveTo(sh.x, sh.y); octx.lineTo(foot.x, foot.y); octx.stroke(); octx.restore();
