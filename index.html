@@ -102,6 +102,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 #banner{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 222px);transform:translate(-50%,-8px) scale(.96);padding:11px 18px;border-radius:22px;background:var(--red);color:#fff;font-size:17px;font-weight:500;white-space:nowrap;opacity:0;transition:all .3s var(--ease);z-index:6;display:flex;align-items:center;gap:8px}
 #banner.show{opacity:1;transform:translate(-50%,0) scale(1)}
 #banner.good{background:var(--lime);color:#0a0a0b}
+#banner.info{background:rgba(30,30,32,.7);-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28);font-size:13px;white-space:normal;text-align:center;max-width:320px;line-height:17px}
+#micOn{display:none;width:14px;height:14px}
+#modePill.listening #micOn{display:block}
+#modePill.listening i{display:none}
 .card{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:43px;padding:24px;z-index:7}
 .card h3{margin:0;font-size:28px;line-height:32px;font-weight:400;letter-spacing:-.02em}
 .checks{display:grid;gap:12px;margin-top:16px}
@@ -111,7 +115,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 .chk.on i{background:var(--lime);border-color:var(--lime)}
 .chk.on i::after{content:"";width:5px;height:9px;border:solid #0a0a0b;border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
 .cardRow{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
-.linkBtn{font-size:13px;font-weight:500;color:var(--lime);padding:8px 0}
+.linkBtn{font-size:13px;font-weight:500;color:var(--lime);padding:8px 0 8px 12px;white-space:nowrap;flex:none}
 .cardBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .btn2{height:52px;border-radius:26px;background:rgba(255,255,255,.12);font-size:17px;font-weight:500}
 .btn2.red{background:var(--red);color:#fff}
@@ -215,7 +219,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
   <canvas id="ov"></canvas>
   <div class="hudTop">
     <button class="icoBtn glass press" id="backBtn" aria-label="Back"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M10 3L5 8l5 5"/></svg></button>
-    <span class="pill glass" id="modePill"><i></i><span id="modeName">Casual</span></span>
+    <span class="pill glass" id="modePill"><i></i><svg id="micOn" viewBox="0 0 14 16" fill="none" stroke="#d4ff5c" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="1" width="5" height="9" rx="2.5"/><path d="M2 7.5a5 5 0 0 0 10 0M7 12.5v2.5"/></svg><span id="modeName">Casual</span></span>
   </div>
   <div id="countBlk" hidden>
     <div class="tn" style="display:flex;align-items:baseline;gap:6px"><span class="t88" id="cnt" style="margin-left:-4px">0</span><span class="t28" id="cntOf"></span></div>
@@ -231,7 +235,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
       <div class="chk" id="c2"><i></i>Side-on to the phone</div>
       <div class="chk" id="c3"><i></i>Arms straight, hold still</div>
     </div>
-    <div class="cardRow"><span class="t13 mut">Phone on the floor, 2 m away.</span><button class="linkBtn" id="flipBtn">Flip camera</button></div>
+    <div class="cardRow"><span class="t13 mut" id="calibHint">Phone on the floor, 2 m away. Or say “start”.</span><button class="linkBtn" id="flipBtn">Flip camera</button></div>
   </div>
   <div class="card glass" id="pausedCard" hidden>
     <h3>Paused</h3>
@@ -293,10 +297,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
    Modes. depth: % of the way from arms-straight to chest-on-floor
    ============================================================ */
 const MODES = {
-  casual:   { name:"Casual",   depth:70, solid:86, lock:100, top:30, sag:22, pike:28, head:null, shift:null,
+  casual:   { name:"Casual",   depth:70, solid:86, lock:130, sag:22, pike:28, head:null, shift:null,
               cap:"Down to 70%. Small wobbles still count." },
-  hardcore: { name:"Hardcore", depth:95, solid:97, lock:160, top:10, sag:7,  pike:7,  head:15,  shift:9,
-              cap:"Chest to the floor. Any sag, lift or shift is a no-rep." }
+  hardcore: { name:"Hardcore", depth:90, solid:96, lock:152, sag:10, pike:10, head:20,  shift:12,
+              cap:"Chest to the floor, arms locked, body rigid." }
 };
 const FLOOR = 0.24;
 const FAULT = {
@@ -312,49 +316,52 @@ const FAULT = {
    Rep engine (pure)
    ============================================================ */
 function createEngine(cfg, on){
-  const TOP = cfg.top, START = cfg.top + 8;
-  let phase = "idle", rep = null, hist = [], ema = 0, sagT = 0, pikeT = 0, headT = 0;
-  const newRep = f => ({ t0:f.t, max:f.depth, maxSag:0, maxPike:0, dMin:ema, dMax:ema, maxHead:0, minAfter:100, cued:false });
-  function finish(f, forced){
+  // Rep boundaries use loose thresholds so a rep is never missed;
+  // form (lockout, depth, body) is judged separately with leeway.
+  const TOPL = 22, START = 30, HOLD = 6;
+  let phase = "idle", rep = null, hist = [], ema = 0, topElbow = 0, sagT = 0, pikeT = 0, headT = 0;
+  const newRep = f => ({ t0:f.t, max:f.depth, maxSag:0, maxPike:0, dMin:ema, dMax:ema, minAfter:100, cued:false, lockOK: topElbow >= cfg.lock, topElbow });
+  function finish(f, halfRep){
     const r = rep; rep = null;
-    if (f.t - r.t0 < 380) return;
+    if (f.t - r.t0 < 350) return;
     const faults = [];
     if (r.max < cfg.depth) faults.push("depth");
     if (r.maxSag > cfg.sag) faults.push("sag");
     if (r.maxPike > cfg.pike) faults.push("pike");
-    if (cfg.head && r.maxHead > cfg.head) faults.push("head");
     if (cfg.shift && !faults.includes("sag") && !faults.includes("pike") && r.dMax - r.dMin > cfg.shift) faults.push("shift");
-    if (forced) faults.push("lockout");
+    if (halfRep || !r.lockOK) faults.push("lockout");
     const body = Math.round(Math.max(r.maxSag, r.maxPike));
     const ok = !faults.length;
-    const solid = ok && r.max >= cfg.solid && body <= cfg.sag * 0.5;
-    on.rep({ ok, faults, kind: ok ? (solid ? "s" : "c") : "r", depth: Math.round(r.max), body, sagged: r.maxSag >= r.maxPike, dur: f.t - r.t0 });
+    const solid = ok && r.max >= cfg.solid && body <= cfg.sag * 0.6;
+    on.rep({ ok, faults, kind: ok ? (solid ? "s" : "c") : "r", depth: Math.round(r.max), rawMax: r.rawMax || r.max, body, dur: f.t - r.t0 });
   }
   return {
     get phase(){ return phase; },
-    reset(){ phase = "idle"; rep = null; hist = []; },
+    reset(){ phase = "idle"; rep = null; hist = []; topElbow = 0; },
     update(f){
-      if (!f.plank){ rep = null; phase = "idle"; return; }
-      hist.push(f.dev); if (hist.length > 3) hist.shift();
-      ema = ema*.6 + f.dev*.4;
-      const held = hist.length < 3 ? 0 : hist.every(d => d > 0) ? Math.min(...hist) : hist.every(d => d < 0) ? Math.max(...hist) : 0;
-      const atTop = f.depth < TOP && f.elbow > cfg.lock;
-      if (phase === "idle"){ if (atTop) phase = "top"; return; }
-      if (phase === "top"){ if (f.depth > START){ rep = newRep(f); phase = "down"; } else return; }
+      if (!f.plank){ rep = null; phase = "idle"; topElbow = 0; return; }
+      hist.push(f.dev); if (hist.length > HOLD) hist.shift();
+      ema = ema*.8 + f.dev*.2;
+      // a body fault only counts if it holds for ~0.2 s
+      const held = hist.length < HOLD ? 0 : hist.every(d => d > 0) ? Math.min(...hist) : hist.every(d => d < 0) ? Math.max(...hist) : 0;
+      if (phase === "idle" || phase === "top"){
+        if (f.depth < TOPL){ if (phase === "idle"){ phase = "top"; topElbow = 0; } topElbow = Math.max(topElbow, f.elbow); }
+        if (phase === "top" && f.depth > START){ rep = newRep(f); rep.rawMax = f.raw; phase = "down"; }
+        else return;
+      }
       if (!rep) return;
-      rep.max = Math.max(rep.max, f.depth);
+      rep.max = Math.max(rep.max, f.depth); rep.rawMax = Math.max(rep.rawMax || 0, f.raw || 0);
       if (held > 0) rep.maxSag = Math.max(rep.maxSag, held); else if (held < 0) rep.maxPike = Math.max(rep.maxPike, -held);
       rep.dMin = Math.min(rep.dMin, ema); rep.dMax = Math.max(rep.dMax, ema);
-      rep.maxHead = Math.max(rep.maxHead, f.head);
-      if (held > cfg.sag){ sagT = sagT || f.t; if (f.t - sagT > 200) on.cue("sag"); } else sagT = 0;
-      if (-held > cfg.pike){ pikeT = pikeT || f.t; if (f.t - pikeT > 200) on.cue("pike"); } else pikeT = 0;
-      if (cfg.head && f.head > cfg.head){ headT = headT || f.t; if (f.t - headT > 250) on.cue("head"); } else headT = 0;
+      if (held > cfg.sag){ sagT = sagT || f.t; if (f.t - sagT > 150) on.cue("sag"); } else sagT = 0;
+      if (-held > cfg.pike){ pikeT = pikeT || f.t; if (f.t - pikeT > 150) on.cue("pike"); } else pikeT = 0;
+      if (cfg.head && f.head > cfg.head){ headT = headT || f.t; if (f.t - headT > 400) on.cue("head"); } else headT = 0;   // cue only
       if (phase === "down"){
         if (f.depth < rep.max - 8){ phase = "up"; rep.minAfter = f.depth; if (rep.max < cfg.depth && !rep.cued){ rep.cued = true; on.cue("depth"); } }
       } else if (phase === "up"){
         rep.minAfter = Math.min(rep.minAfter, f.depth);
-        if (atTop){ finish(f, false); phase = "top"; }
-        else if (f.depth > rep.minAfter + 12){ finish(f, true); rep = newRep(f); phase = "down"; }
+        if (f.depth < TOPL){ finish(f, false); phase = "top"; topElbow = f.elbow; }
+        else if (f.depth > rep.minAfter + 14){ finish(f, true); topElbow = 0; rep = newRep(f); rep.rawMax = f.raw; phase = "down"; }
       }
     }
   };
@@ -409,7 +416,7 @@ const isFirst = () => getLog().length === 0;
 /* ============================================================
    Sound + voice
    ============================================================ */
-let audioCtx = null, lastSpeak = 0;
+let audioCtx = null, lastSpeak = 0, speakingUntil = 0;
 function unlockAudio(){
   try{ audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume(); }catch(e){}
   try{ const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); }catch(e){}
@@ -429,8 +436,10 @@ function say(text, force){
   try{
     const now = performance.now();
     if (!force && now - lastSpeak < 1300) return;
-    lastSpeak = now; speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.rate = 1.1; speechSynthesis.speak(u);
+    lastSpeak = now; speechSynthesis.cancel(); speakingUntil = now + 4000;
+    const u = new SpeechSynthesisUtterance(text); u.rate = 1.1;
+    u.onend = () => speakingUntil = performance.now() + 500;
+    speechSynthesis.speak(u);
   }catch(e){}
 }
 
@@ -578,7 +587,7 @@ let engine, S, cfg, smooth = null, lastFrameT = 0, lastVT = -1, readySince = 0, 
 
 function newSession(){
   cfg = MODES[demo ? "casual" : settings.mode];
-  S = { codes:[], reps:[], wave:[], tops:[], curMin:100, active:0, H0:null, devBase:0, headBase:0, liveFault:{}, offSince:0, grace:0, manual:false, left:false, page:0, trail:[], dir:"" };
+  S = { scale:1, codes:[], reps:[], wave:[], tops:[], curMin:100, active:0, H0:null, devBase:0, headBase:0, liveFault:{}, offSince:0, grace:0, manual:false, left:false, page:0, trail:[], dir:"" };
   engine = createEngine(cfg, { rep:onRep, cue:onCue });
   smooth = null; readySince = 0;
   $("modeName").textContent = cfg.name;
@@ -605,9 +614,9 @@ function renderDots(slide){
   S.page = p;
 }
 let bannerT = 0, cueAt = {};
-function banner(text, good){
-  const b = $("banner"); b.textContent = text; b.className = "show" + (good ? " good" : "");
-  clearTimeout(bannerT); bannerT = setTimeout(() => b.classList.remove("show"), 1500);
+function banner(text, good, ms){
+  const b = $("banner"); b.textContent = text; b.className = "show" + (good === "info" ? " info" : good ? " good" : "");
+  clearTimeout(bannerT); bannerT = setTimeout(() => b.classList.remove("show"), ms || 1500);
 }
 function onCue(kind){
   const now = performance.now(); S.liveFault[kind] = now;
@@ -617,7 +626,7 @@ function onCue(kind){
   banner(t); say(t);
 }
 function onRep(r){
-  r.ta = S.active; S.reps.push(r); S.codes.push(r.kind);
+  r.ta = S.active; S.reps.push(r); S.codes.push(r.kind); learnFloor();
   S.tops.push(S.curMin); S.curMin = 100;
   if (r.ok){
     const n = counted();
@@ -689,12 +698,19 @@ function analyse(lm){
   const m = core ? measure(s) : null;
   return { idx, s, m, core, footOk, plank: !!m && m.tilt < 40 };
 }
-function depthOf(m){
+function rawDepth(m){
   if (S.H0 == null){ S.H0 = m.h; return 0; }
   if (m.h > S.H0) S.H0 += (m.h - S.H0)*.25;
   return Math.max(0, Math.min(100, (S.H0 - m.h) / (S.H0*(1 - FLOOR)) * 100));
 }
-function calibrate(m){ S.H0 = m.h; S.devBase = Math.max(-5, Math.min(5, m.dev)); S.headBase = Math.min(25, m.head); }
+// Floor learning: when your deepest points keep landing in the same place, that place is your floor.
+function learnFloor(){
+  const r = S.reps.slice(-3).map(x => x.rawMax);
+  if (r.length < 3) return;
+  const lo = Math.min(...r), hi = Math.max(...r), med = r.slice().sort((a,b) => a-b)[1];
+  if (lo >= 78 && hi - lo <= 7 && med < 100) S.scale = Math.min(1.18, Math.max(S.scale, 100/med));
+}
+function calibrate(m){ S.H0 = m.h; S.devBase = Math.max(-10, Math.min(10, m.dev)); S.headBase = Math.min(30, m.head); }
 
 function loop(){
   raf = requestAnimationFrame(loop);
@@ -707,7 +723,7 @@ function loop(){
   }
   if (lm){ smoothLm(lm); lastFrameT = now; }
   const st = smooth && now - lastFrameT < 400 ? analyse(smooth) : null;
-  const ready = !!(st?.plank && st.m.elbow > Math.max(cfg.lock, 148) - 8);
+  const ready = !!(st?.plank && st.m.elbow > 138);
 
   if (mode === "calib"){
     $("c1").classList.toggle("on", !!st?.core);
@@ -719,9 +735,9 @@ function loop(){
   let depth = null;
   if (mode === "live"){
     if (st?.m && st.plank){
-      S.offSince = 0; depth = depthOf(st.m); S.active += dt;
+      S.offSince = 0; const raw = rawDepth(st.m); depth = Math.min(100, raw*S.scale); S.active += dt;
       const dev = st.m.dev - S.devBase, head = Math.max(0, st.m.head - S.headBase);
-      engine.update({ t: now, depth, elbow: st.m.elbow, dev, head, plank: true });
+      engine.update({ t: now, depth, raw, elbow: st.m.elbow, dev, head, plank: true });
       if (engine.phase === "top") S.curMin = Math.min(S.curMin, depth);
       S.wave.push({ t: S.active, v: depth });
       const body = Math.round(Math.abs(dev)), bad = dev > cfg.sag || -dev > cfg.pike;
@@ -811,6 +827,52 @@ function drawWave(){
 }
 
 /* ============================================================
+   Voice commands: "start", "pause", "continue", "stop"
+   ============================================================ */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, recOn = false, lastCmd = { k:"", t:0 }, micNoticeShown = false;
+function voiceOff(){
+  recOn = false; $("modePill").classList.remove("listening");
+  $("calibHint").textContent = "Phone on the floor, 2 m away.";
+  if (!micNoticeShown){ micNoticeShown = true; banner("Voice commands are off. Everything else still works.", "info", 3500); }
+}
+function startListening(){
+  if (recOn) return;
+  if (!SR){ voiceOff(); return; }
+  recOn = true;
+  const boot = () => {
+    if (!recOn) return;
+    try{
+      rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = navigator.language || "en-US";
+      rec.onstart = () => $("modePill").classList.add("listening");
+      rec.onresult = e => {
+        if (performance.now() < speakingUntil) return;
+        for (let i = e.resultIndex; i < e.results.length; i++) voiceCommand(e.results[i][0].transcript.toLowerCase());
+      };
+      rec.onerror = e => { if (["not-allowed","service-not-allowed","audio-capture"].includes(e.error)) voiceOff(); };
+      rec.onend = () => { if (recOn) setTimeout(boot, 250); };
+      rec.start();
+    }catch(err){ voiceOff(); }
+  };
+  boot();
+}
+function stopListening(){ recOn = false; try{ rec && rec.abort(); }catch(e){} rec = null; $("modePill").classList.remove("listening"); }
+function voiceCommand(txt){
+  const w = txt.split(/\s+/).slice(-3).join(" ");
+  let k = "";
+  if (/\b(stop|finish|done|end)\b/.test(w)) k = "stop";
+  else if (/\b(pause|wait|hold on|break)\b/.test(w)) k = "pause";
+  else if (/\b(start|continue|resume|go)\b/.test(w)) k = "go";
+  if (!k) return;
+  const now = performance.now();
+  if (lastCmd.k === k && now - lastCmd.t < 2500) return;
+  lastCmd = { k, t: now };
+  if (k === "stop" && ["calib","countdown","live","paused"].includes(mode)) endSet();
+  else if (k === "pause" && mode === "live") pause(true);
+  else if (k === "go"){ if (mode === "calib") startCountdown(); else if (mode === "paused") resume(); }
+}
+
+/* ============================================================
    Flow
    ============================================================ */
 const show = (id, on) => { $(id).hidden = !on; };
@@ -846,6 +908,7 @@ async function begin(isDemo, fromEl){
   try{ await loadModel(); }catch(e){ return fail(new Error("Couldn’t load body tracking. Check your connection and try again.")); }
   if (mode !== "loading") return;
   mode = "calib"; stageCard("calib"); ["c1","c2","c3"].forEach(id => $(id).classList.remove("on"));
+  startListening();
   say("Get into plank, side on to the phone");
 }
 function fail(e){
@@ -879,7 +942,7 @@ function resume(m){
   banner("Back at it", true); tone([1047,1319], .12, "sine", .14);
 }
 function stopAll(){
-  cancelAnimationFrame(raf);
+  cancelAnimationFrame(raf); stopListening();
   if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
   video.srcObject = null; video.classList.remove("on");
   try{ wakeLock?.release(); }catch(e){} wakeLock = null;
