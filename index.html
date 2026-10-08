@@ -103,9 +103,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 #banner.show{opacity:1;transform:translate(-50%,0) scale(1)}
 #banner.good{background:var(--lime);color:#0a0a0b}
 #banner.info{background:rgba(30,30,32,.7);-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28);font-size:13px;white-space:normal;text-align:center;max-width:320px;line-height:17px}
-#micOn{display:none;width:14px;height:14px}
-#modePill.listening #micOn{display:block}
-#modePill.listening i{display:none}
 .card{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:43px;padding:24px;z-index:7}
 .card h3{margin:0;font-size:28px;line-height:32px;font-weight:400;letter-spacing:-.02em}
 .checks{display:grid;gap:12px;margin-top:16px}
@@ -219,7 +216,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
   <canvas id="ov"></canvas>
   <div class="hudTop">
     <button class="icoBtn glass press" id="backBtn" aria-label="Back"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M10 3L5 8l5 5"/></svg></button>
-    <span class="pill glass" id="modePill"><i></i><svg id="micOn" viewBox="0 0 14 16" fill="none" stroke="#d4ff5c" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="1" width="5" height="9" rx="2.5"/><path d="M2 7.5a5 5 0 0 0 10 0M7 12.5v2.5"/></svg><span id="modeName">Casual</span></span>
+    <span class="pill glass" id="modePill"><i></i><span id="modeName">Casual</span></span>
   </div>
   <div id="countBlk" hidden>
     <div class="tn" style="display:flex;align-items:baseline;gap:6px"><span class="t88" id="cnt" style="margin-left:-4px">0</span><span class="t28" id="cntOf"></span></div>
@@ -235,7 +232,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
       <div class="chk" id="c2"><i></i>Side-on to the phone</div>
       <div class="chk" id="c3"><i></i>Arms straight, hold still</div>
     </div>
-    <div class="cardRow"><span class="t13 mut" id="calibHint">Phone on the floor, 2 m away. Or say “start”.</span><button class="linkBtn" id="flipBtn">Flip camera</button></div>
+    <div class="cardRow"><span class="t13 mut" id="calibHint">Phone on the floor, 2 m away.</span><button class="linkBtn" id="flipBtn">Flip camera</button></div>
   </div>
   <div class="card glass" id="pausedCard" hidden>
     <h3>Paused</h3>
@@ -503,15 +500,17 @@ $("repUp").addEventListener("click", () => { unlockAudio(); settings.target = Ma
    ============================================================ */
 const dialCv = $("dialCv"), dctx = dialCv.getContext("2d");
 const STEP = 12;
-let dv = 30, dvel = 0, dDrag = null, dRaf = 0, dLastInt = 30, dSnap = false;
+let dv = 30, dvel = 0, dDrag = null, dRaf = 0, dLastInt = 30, dTo = null;
 function openDial(){
   unlockAudio();
-  dv = settings.target || 0; dLastInt = Math.round(dv); dvel = 0;
+  dv = settings.target || 0; dLastInt = Math.round(dv); dvel = 0; dTo = null;
   $("dial").hidden = false;
   requestAnimationFrame(() => { $("dial").classList.add("open"); sizeDial(); drawDial(); });
   syncDialNum();
 }
 function closeDial(){
+  if ($("dial").hidden || !$("dial").classList.contains("open")) return;
+  if (dTo != null) dv = dTo;
   const v = Math.round(dv); settings.target = v || null; saveSettings(); paintTarget();
   $("dial").classList.remove("open"); cancelAnimationFrame(dRaf);
   setTimeout(() => $("dial").hidden = true, 450);
@@ -553,7 +552,7 @@ function dialLoop(){
 }
 dialCv.addEventListener("pointerdown", e => {
   cancelAnimationFrame(dRaf); dialCv.setPointerCapture(e.pointerId);
-  dDrag = { x:e.clientX, v:dv, t:performance.now(), lx:e.clientX }; dvel = 0; $("dialIn").blur();
+  dDrag = { x:e.clientX, v:dv, t:performance.now(), lx:e.clientX }; dvel = 0; dTo = null; $("dialIn").blur();
 });
 dialCv.addEventListener("pointermove", e => {
   if (!dDrag) return;
@@ -567,7 +566,7 @@ $("dialIn").addEventListener("input", () => {
   const v = parseInt($("dialIn").value.replace(/\D/g, ""), 10) || 0;
   $("dialIn").value = v ? Math.min(200, v) : "";
   cancelAnimationFrame(dRaf); dvel = 0;
-  const from = dv, to = Math.min(200, v), t0 = performance.now();
+  const from = dv, to = Math.min(200, v), t0 = performance.now(); dTo = to;
   const anim = () => { const k = Math.min(1, (performance.now() - t0)/350), e = 1 - Math.pow(1-k, 3); dv = from + (to - from)*e; dLastInt = Math.round(dv); drawDial(); if (k < 1) dRaf = requestAnimationFrame(anim); };
   anim(); $("dialU").textContent = v === 1 ? "rep" : "reps";
 });
@@ -589,7 +588,7 @@ function newSession(){
   cfg = MODES[demo ? "casual" : settings.mode];
   S = { scale:1, codes:[], reps:[], wave:[], tops:[], curMin:100, active:0, H0:null, devBase:0, headBase:0, liveFault:{}, offSince:0, grace:0, manual:false, left:false, page:0, trail:[], dir:"" };
   engine = createEngine(cfg, { rep:onRep, cue:onCue });
-  smooth = null; readySince = 0;
+  smooth = null; readySince = 0; cueAt = {};
   $("modeName").textContent = cfg.name;
   $("cntOf").textContent = !demo && settings.target ? "/" + settings.target : demo ? "/5" : "";
   $("cnt").textContent = "0";
@@ -827,52 +826,6 @@ function drawWave(){
 }
 
 /* ============================================================
-   Voice commands: "start", "pause", "continue", "stop"
-   ============================================================ */
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null, recOn = false, lastCmd = { k:"", t:0 }, micNoticeShown = false;
-function voiceOff(){
-  recOn = false; $("modePill").classList.remove("listening");
-  $("calibHint").textContent = "Phone on the floor, 2 m away.";
-  if (!micNoticeShown){ micNoticeShown = true; banner("Voice commands are off. Everything else still works.", "info", 3500); }
-}
-function startListening(){
-  if (recOn) return;
-  if (!SR){ voiceOff(); return; }
-  recOn = true;
-  const boot = () => {
-    if (!recOn) return;
-    try{
-      rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = navigator.language || "en-US";
-      rec.onstart = () => $("modePill").classList.add("listening");
-      rec.onresult = e => {
-        if (performance.now() < speakingUntil) return;
-        for (let i = e.resultIndex; i < e.results.length; i++) voiceCommand(e.results[i][0].transcript.toLowerCase());
-      };
-      rec.onerror = e => { if (["not-allowed","service-not-allowed","audio-capture"].includes(e.error)) voiceOff(); };
-      rec.onend = () => { if (recOn) setTimeout(boot, 250); };
-      rec.start();
-    }catch(err){ voiceOff(); }
-  };
-  boot();
-}
-function stopListening(){ recOn = false; try{ rec && rec.abort(); }catch(e){} rec = null; $("modePill").classList.remove("listening"); }
-function voiceCommand(txt){
-  const w = txt.split(/\s+/).slice(-3).join(" ");
-  let k = "";
-  if (/\b(stop|finish|done|end)\b/.test(w)) k = "stop";
-  else if (/\b(pause|wait|hold on|break)\b/.test(w)) k = "pause";
-  else if (/\b(start|continue|resume|go)\b/.test(w)) k = "go";
-  if (!k) return;
-  const now = performance.now();
-  if (lastCmd.k === k && now - lastCmd.t < 2500) return;
-  lastCmd = { k, t: now };
-  if (k === "stop" && ["calib","countdown","live","paused"].includes(mode)) endSet();
-  else if (k === "pause" && mode === "live") pause(true);
-  else if (k === "go"){ if (mode === "calib") startCountdown(); else if (mode === "paused") resume(); }
-}
-
-/* ============================================================
    Flow
    ============================================================ */
 const show = (id, on) => { $(id).hidden = !on; };
@@ -891,28 +844,37 @@ function morphFrom(el, then){
   }, 560);
 }
 async function begin(isDemo, fromEl){
+  if (mode !== "home") return;                       // ignore double taps
   unlockAudio(); demo = isDemo; $("startErr").hidden = true;
   newSession();
-  try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){}
-  const camP = demo ? Promise.resolve() : startCamera().catch(e => e);
+  mode = "loading";
+  const token = {}; begin.token = token;
+  const camP = demo ? Promise.resolve() : startCamera().catch(e => e);   // ask for the camera inside the tap
+  navigator.wakeLock?.request("screen").then(l => wakeLock = l).catch(() => {});
   morphFrom(fromEl, () => {
+    if (begin.token !== token || mode === "home") return;
     ["home","done","cal"].forEach(id => show(id, false));
-    show("stage", true); show("countBlk", false); show("panel", false); resize();
-    mode = "loading"; stageCard(demo ? "calib" : "loadCard");
+    show("stage", true); show("countBlk", false); show("panel", false); show("countdown", false);
+    $("banner").className = ""; ["c1","c2","c3"].forEach(id => $(id).classList.remove("on"));
+    resize(); stageCard(mode === "calib" ? "calib" : "loadCard");
     cancelAnimationFrame(raf); lastT = 0; loop();
   });
-  if (demo){ demoT0 = performance.now() + 560; video.srcObject = null; video.classList.remove("on"); setTimeout(() => { mode = "calib"; ["c1","c2","c3"].forEach(id => $(id).classList.remove("on")); }, 600); return; }
+  if (demo){
+    demoT0 = performance.now() + 560; video.srcObject = null; video.classList.remove("on");
+    setTimeout(() => { if (begin.token === token && mode === "loading"){ mode = "calib"; stageCard("calib"); } }, 600);
+    return;
+  }
   const camErr = await camP;
-  if (camErr instanceof Error){ return fail(camErr); }
+  if (begin.token !== token || mode !== "loading"){ stopAll(); return; }   // left before the camera opened
+  if (camErr instanceof Error) return fail(camErr);
   $("loadMsg").textContent = "Loading body tracking";
   try{ await loadModel(); }catch(e){ return fail(new Error("Couldn’t load body tracking. Check your connection and try again.")); }
-  if (mode !== "loading") return;
-  mode = "calib"; stageCard("calib"); ["c1","c2","c3"].forEach(id => $(id).classList.remove("on"));
-  startListening();
+  if (begin.token !== token || mode !== "loading") return;
+  mode = "calib"; if (!$("stage").hidden) stageCard("calib");
   say("Get into plank, side on to the phone");
 }
 function fail(e){
-  stopAll(); show("stage", false); show("home", true); mode = "home";
+  stopAll(); show("stage", false); show("home", true); mode = "home"; $("morph").hidden = true;
   $("startErr").textContent = e.name === "NotAllowedError" ? "Camera access is off. Go to Settings › Safari › Camera, choose Allow, then reload." : (e.message || "Couldn’t start the camera.");
   $("startErr").hidden = false;
 }
@@ -942,12 +904,13 @@ function resume(m){
   banner("Back at it", true); tone([1047,1319], .12, "sine", .14);
 }
 function stopAll(){
-  cancelAnimationFrame(raf); stopListening();
+  cancelAnimationFrame(raf);
   if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
   video.srcObject = null; video.classList.remove("on");
   try{ wakeLock?.release(); }catch(e){} wakeLock = null;
 }
 function endSet(){
+  if (!["live","paused","countdown","calib","loading"].includes(mode)) return;
   const had = S.reps.length;
   stopAll(); mode = "done";
   octx.setTransform(1,0,0,1,0,0); octx.clearRect(0,0,ov.width,ov.height);
@@ -983,7 +946,7 @@ function goHome(){ ["done","cal","stage"].forEach(id => show(id, false)); show("
 $("startBtn").addEventListener("click", e => begin(false, e.currentTarget));
 $("demoChip").addEventListener("click", e => begin(true, e.currentTarget));
 $("demoIco").addEventListener("click", e => begin(true, e.currentTarget));
-$("backBtn").addEventListener("click", () => { if (S && S.reps.length) endSet(); else { stopAll(); goHome(); } });
+$("backBtn").addEventListener("click", () => { if (S && S.reps.length) endSet(); else { begin.token = null; stopAll(); goHome(); } });
 $("endBtn").addEventListener("click", endSet);
 $("endBtn2").addEventListener("click", endSet);
 $("pauseBtn").addEventListener("click", () => pause(true));
