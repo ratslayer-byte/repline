@@ -294,11 +294,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
    Modes. depth: % of the way from arms-straight to chest-on-floor
    ============================================================ */
 const MODES = {
-  casual:   { name:"Casual",   depth:70, solid:86, lock:130, sag:22, pike:28, head:null, shift:null,
-              cap:"Down to 70%. Small wobbles still count." },
-  hardcore: { name:"Hardcore", depth:85, solid:95, lock:140, sag:15, pike:18, head:null, shift:null,
-              cap:"Chest to the floor, arms locked, body rigid." }
+  // first-iteration rules: depth = elbow angle at the bottom, lock = elbow angle at the top, body = hip line
+  casual:   { name:"Casual",   elbow:100, lock:150, body:16, cap:"Elbows to 100°, body within 16° of straight." },
+  hardcore: { name:"Hardcore", elbow:90,  lock:155, body:12, cap:"Elbows to 90°, arms locked, body within 12°." }
 };
+const pctOf = elbow => Math.max(0, Math.min(100, Math.round((170 - elbow) / 100 * 100)));   // 170° = 0%, 70° = 100%
 const FLOOR = 0.24;
 const FAULT = {
   depth:   { no:"go lower",          cue:"Lower",      voice:"Lower",       done:"didn’t go low enough" },
@@ -313,52 +313,42 @@ const FAULT = {
    Rep engine (pure)
    ============================================================ */
 function createEngine(cfg, on){
-  // Rep boundaries use loose thresholds so a rep is never missed;
-  // form (lockout, depth, body) is judged separately with leeway.
-  const TOPL = 22, START = 30, HOLD = 6;
-  let phase = "idle", rep = null, hist = [], ema = 0, topElbow = 0, sagT = 0, pikeT = 0, headT = 0;
-  const newRep = f => ({ t0:f.t, max:f.depth, maxSag:0, maxPike:0, dMin:ema, dMax:ema, minAfter:100, cued:false, lockOK: topElbow >= cfg.lock, topElbow });
-  function finish(f, halfRep){
+  const START = cfg.lock - 12;
+  let phase = "idle", rep = null, sagSince = 0, pikeSince = 0;
+  const newRep = f => ({ t0:f.t, min:f.elbow, maxSag:0, maxPike:0, maxAfter:0, cued:false });
+  function finish(f, forcedLockout){
     const r = rep; rep = null;
-    if (f.t - r.t0 < 350) return;
+    if (f.t - r.t0 < 380) return;
     const faults = [];
-    if (r.max < cfg.depth) faults.push("depth");
-    if (r.maxSag > cfg.sag) faults.push("sag");
-    if (r.maxPike > cfg.pike) faults.push("pike");
-    if (cfg.shift && !faults.includes("sag") && !faults.includes("pike") && r.dMax - r.dMin > cfg.shift) faults.push("shift");
-    if (halfRep || !r.lockOK) faults.push("lockout");
-    const body = Math.round(Math.max(r.maxSag, r.maxPike));
+    if (r.min > cfg.elbow) faults.push("depth");
+    if (r.maxSag > cfg.body) faults.push("sag");
+    if (r.maxPike > cfg.body + 6) faults.push("pike");
+    if (forcedLockout) faults.push("lockout");
+    let score = 100;
+    score -= Math.max(0, r.maxSag - 5) * 2.2 + Math.max(0, r.maxPike - 8) * 1.6;
+    score -= Math.max(0, r.min - (cfg.elbow - 15)) * 0.8;
+    if (forcedLockout) score -= 25;
     const ok = !faults.length;
-    const solid = ok && r.max >= cfg.solid && body <= cfg.sag * 0.6;
-    on.rep({ ok, faults, kind: ok ? (solid ? "s" : "c") : "r", depth: Math.round(r.max), rawMax: r.rawMax || r.max, body, dur: f.t - r.t0 });
+    on.rep({ ok, faults, kind: ok ? (score >= 85 ? "s" : "c") : "r", depth: pctOf(r.min), elbow: Math.round(r.min), body: Math.round(Math.max(r.maxSag, r.maxPike)), dur: f.t - r.t0 });
   }
   return {
     get phase(){ return phase; },
-    reset(){ phase = "idle"; rep = null; hist = []; topElbow = 0; },
+    reset(){ phase = "idle"; rep = null; },
     update(f){
-      if (!f.plank){ rep = null; phase = "idle"; topElbow = 0; return; }
-      hist.push(f.dev); if (hist.length > HOLD) hist.shift();
-      ema = ema*.8 + f.dev*.2;
-      // a body fault only counts if it holds for ~0.2 s
-      const held = hist.length < HOLD ? 0 : hist.every(d => d > 0) ? Math.min(...hist) : hist.every(d => d < 0) ? Math.max(...hist) : 0;
-      if (phase === "idle" || phase === "top"){
-        if (f.depth < TOPL){ if (phase === "idle"){ phase = "top"; topElbow = 0; } topElbow = Math.max(topElbow, f.elbow); }
-        if (phase === "top" && f.depth > START){ rep = newRep(f); rep.rawMax = f.raw; phase = "down"; }
-        else return;
-      }
+      if (!f.plank){ rep = null; phase = "idle"; return; }
+      if (phase === "idle"){ if (f.elbow > cfg.lock) phase = "top"; return; }
+      if (phase === "top"){ if (f.elbow < START){ rep = newRep(f); phase = "down"; } else return; }
       if (!rep) return;
-      rep.max = Math.max(rep.max, f.depth); rep.rawMax = Math.max(rep.rawMax || 0, f.raw || 0);
-      if (held > 0) rep.maxSag = Math.max(rep.maxSag, held); else if (held < 0) rep.maxPike = Math.max(rep.maxPike, -held);
-      rep.dMin = Math.min(rep.dMin, ema); rep.dMax = Math.max(rep.dMax, ema);
-      if (held > cfg.sag){ sagT = sagT || f.t; if (f.t - sagT > 150) on.cue("sag"); } else sagT = 0;
-      if (-held > cfg.pike){ pikeT = pikeT || f.t; if (f.t - pikeT > 150) on.cue("pike"); } else pikeT = 0;
-      if (cfg.head && f.head > cfg.head){ headT = headT || f.t; if (f.t - headT > 400) on.cue("head"); } else headT = 0;   // cue only
+      rep.min = Math.min(rep.min, f.elbow);
+      if (f.dev > 0) rep.maxSag = Math.max(rep.maxSag, f.dev); else rep.maxPike = Math.max(rep.maxPike, -f.dev);
+      if (f.dev > cfg.body){ sagSince = sagSince || f.t; if (f.t - sagSince > 250) on.cue("sag"); } else sagSince = 0;
+      if (-f.dev > cfg.body + 6){ pikeSince = pikeSince || f.t; if (f.t - pikeSince > 250) on.cue("pike"); } else pikeSince = 0;
       if (phase === "down"){
-        if (f.depth < rep.max - 8){ phase = "up"; rep.minAfter = f.depth; if (rep.max < cfg.depth && !rep.cued){ rep.cued = true; on.cue("depth"); } }
+        if (f.elbow > rep.min + 12){ phase = "up"; rep.maxAfter = f.elbow; if (rep.min > cfg.elbow && !rep.cued){ rep.cued = true; on.cue("depth"); } }
       } else if (phase === "up"){
-        rep.minAfter = Math.min(rep.minAfter, f.depth);
-        if (f.depth < TOPL){ finish(f, false); phase = "top"; topElbow = f.elbow; }
-        else if (f.depth > rep.minAfter + 14){ finish(f, true); topElbow = 0; rep = newRep(f); rep.rawMax = f.raw; phase = "down"; }
+        rep.maxAfter = Math.max(rep.maxAfter, f.elbow);
+        if (f.elbow > cfg.lock){ finish(f, false); phase = "top"; }
+        else if (f.elbow < rep.maxAfter - 18){ finish(f, true); rep = newRep(f); phase = "down"; }
       }
     }
   };
@@ -622,11 +612,11 @@ function onCue(kind){
   const now = performance.now(); S.liveFault[kind] = now;
   if (cueAt[kind] && now - cueAt[kind] < 2500) return;
   cueAt[kind] = now;
-  const t = kind === "depth" && cfg.depth >= 90 ? "Chest down" : FAULT[kind].cue;
+  const t = FAULT[kind].cue;
   banner(t); say(t);
 }
 function onRep(r){
-  r.ta = S.active; S.reps.push(r); S.codes.push(r.kind); learnFloor();
+  r.ta = S.active; S.reps.push(r); S.codes.push(r.kind);
   S.tops.push(S.curMin); S.curMin = 100;
   if (r.ok){
     const n = counted();
@@ -636,10 +626,10 @@ function onRep(r){
     say(String(n), true);
   } else {
     const f = r.faults[0];
-    const detail = (f === "sag" || f === "pike") ? ` ${r.body}°` : f === "depth" ? ` (${r.depth}%)` : "";
+    const detail = (f === "sag" || f === "pike") ? ` ${r.body}°` : f === "depth" ? ` (${r.elbow}°)` : "";
     banner(`No rep · ${FAULT[f].no}${detail}`);
     tone([220,165], .16, "triangle", .1);
-    say(f === "depth" && cfg.depth >= 90 ? "Chest to the floor" : FAULT[f].voice, true);
+    say(FAULT[f].voice, true);
   }
   renderDots(false);
   const goalN = demo ? 5 : settings.target;
@@ -652,13 +642,31 @@ async function startCamera(){
   if (!navigator.mediaDevices?.getUserMedia) throw new Error("This browser can’t open the camera. Open the link in Safari.");
   if (stream) stream.getTracks().forEach(t => t.stop());
   try{
-    stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:settings.facing, width:{ideal:960}, height:{ideal:540} } });
+    stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:settings.facing, width:{ideal:1280}, height:{ideal:720}, frameRate:{ideal:30} } });
   }catch(e){
     if (e && e.name === "NotAllowedError") throw e;
     stream = await navigator.mediaDevices.getUserMedia({ audio:false, video:true });   // any camera is better than none
   }
   video.muted = true; video.setAttribute("playsinline", ""); video.setAttribute("muted", "");
   video.srcObject = stream; video.classList.toggle("mirror", settings.facing === "user");
+  stream.getVideoTracks().forEach(t => t.addEventListener("ended", () => { if (camActive()) setTimeout(ensureCamera, 300); }));
+  try{ await video.play(); video.classList.add("on"); }catch(e){}
+  lastFrameAt = performance.now();
+}
+const camActive = () => !demo && ["calib","countdown","live","paused"].includes(mode);
+let camFixing = false, lastFrameAt = 0, lastFix = 0;
+// Bring the camera back after iOS stops it (app switch, lock screen, call, Control Center) or the feed stalls.
+async function ensureCamera(){
+  if (camFixing || !camActive()) return;
+  camFixing = true; lastFix = performance.now();
+  try{
+    const dead = !stream || stream.getVideoTracks().every(t => t.readyState === "ended");
+    if (dead){ await startCamera(); smooth = null; }
+    if (video.paused){ try{ await video.play(); }catch(e){} }
+    if (video.paused) showIssue("Tap the screen to restart the camera.", true);
+    lastFrameAt = performance.now();
+  }catch(e){ showIssue("The camera stopped. Tap to try again.", true); }
+  camFixing = false;
 }
 async function playCamera(){
   if (!video.srcObject) return;
@@ -670,6 +678,14 @@ async function playCamera(){
   video.classList.add("on");
 }
 const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let trackerBroken = false, forceCPU = false;
+async function rebuildTracker(){
+  trackerBroken = true; banner("Restarting body tracking…", "info", 2500);
+  try{ landmarker?.close?.(); }catch(e){}
+  landmarker = null; forceCPU = true;
+  try{ await loadModel(); trackerBroken = false; smooth = null; }
+  catch(e){ showIssue("Body tracking stopped. Tap to restart.", true); }
+}
 const withTimeout = (p, ms, msg) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(msg)), ms))]);
 async function loadModel(){
   if (landmarker) return landmarker;
@@ -677,9 +693,9 @@ async function loadModel(){
   const { PoseLandmarker, FilesetResolver } = await import(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/vision_bundle.mjs`);
   const files = await FilesetResolver.forVisionTasks(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/wasm`);
   // iPhone Safari is far more stable with the lite model on the CPU
-  const model = IOS ? "pose_landmarker_lite/float16/1/pose_landmarker_lite.task" : "pose_landmarker_full/float16/1/pose_landmarker_full.task";
+  const model = "pose_landmarker_full/float16/1/pose_landmarker_full.task";
   const opts = d => ({ baseOptions:{ modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/" + model, delegate:d }, runningMode:"VIDEO", numPoses:1, minPoseDetectionConfidence:.5, minPosePresenceConfidence:.5, minTrackingConfidence:.5 });
-  if (IOS) landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU"));
+  if (forceCPU) landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU"));
   else { try{ landmarker = await PoseLandmarker.createFromOptions(files, opts("GPU")); } catch(e){ landmarker = await PoseLandmarker.createFromOptions(files, opts("CPU")); } }
   return landmarker;
 }
@@ -716,18 +732,6 @@ function analyse(lm){
   const m = core ? measure(s) : null;
   return { idx, s, m, core, footOk, plank: !!m && m.tilt < 40 };
 }
-function rawDepth(m){
-  if (S.H0 == null){ S.H0 = m.h; return 0; }
-  if (m.h > S.H0) S.H0 += (m.h - S.H0)*.25;
-  return Math.max(0, Math.min(100, (S.H0 - m.h) / (S.H0*(1 - FLOOR)) * 100));
-}
-// Floor learning: when your deepest points keep landing in the same place, that place is your floor.
-function learnFloor(){
-  const r = S.reps.slice(-3).map(x => x.rawMax);
-  if (r.length < 3) return;
-  const lo = Math.min(...r), hi = Math.max(...r), med = r.slice().sort((a,b) => a-b)[1];
-  if (lo >= 78 && hi - lo <= 7 && med < 100) S.scale = Math.min(1.18, Math.max(S.scale, 100/med));
-}
 function calibrate(m){ S.H0 = m.h; S.devBase = Math.max(-10, Math.min(10, m.dev)); S.headBase = Math.min(30, m.head); }
 
 function loop(){
@@ -735,14 +739,15 @@ function loop(){
   const now = performance.now(), dt = lastT ? Math.min(.1, (now - lastT)/1000) : 0; lastT = now;
   let lm = null;
   if (demo) lm = demoFrame(now);
-  else if (landmarker && video.readyState >= 2 && video.videoWidth && video.currentTime !== lastVT && now - lastDetect >= (IOS ? 66 : 33)){
-    lastVT = video.currentTime; lastDetect = now;
-    try{ lm = landmarker.detectForVideo(video, Math.round(now)).landmarks?.[0] || null; detectFails = 0; }
-    catch(e){ lm = null; if (++detectFails > 30){ showIssue("Body tracking stopped. Tap to restart.", true); detectFails = 0; } }
+  else if (landmarker && video.readyState >= 2 && video.videoWidth && video.currentTime !== lastVT && now - lastDetect >= 0){
+    lastVT = video.currentTime; lastDetect = now; lastFrameAt = now;
+    try{ lm = landmarker.detectForVideo(video, now).landmarks?.[0] || null; detectFails = 0; }
+    catch(e){ lm = null; if (++detectFails > 30){ detectFails = 0; rebuildTracker(); } }
   }
+  if (camActive() && !camFixing && now - lastFrameAt > 2500 && now - lastFix > 4000) ensureCamera();   // feed froze
   if (lm){ smoothLm(lm); lastFrameT = now; }
   const st = smooth && now - lastFrameT < 400 ? analyse(smooth) : null;
-  const ready = !!(st?.plank && st.m.elbow > 138);
+  const ready = !!(st?.plank && st.m.elbow > cfg.lock - 10);
 
   if (mode === "calib"){
     $("c1").classList.toggle("on", !!st?.core);
@@ -754,19 +759,19 @@ function loop(){
   let depth = null;
   if (mode === "live"){
     if (st?.m && st.plank){
-      S.offSince = 0; const raw = rawDepth(st.m); depth = Math.min(100, raw*S.scale); S.active += dt;
-      const dev = st.m.dev - S.devBase, head = Math.max(0, st.m.head - S.headBase);
-      engine.update({ t: now, depth, raw, elbow: st.m.elbow, dev, head, plank: true });
+      S.offSince = 0; depth = pctOf(st.m.elbow); S.active += dt;
+      const dev = st.m.dev;
+      engine.update({ t: now, elbow: st.m.elbow, dev, plank: true });
       if (engine.phase === "top") S.curMin = Math.min(S.curMin, depth);
       S.wave.push({ t: S.active, v: depth });
-      const body = Math.round(Math.abs(dev)), bad = dev > cfg.sag || -dev > cfg.pike;
+      const body = Math.round(Math.abs(dev)), bad = dev > cfg.body || -dev > cfg.body + 6;
       $("liveLine").innerHTML = `${Math.round(depth)}% depth · <b class="${bad ? "bad" : ""}">${body}° body</b>`;
       const ph = engine.phase, dir = ph === "down" ? "Lowering" : ph === "up" ? "Pushing" : "Top";
       if (dir !== S.dir){ S.dir = dir; $("dir").textContent = dir; }
     } else {
       engine.update({ t: now, plank: false });
       S.offSince = S.offSince || now;
-      if (now - S.offSince > 1300 && now > S.grace) pause(false);
+      if (now - S.offSince > 3000 && now > S.grace) pause(false);   // stood up for 3 s: pause; back in plank resumes
     }
     while (S.wave.length && S.active - S.wave[0].t > 10) S.wave.shift();
     drawWave();
@@ -790,9 +795,9 @@ function drawOverlay(st, now){
   const sh = pt(idx.sh), el = pt(idx.el), wr = pt(idx.wr), hip = pt(idx.hip), kn = pt(idx.kn), an = st.footOk ? pt(idx.an) : null, ear = st.s.ear ? pt(idx.ear) : null;
   const live = mode === "live", m = st.m;
   const recent = k => live && now - (S.liveFault[k] || 0) < 600;
-  const dev = m ? m.dev - S.devBase : 0;
-  const bodyBad = live && m && (dev > cfg.sag || -dev > cfg.pike || recent("sag") || recent("pike") || recent("shift"));
-  const headBad = live && m && cfg.head && (m.head - S.headBase > cfg.head);
+  const dev = m ? m.dev : 0;
+  const bodyBad = live && m && (dev > cfg.body || -dev > cfg.body + 6 || recent("sag") || recent("pike"));
+  const headBad = false;
   const armBad = recent("depth");
   const foot = an || kn;
   // the floor: one dot where your palms rest
@@ -823,7 +828,7 @@ function drawWave(){
   wctx.setTransform(1,0,0,1,0,0); wctx.clearRect(0,0,W,H);
   const TOP = 8*d, FL = H - 8*d, span = 10, now = S.active;
   const X = t => W - (now - t)/span*W;
-  const Y = v => TOP + Math.max(0, Math.min(1, v/cfg.depth))*(FL - TOP);    // reaching the target touches the floor line; can't fall below
+  const Y = v => TOP + Math.max(0, Math.min(1, v/pctOf(cfg.elbow)))*(FL - TOP);    // reaching the target touches the floor line; can't fall below
   // floor line
   wctx.strokeStyle = "rgba(255,255,255,.7)"; wctx.lineWidth = 1.5*d;
   wctx.beginPath(); wctx.moveTo(0, FL); wctx.lineTo(W, FL); wctx.stroke();
@@ -904,7 +909,7 @@ async function begin(isDemo, fromEl){
 function showIssue(text, tapToRestart){
   banner(text, "info", 6000);
   if (tapToRestart){
-    const once = async () => { $("stage").removeEventListener("click", once); try{ await playCamera(); }catch(e){} };
+    const once = async () => { $("stage").removeEventListener("click", once); try{ await ensureCamera(); await playCamera(); if (trackerBroken) await rebuildTracker(); }catch(e){} };
     $("stage").addEventListener("click", once);
   }
 }
@@ -993,7 +998,10 @@ $("doneBack").addEventListener("click", goHome);
 $("flipBtn").addEventListener("click", async () => { settings.facing = settings.facing === "user" ? "environment" : "user"; saveSettings(); smooth = null; try{ await startCamera(); await playCamera(); }catch(e){ showIssue("Couldn’t switch camera.", false); } });
 document.addEventListener("visibilitychange", async () => {
   if (document.visibilityState === "hidden" && mode === "live") pause(true);
-  if (document.visibilityState === "visible" && ["live","calib","paused"].includes(mode)){ try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){} }
+  if (document.visibilityState === "visible" && ["live","calib","countdown","paused","loading"].includes(mode)){
+    try{ wakeLock = await navigator.wakeLock?.request("screen"); }catch(e){}
+    if (camActive()) setTimeout(ensureCamera, 200);
+  }
 });
 
 /* ============================================================
@@ -1045,7 +1053,7 @@ $("mNext").addEventListener("click", () => { calM.setMonth(calM.getMonth() + 1);
    Demo: a simulated athlete, 5 casual reps, same pipeline
    ============================================================ */
 let demoT0 = 0;
-const DEMO = [[96,0],[97,1],[76,2],[98,0],[95,26]];   // depth %, hip sag °
+const DEMO = [[96,0],[97,1],[92,12],[98,0],[95,26]];   // depth %, hip sag °
 const LEAD = 4.4, PER = 1.8;
 function demoPose(t){
   if (t < LEAD) return { d:0, sag:0 };
